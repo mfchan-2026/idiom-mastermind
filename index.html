@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>English Idiom Visual Matching Game - Cloud CDN Edition</title>
+    <title>English Idiom Visual Matching Game (4-Idiom Edition)</title>
     <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- FontAwesome Icons CDN -->
@@ -90,20 +90,20 @@
     <!-- MAIN APP CONTAINER -->
     <div class="relative z-10 flex-grow flex flex-col max-w-5xl mx-auto w-full px-4 py-4 sm:py-6">
 
-        <!-- ================= GAMEPLAY SCREEN (Direct Entry Round 1) ================= -->
+        <!-- ================= GAMEPLAY SCREEN ================= -->
         <div id="game-screen" class="flex flex-col flex-grow space-y-4">
 
             <!-- Top Header HUD & Settings Controls -->
             <div class="glass-card rounded-2xl p-4 flex flex-wrap items-center justify-between gap-3 border border-white/10 shadow-xl">
-                <!-- Question Counter & Progress -->
+                <!-- Question Counter & Progress Bar -->
                 <div class="flex items-center space-x-3 min-w-[160px]">
                     <div class="w-12 h-12 rounded-xl bg-purple-500/30 border border-purple-400/40 flex items-center justify-center text-yellow-300 font-black font-display text-2xl shadow-inner">
-                        <span id="current-question-num">1</span>/5
+                        <span id="current-question-num">1</span>/4
                     </div>
                     <div>
                         <div class="text-xs text-purple-300 font-bold uppercase tracking-wider">Progress</div>
                         <div class="w-24 sm:w-32 bg-purple-950/70 h-3 rounded-full overflow-hidden mt-1 border border-purple-500/30">
-                            <div id="progress-bar-inner" class="bg-gradient-to-r from-pink-500 to-purple-400 h-full transition-all duration-300" style="width: 20%"></div>
+                            <div id="progress-bar-inner" class="bg-gradient-to-r from-pink-500 to-purple-400 h-full transition-all duration-300" style="width: 25%"></div>
                         </div>
                     </div>
                 </div>
@@ -111,18 +111,18 @@
                 <!-- Title Header -->
                 <div class="text-center hidden sm:block">
                     <h1 class="text-xl font-black font-display text-transparent bg-clip-text bg-gradient-to-r from-pink-300 via-purple-200 to-yellow-200">
-                        <i class="fa-solid fa-cloud text-pink-400 mr-1"></i> Idiom Visual Match (CDN)
+                        <i class="fa-solid fa-puzzle-piece text-pink-400 mr-1"></i> English Idioms Match
                     </h1>
                 </div>
 
-                <!-- Right Toolbar: Pool Counter + Settings Button -->
+                <!-- Right Toolbar: Score Counter + Settings Button -->
                 <div class="flex items-center space-x-2">
                     <div class="flex items-center space-x-2 bg-indigo-950/70 border border-indigo-400/30 px-3 py-1.5 rounded-xl">
-                        <i class="fa-solid fa-database text-indigo-300 text-xs"></i>
-                        <span class="text-xs text-indigo-200 font-semibold">Pool:</span>
-                        <span id="pool-count-display" class="font-mono font-extrabold text-yellow-300 text-xs">50/50</span>
+                        <i class="fa-solid fa-star text-yellow-400 text-xs"></i>
+                        <span class="text-xs text-indigo-200 font-semibold">Score:</span>
+                        <span id="hud-score-display" class="font-mono font-extrabold text-yellow-300 text-xs">0/4</span>
                     </div>
-                    <button id="btn-open-settings" title="Cloud CDN Settings" class="w-10 h-10 rounded-xl bg-purple-600/40 hover:bg-purple-500/60 border border-purple-300/30 text-yellow-300 flex items-center justify-center text-lg transition active:scale-95">
+                    <button id="btn-open-settings" title="Cloud / Image Settings" class="w-10 h-10 rounded-xl bg-purple-600/40 hover:bg-purple-500/60 border border-purple-300/30 text-yellow-300 flex items-center justify-center text-lg transition active:scale-95">
                         <i class="fa-solid fa-gear"></i>
                     </button>
                 </div>
@@ -134,7 +134,7 @@
 
                 <div class="flex items-center justify-center space-x-3">
                     <span id="category-badge" class="px-3.5 py-1 rounded-full bg-pink-500/20 text-pink-300 text-xs font-extrabold uppercase tracking-wider border border-pink-500/30">
-                        Idiom Challenge
+                        🐶 Animals
                     </span>
                     <button id="btn-hint" class="text-xs text-amber-300 hover:text-amber-200 bg-amber-500/20 hover:bg-amber-500/30 px-3 py-1 rounded-full border border-amber-500/30 transition flex items-center gap-1.5 font-bold">
                         <i class="fa-solid fa-lightbulb"></i> Hint
@@ -170,18 +170,18 @@
                 </span>
             </div>
 
-            <!-- TWO DUAL CHOICE CARDS WITH CLOUD CDN RESOLUTION & AUTOMATIC SVG FALLBACK -->
+            <!-- DUAL CHOICE CARDS WITH CDN RESOLUTION & AUTOMATIC SVG FALLBACK -->
             <div class="grid grid-cols-1 md:grid-cols-2 gap-5 flex-grow">
                 <!-- Option Card 0 -->
                 <button data-option-index="0" class="option-card glass-card rounded-3xl border border-white/15 flex flex-col cursor-pointer focus:outline-none relative group overflow-hidden">
-                    <div class="w-full aspect-[1/1] bg-slate-950 border-b border-white/10 overflow-hidden relative flex items-center justify-center">
+                    <div class="w-full aspect-square bg-slate-950 border-b border-white/10 overflow-hidden relative flex items-center justify-center">
                         <!-- Shimmer Loading State -->
                         <div id="shimmer-0" class="absolute inset-0 shimmer-bg flex flex-col items-center justify-center space-y-2 text-purple-200 font-bold text-xs p-4 text-center z-10">
                             <i class="fa-solid fa-cloud-arrow-down text-3xl text-pink-400 animate-pulse"></i>
-                            <span class="text-sm">Fetching Cloud CDN Image...</span>
+                            <span class="text-sm">Loading Image...</span>
                         </div>
-                        <!-- CDN JPG Image -->
-                        <img id="img-0" src="" alt="Idiom Option" class="w-full h-full object-cover hidden relative z-0" />
+                        <!-- JPG Image -->
+                        <img id="img-0" src="" alt="Idiom Option A" class="w-full h-full object-cover hidden relative z-0" />
                         <!-- Fallback Vector SVG Container -->
                         <div id="svg-fallback-0" class="w-full h-full hidden items-center justify-center absolute inset-0 z-0"></div>
                     </div>
@@ -193,14 +193,14 @@
 
                 <!-- Option Card 1 -->
                 <button data-option-index="1" class="option-card glass-card rounded-3xl border border-white/15 flex flex-col cursor-pointer focus:outline-none relative group overflow-hidden">
-                    <div class="w-full aspect-[1/1] bg-slate-950 border-b border-white/10 overflow-hidden relative flex items-center justify-center">
+                    <div class="w-full aspect-square bg-slate-950 border-b border-white/10 overflow-hidden relative flex items-center justify-center">
                         <!-- Shimmer Loading State -->
                         <div id="shimmer-1" class="absolute inset-0 shimmer-bg flex flex-col items-center justify-center space-y-2 text-purple-200 font-bold text-xs p-4 text-center z-10">
                             <i class="fa-solid fa-cloud-arrow-down text-3xl text-pink-400 animate-pulse"></i>
-                            <span class="text-sm">Fetching Cloud CDN Image...</span>
+                            <span class="text-sm">Loading Image...</span>
                         </div>
-                        <!-- CDN JPG Image -->
-                        <img id="img-1" src="" alt="Idiom Option" class="w-full h-full object-cover hidden relative z-0" />
+                        <!-- JPG Image -->
+                        <img id="img-1" src="" alt="Idiom Option B" class="w-full h-full object-cover hidden relative z-0" />
                         <!-- Fallback Vector SVG Container -->
                         <div id="svg-fallback-1" class="w-full h-full hidden items-center justify-center absolute inset-0 z-0"></div>
                     </div>
@@ -212,12 +212,12 @@
             </div>
         </div>
 
-        <!-- ================= CLOUD CDN SETTINGS MODAL ================= -->
+        <!-- ================= SETTINGS MODAL ================= -->
         <div id="modal-settings" class="fixed inset-0 bg-slate-950/85 backdrop-blur-md flex items-center justify-center z-50 p-4 hidden">
             <div class="glass-card-light rounded-3xl max-w-md w-full p-6 text-slate-900 space-y-5 shadow-2xl border border-white/40">
                 <div class="flex items-center justify-between border-b border-slate-200 pb-3">
                     <h3 class="text-xl font-black font-display text-purple-950 flex items-center gap-2">
-                        <i class="fa-solid fa-cloud-arrow-up text-purple-600"></i> Cloud CDN Image Host
+                        <i class="fa-solid fa-folder-open text-purple-600"></i> Image Folder / CDN Path
                     </h3>
                     <button id="btn-close-settings" class="text-slate-400 hover:text-slate-600 text-lg">
                         <i class="fa-solid fa-xmark"></i>
@@ -226,32 +226,32 @@
 
                 <div class="space-y-4 text-xs sm:text-sm">
                     <div>
-                        <label class="block font-bold text-slate-700 mb-1">Cloud CDN Base URL (雲端圖床網址):</label>
-                        <input type="text" id="setting-cdn-url" placeholder="images/ or https://your-cdn.com/images/" class="w-full p-3 rounded-xl border border-slate-300 bg-white font-mono text-xs text-purple-900 focus:outline-none focus:ring-2 focus:ring-purple-500" />
-                        <p class="text-[11px] text-slate-500 mt-1">Appends <code class="bg-purple-100 text-purple-800 px-1 rounded">XX_figurative.jpg</code> & <code class="bg-purple-100 text-purple-800 px-1 rounded">XX_literal.jpg</code> automatically.</p>
+                        <label class="block font-bold text-slate-700 mb-1">Base Directory / URL (圖片目錄網址):</label>
+                        <input type="text" id="setting-cdn-url" placeholder="images/" class="w-full p-3 rounded-xl border border-slate-300 bg-white font-mono text-xs text-purple-900 focus:outline-none focus:ring-2 focus:ring-purple-500" />
+                        <p class="text-[11px] text-slate-500 mt-1">Appends <code class="bg-purple-100 text-purple-800 px-1 rounded">01_figurative.jpg</code>, <code class="bg-purple-100 text-purple-800 px-1 rounded">01_literal.jpg</code>, etc.</p>
                     </div>
 
                     <!-- Quick Preset Buttons -->
                     <div class="space-y-1.5">
-                        <label class="block font-bold text-slate-700">Quick Presets (快速預設):</label>
+                        <label class="block font-bold text-slate-700">Presets (預設目錄):</label>
                         <div class="grid grid-cols-2 gap-2">
                             <button id="preset-local" class="py-2 px-3 rounded-xl border border-purple-200 bg-purple-50 hover:bg-purple-100 text-purple-900 font-bold text-xs flex items-center justify-center gap-1">
                                 📁 Local (<code class="text-purple-600">images/</code>)
                             </button>
                             <button id="preset-github" class="py-2 px-3 rounded-xl border border-purple-200 bg-purple-50 hover:bg-purple-100 text-purple-900 font-bold text-xs flex items-center justify-center gap-1">
-                                🐙 GitHub Raw CDN
+                                🌐 Online Server
                             </button>
                         </div>
                     </div>
 
                     <div class="p-3 bg-purple-50 rounded-xl border border-purple-100 text-purple-900 text-xs leading-relaxed">
                         <i class="fa-solid fa-shield-cat text-purple-600 mr-1"></i>
-                        <strong>Fallback Protection:</strong> If a CDN image fails to load (404/network drop), the card instantly displays an embedded text-free SVG illustration!
+                        <strong>Fallback Guarantee:</strong> If JPG images are missing, colorful vector SVG illustrations render automatically!
                     </div>
                 </div>
 
                 <button id="btn-save-settings" class="w-full py-3.5 rounded-xl bg-purple-600 hover:bg-purple-700 text-white font-black font-display text-base shadow-md transition">
-                    Save CDN Host Settings
+                    Save Configuration
                 </button>
             </div>
         </div>
@@ -332,7 +332,7 @@
         <div id="end-screen" class="hidden flex-col my-auto space-y-6 py-6 text-center">
             <div class="glass-card rounded-3xl p-8 max-w-lg mx-auto w-full space-y-6 border border-white/20 shadow-2xl relative overflow-hidden">
                 <div class="inline-block px-4 py-1.5 rounded-full bg-yellow-400/20 text-yellow-300 font-bold text-sm border border-yellow-400/30 mb-1">
-                    🎉 Challenge Completed!
+                    🎉 Round Completed!
                 </div>
 
                 <!-- Star Rating Badges -->
@@ -346,19 +346,13 @@
                 <div class="space-y-2">
                     <div class="text-sm text-purple-200 font-semibold uppercase tracking-wider">Final Score</div>
                     <div id="final-score-text" class="text-4xl sm:text-5xl font-black font-display text-transparent bg-clip-text bg-gradient-to-r from-yellow-200 via-pink-200 to-white">
-                        You scored 5 out of 5!
+                        You scored 4 out of 4!
                     </div>
                 </div>
 
                 <!-- Stamp / Prize Rewards Status Badge -->
                 <div id="reward-status-box" class="p-4 rounded-2xl border bg-purple-900/50 border-purple-400/30 text-yellow-200 font-extrabold text-base sm:text-lg shadow-inner">
                     <!-- Injected via JS -->
-                </div>
-
-                <!-- Remaining Unplayed Idiom Pool Status -->
-                <div class="bg-purple-950/60 p-3.5 rounded-2xl border border-purple-400/20 text-xs sm:text-sm text-purple-200 leading-relaxed">
-                    <i class="fa-solid fa-circle-check text-emerald-400 mr-1.5"></i>
-                    <span id="pool-remaining-text">Idioms Mastered: 5 / 50</span>
                 </div>
 
                 <!-- Play Again Button -->
@@ -370,7 +364,7 @@
 
     </div>
 
-    <!-- ================= JAVASCRIPT LOGIC & COMPLETE 50-IDIOM DATABASE ================= -->
+    <!-- ================= JAVASCRIPT LOGIC & 4-IDIOM DATABASE ================= -->
     <script>
         // Helper to generate text-free vector SVG scenes for fallbacks
         function createSVG(bg, content) {
@@ -381,546 +375,114 @@
         }
 
         // =========================================================================
-        // FULL 50-IDIOM DATABASE
+        // 4-IDIOM MASTER DATABASE
         // =========================================================================
         const IDIOMS_DATABASE = [
-            // 01-10 ANIMALS
             {
-                id: 1, category: "🐶 Animals", idiom: "Let the cat out of the bag", phonetic: "/let ðə kæt aʊt əv ðə bæɡ/",
-                hint: "Accidentally revealing a secret!",
-                figCaption: "Revealing a secret early", litCaption: "Cat leaping out of a bag",
-                figurativeMeaning: "無意中洩漏秘密 (Reveal a secret accidentally).",
-                literalMeaning: "字面直譯：一隻貓突然從布袋裡跳出來。",
-                exampleEn: "John accidentally let the cat out of the bag about the party.", exampleZh: "約翰不小心把派對的驚喜秘密洩漏出去了。",
-                figSvg: createSVG("#1e293b", `<rect x="60" y="80" width="180" height="140" rx="16" fill="#0f172a" stroke="#38bdf8" stroke-width="6"/><circle cx="150" cy="150" r="35" fill="#fde047"/><path d="M 135 135 L 165 165 M 165 135 L 135 165" stroke="#0f172a" stroke-width="8"/>`),
-                litSvg: createSVG("#1e1b4b", `<path d="M 90 220 C 70 120 120 90 150 90 C 180 90 230 120 210 220 Z" fill="#b45309"/><circle cx="150" cy="80" r="32" fill="#fb923c"/><polygon points="125,55 138,80 115,80" fill="#fb923c"/><polygon points="175,55 162,80 185,80" fill="#fb923c"/>`)
+                id: "01",
+                category: "🐶 Animals",
+                idiom: "Let the cat out of the bag",
+                ipa: "/lɛt ðə kæt aʊt əv ðə bæɡ/",
+                hint: "Accidentally telling a secret!",
+                figurative: {
+                    file: "01_figurative.jpg",
+                    caption: "Revealing a secret early",
+                    explanationZh: "不小心洩漏秘密 (Reveal a secret accidentally)",
+                    svg: createSVG("#1e293b", `<rect x="60" y="80" width="180" height="140" rx="16" fill="#0f172a" stroke="#38bdf8" stroke-width="6"/><circle cx="150" cy="150" r="35" fill="#fde047"/><path d="M 135 135 L 165 165 M 165 135 L 135 165" stroke="#0f172a" stroke-width="8"/><circle cx="150" cy="150" r="10" fill="#ef4444"/>`)
+                },
+                literal: {
+                    file: "01_literal.jpg",
+                    caption: "Cat leaping from a bag",
+                    explanationZh: "字面意思：貓從袋子跳出來",
+                    svg: createSVG("#1e1b4b", `<path d="M 90 220 C 70 120 120 90 150 90 C 180 90 230 120 210 220 Z" fill="#b45309"/><circle cx="150" cy="80" r="32" fill="#fb923c"/><polygon points="125,55 138,80 115,80" fill="#fb923c"/><polygon points="175,55 162,80 185,80" fill="#fb923c"/><circle cx="140" cy="75" r="4" fill="#000"/><circle cx="160" cy="75" r="4" fill="#000"/>`)
+                },
+                exampleEn: "Tom let the cat out of the bag about the party.",
+                exampleZh: "湯姆不小心把派對的驚喜秘密洩漏出去了。"
             },
             {
-                id: 2, category: "🐶 Animals", idiom: "Hold your horses", phonetic: "/hoʊld jʊər ˈhɔːrsɪz/",
+                id: "02",
+                category: "🐶 Animals",
+                idiom: "Hold your horses",
+                ipa: "/hoʊld jʊər ˈhɔːrsəz/",
                 hint: "Wait patiently for a moment!",
-                figCaption: "Wait patiently a moment", litCaption: "Holding horse reins",
-                figurativeMeaning: "耐心等一下、稍安勿躁 (Wait patiently a moment).",
-                literalMeaning: "字面直譯：手裏緊拉住馬匹的轡頭。",
-                exampleEn: "Hold your horses! Check the map before leaving.", exampleZh: "先別急！出發前先檢查一下地圖。",
-                figSvg: createSVG("#1e293b", `<circle cx="150" cy="150" r="70" fill="#dc2626"/><rect x="135" y="110" width="30" height="80" fill="#ffffff" rx="6"/>`),
-                litSvg: createSVG("#2e1065", `<ellipse cx="120" cy="150" rx="55" ry="40" fill="#78350f"/><path d="M 160 120 Q 195 60 230 90" stroke="#78350f" stroke-width="24" stroke-linecap="round"/><line x1="210" y1="90" x2="270" y2="150" stroke="#fde047" stroke-width="6"/>`)
+                figurative: {
+                    file: "02_figurative.jpg",
+                    caption: "Wait a moment calmly",
+                    explanationZh: "稍安勿躁、耐心等待 (Wait patiently)",
+                    svg: createSVG("#1e293b", `<circle cx="150" cy="150" r="70" fill="#dc2626"/><rect x="135" y="110" width="30" height="80" fill="#ffffff" rx="6"/><circle cx="150" cy="90" r="10" fill="#dc2626"/>`)
+                },
+                literal: {
+                    file: "02_literal.jpg",
+                    caption: "Pulling reins of horses",
+                    explanationZh: "字面意思：拉住奔跑的馬匹",
+                    svg: createSVG("#2e1065", `<ellipse cx="120" cy="150" rx="55" ry="40" fill="#78350f"/><path d="M 160 120 Q 195 60 230 90" stroke="#78350f" stroke-width="24" stroke-linecap="round"/><line x1="210" y1="90" x2="270" y2="150" stroke="#fde047" stroke-width="6"/>`)
+                },
+                exampleEn: "Hold your horses! We need to read the instructions first.",
+                exampleZh: "先別急！我們需要先閱讀說明。"
             },
             {
-                id: 3, category: "🐶 Animals", idiom: "Kill two birds with one stone", phonetic: "/kɪl tuː bɜːdz wɪð wʌn stoʊn/",
-                hint: "Solving two problems at the same time!",
-                figCaption: "Solving two problems at once", litCaption: "Hitting two birds with stone",
-                figurativeMeaning: "一舉兩得、一石二鳥 (Achieve two goals at once).",
-                literalMeaning: "字面直譯：扔一顆石頭同時打中兩隻鳥。",
-                exampleEn: "Cycling saves money and keeps me fit—killing two birds with one stone.", exampleZh: "騎單車既能省錢又能健身，真是一舉兩得。",
-                figSvg: createSVG("#064e3b", `<circle cx="150" cy="150" r="90" fill="#047857" stroke="#34d399" stroke-width="8"/><circle cx="150" cy="150" r="60" fill="#065f46"/><circle cx="150" cy="150" r="30" fill="#ef4444"/><circle cx="150" cy="150" r="10" fill="#facc15"/>`),
-                litSvg: createSVG("#451a03", `<circle cx="210" cy="90" r="22" fill="#38bdf8"/><circle cx="250" cy="150" r="22" fill="#38bdf8"/><circle cx="110" cy="120" r="18" fill="#94a3b8"/><line x1="50" y1="160" x2="95" y2="130" stroke="#78350f" stroke-width="8"/>`)
+                id: "03",
+                category: "🐶 Animals",
+                idiom: "Kill two birds with one stone",
+                ipa: "/kɪl tuː bɜːrdz wɪð wʌn stoʊn/",
+                hint: "Solve two problems at the same time!",
+                figurative: {
+                    file: "03_figurative.jpg",
+                    caption: "Solving two problems at once",
+                    explanationZh: "一石二鳥、一舉兩得 (Achieve two goals at once)",
+                    svg: createSVG("#064e3b", `<circle cx="150" cy="150" r="90" fill="#047857" stroke="#34d399" stroke-width="8"/><circle cx="150" cy="150" r="60" fill="#065f46"/><circle cx="150" cy="150" r="30" fill="#ef4444"/><circle cx="150" cy="150" r="10" fill="#facc15"/>`)
+                },
+                literal: {
+                    file: "03_literal.jpg",
+                    caption: "Throwing a stone at birds",
+                    explanationZh: "字面意思：用一顆石頭打兩隻鳥",
+                    svg: createSVG("#451a03", `<circle cx="210" cy="90" r="22" fill="#38bdf8"/><circle cx="250" cy="150" r="22" fill="#38bdf8"/><circle cx="110" cy="120" r="18" fill="#94a3b8"/><line x1="50" y1="160" x2="95" y2="130" stroke="#78350f" stroke-width="8"/>`)
+                },
+                exampleEn: "By walking to school, I save money and get exercise.",
+                exampleZh: "步行上學，我既能省錢又能鍛鍊身體。"
             },
             {
-                id: 4, category: "🐶 Animals", idiom: "Barking up the wrong tree", phonetic: "/ˈbɑːrkɪŋ ʌp ðə rɔːŋ triː/",
-                hint: "Making a mistake in your search or choice!",
-                figCaption: "Making a wrong choice", litCaption: "Dog barking at wrong tree",
-                figurativeMeaning: "找錯對象、認錯方向 (Pursuing a wrong line of thought).",
-                literalMeaning: "字面直譯：對著沒有貓的樹大聲吠叫。",
-                exampleEn: "If you think I took your key, you're barking up the wrong tree.", exampleZh: "如果你以為是我拿了你的鑰匙，那你絕對找錯人了。",
-                figSvg: createSVG("#1e293b", `<path d="M 90 90 L 210 210 M 210 90 L 90 210" stroke="#ef4444" stroke-width="26" stroke-linecap="round"/>`),
-                litSvg: createSVG("#064e3b", `<rect x="90" y="130" width="35" height="120" fill="#78350f"/><circle cx="107" cy="95" r="50" fill="#15803d"/><circle cx="210" cy="200" r="30" fill="#d97706"/>`)
-            },
-            {
-                id: 5, category: "🐶 Animals", idiom: "Wild goose chase", phonetic: "/waɪld ɡuːs tʃeɪs/",
-                hint: "Searching for something impossible to find!",
-                figCaption: "Searching for phantom treasure", litCaption: "Running after wild goose",
-                figurativeMeaning: "徒勞無功的搜尋 (A hopeless or fruitless search).",
-                literalMeaning: "字面直譯：追趕飛奔的大野鵝。",
-                exampleEn: "Searching for the lost coin turned out to be a wild goose chase.", exampleZh: "尋找遺失硬幣最後證實只是徒勞無功。",
-                figSvg: createSVG("#172554", `<circle cx="150" cy="150" r="75" fill="#1e293b" stroke="#38bdf8" stroke-width="6"/><path d="M 120 180 Q 150 110 180 180" stroke="#f43f5e" stroke-width="8" fill="none"/>`),
-                litSvg: createSVG("#0284c7", `<ellipse cx="150" cy="160" rx="45" ry="25" fill="#ffffff"/><path d="M 180 140 Q 210 100 230 110" stroke="#ffffff" stroke-width="12" stroke-linecap="round"/>`)
-            },
-            {
-                id: 6, category: "🐶 Animals", idiom: "Curiosity killed the cat", phonetic: "/ˌkjʊriˈɑːsəti kɪld ðə kæt/",
-                hint: "Being overly curious can bring trouble!",
-                figCaption: "Unwise peek at dangerous surprise", litCaption: "Cat peeking into magic cauldron",
-                figurativeMeaning: "過度好奇易招禍 (Curiosity can lead to dangerous situations).",
-                literalMeaning: "字面直譯：貓咪因好奇而遭殃。",
-                exampleEn: "Don't pry into secrets—curiosity killed the cat!", exampleZh: "別打聽秘密——好奇心會招來麻煩的！",
-                figSvg: createSVG("#311042", `<rect x="70" y="80" width="160" height="140" rx="16" fill="#0f172a" stroke="#ef4444" stroke-width="6"/><circle cx="150" cy="150" r="30" fill="#facc15"/>`),
-                litSvg: createSVG("#581c87", `<path d="M 80 180 C 80 250 220 250 220 180 Z" fill="#1e1b4b"/><circle cx="150" cy="110" r="30" fill="#fb923c"/>`)
-            },
-            {
-                id: 7, category: "🐶 Animals", idiom: "Smell a rat", phonetic: "/smel ə ræt/",
-                hint: "Suspecting that something is dishonest!",
-                figCaption: "Suspecting something fishy", litCaption: "Smelling a rat animal",
-                figurativeMeaning: "察覺可疑、懷疑有詐 (Suspect deception or bad faith).",
-                literalMeaning: "字面直譯：聞到老鼠的味道。",
-                exampleEn: "I smelled a rat when he offered a prize for free.", exampleZh: "當他提供免費獎品時，我察覺其中有詐。",
-                figSvg: createSVG("#0f172a", `<circle cx="150" cy="150" r="70" fill="#facc15"/><circle cx="150" cy="180" r="10" fill="#0f172a"/><circle cx="150" cy="120" r="12" fill="#0f172a"/>`),
-                litSvg: createSVG("#334155", `<circle cx="100" cy="150" r="35" fill="#fed7aa"/><ellipse cx="210" cy="150" rx="30" ry="18" fill="#94a3b8"/>`)
-            },
-            {
-                id: 8, category: "🐶 Animals", idiom: "When pigs fly", phonetic: "/wen pɪɡz flaɪ/",
-                hint: "Something that will never happen!",
-                figCaption: "Believing an impossible event", litCaption: "Pink pig flying in sky",
-                figurativeMeaning: "絕不可能發生的事 (Something impossible that will never happen).",
-                literalMeaning: "字面直譯：小豬長出翅膀在天空中飛翔。",
-                exampleEn: "He will clean his room when pigs fly!", exampleZh: "要他清理房間？除非太陽從西邊升起！",
-                figSvg: createSVG("#1e1b4b", `<circle cx="150" cy="150" r="70" fill="none" stroke="#ef4444" stroke-width="12"/><line x1="100" y1="100" x2="200" y2="200" stroke="#ef4444" stroke-width="12"/>`),
-                litSvg: createSVG("#0284c7", `<ellipse cx="150" cy="160" rx="45" ry="32" fill="#f472b6"/><ellipse cx="120" cy="130" rx="18" ry="12" fill="#ffffff"/><ellipse cx="180" cy="130" rx="18" ry="12" fill="#ffffff"/>`)
-            },
-            {
-                id: 9, category: "🐶 Animals", idiom: "Take the bull by the horns", phonetic: "/teɪk ðə bʊl baɪ ðə hɔːrnz/",
-                hint: "Facing a difficult problem directly and bravely!",
-                figCaption: "Solving hard task bravely", litCaption: "Holding giant bull horns",
-                figurativeMeaning: "勇敢地面對困難 (Deal with a difficult situation directly).",
-                literalMeaning: "字面直譯：用雙手緊抓住公牛的雙角。",
-                exampleEn: "She took the bull by the horns and solved the conflict.", exampleZh: "她挺身而出，勇敢地解決了衝突。",
-                figSvg: createSVG("#064e3b", `<polygon points="150,50 250,220 50,220" fill="#047857" stroke="#34d399" stroke-width="8"/><circle cx="150" cy="160" r="25" fill="#facc15"/>`),
-                litSvg: createSVG("#451a03", `<ellipse cx="150" cy="180" rx="60" ry="40" fill="#92400e"/><path d="M 100 150 Q 60 70 40 90" stroke="#fbbf24" stroke-width="16" stroke-linecap="round"/><path d="M 200 150 Q 240 70 260 90" stroke="#fbbf24" stroke-width="16" stroke-linecap="round"/>`)
-            },
-            {
-                id: 10, category: "🐶 Animals", idiom: "A wolf in sheep's clothing", phonetic: "/ə wʊlf ɪn ʃiːps ˈkloʊðɪŋ/",
-                hint: "Someone hostile pretending to be friendly!",
-                figCaption: "Sneaky person with fake smile", litCaption: "Wolf wearing sheep wool",
-                figurativeMeaning: "披著羊皮的狼、偽善者 (Someone dangerous pretending to be harmless).",
-                literalMeaning: "字面直譯：野狼全身套上綿羊的毛皮。",
-                exampleEn: "Be careful of him; he is a wolf in sheep's clothing.", exampleZh: "當心他，他可是個披著羊皮的狼。",
-                figSvg: createSVG("#1e293b", `<circle cx="150" cy="150" r="70" fill="#facc15"/><path d="M 110 170 Q 150 120 190 170" stroke="#0f172a" stroke-width="8" fill="none"/>`),
-                litSvg: createSVG("#334155", `<circle cx="150" cy="150" r="60" fill="#f8fafc"/><polygon points="130,120 150,80 170,120" fill="#475569"/>`)
-            },
-
-            // 11-20 BODY PARTS
-            {
-                id: 11, category: "👀 Body Parts", idiom: "Cost an arm and a leg", phonetic: "/kɒst ən ɑːm ænd ə leɡ/",
-                hint: "Extremely expensive to buy!",
-                figCaption: "Too expensive price tag", litCaption: "Paying with arm and leg",
-                figurativeMeaning: "價格極其昂貴 (Extremely expensive).",
-                literalMeaning: "字面直譯：拿手臂和腿去付帳。",
-                exampleEn: "That luxury watch cost him an arm and a leg.", exampleZh: "那款奢華手錶花了他一筆鉅款。",
-                figSvg: createSVG("#0f172a", `<circle cx="150" cy="150" r="70" fill="#eab308"/><path d="M 150 100 L 150 200 M 120 120 Q 180 110 150 150 Q 120 190 180 180" stroke="#0f172a" stroke-width="10" stroke-linecap="round" fill="none"/>`),
-                litSvg: createSVG("#1e1b4b", `<path d="M 60 160 L 140 160" stroke="#fed7aa" stroke-width="22" stroke-linecap="round"/><path d="M 190 160 L 260 160 L 280 200" stroke="#fca5a5" stroke-width="24" stroke-linecap="round"/>`)
-            },
-            {
-                id: 12, category: "👀 Body Parts", idiom: "Cold feet", phonetic: "/koʊld fiːt/",
-                hint: "Getting scared before a major decision!",
-                figCaption: "Getting scared at last moment", litCaption: "Feet frozen in ice",
-                figurativeMeaning: "臨陣退縮、怯場 (Sudden loss of courage).",
-                literalMeaning: "字面直譯：雙腳被冰塊凍住。",
-                exampleEn: "He got cold feet right before entering the stage.", exampleZh: "就在要上台前，他臨陣退縮了。",
-                figSvg: createSVG("#0f172a", `<path d="M 150 70 L 190 180 L 110 180 Z" fill="#facc15"/><circle cx="150" cy="210" r="10" fill="#facc15"/>`),
-                litSvg: createSVG("#172554", `<rect x="70" y="140" width="75" height="85" fill="#38bdf8" rx="14"/><rect x="155" y="140" width="75" height="85" fill="#38bdf8" rx="14"/>`)
-            },
-            {
-                id: 13, category: "👀 Body Parts", idiom: "Give a cold shoulder", phonetic: "/ɡɪv ə koʊld ˈʃoʊldər/",
-                hint: "Ignoring someone deliberately!",
-                figCaption: "Ignoring someone on purpose", litCaption: "Ice block on shoulder",
-                figurativeMeaning: "故意冷落某人 (Ignore someone deliberately).",
-                literalMeaning: "字面直譯：肩膀上面擺著冰塊。",
-                exampleEn: "She gave him the cold shoulder after their fight.", exampleZh: "吵架之後，她故意冷落他。",
-                figSvg: createSVG("#0f172a", `<circle cx="90" cy="150" r="35" fill="#fed7aa"/><circle cx="210" cy="150" r="35" fill="#94a3b8"/><line x1="170" y1="150" x2="250" y2="150" stroke="#64748b" stroke-width="10"/>`),
-                litSvg: createSVG("#172554", `<circle cx="150" cy="120" r="30" fill="#fed7aa"/><rect x="65" y="145" width="55" height="55" fill="#38bdf8" rx="10"/>`)
-            },
-            {
-                id: 14, category: "👀 Body Parts", idiom: "Pull someone's leg", phonetic: "/pʊl ˈsʌmwʌnz leɡ/",
-                hint: "Joking or tricking someone playfully!",
-                figCaption: "Making a funny joke", litCaption: "Pulling a leg hard",
-                figurativeMeaning: "開玩笑、捉弄人 (Tease or joke with someone).",
-                literalMeaning: "字面直譯：用力抓住對方的腳拉扯。",
-                exampleEn: "Don't be mad, I was just pulling your leg!", exampleZh: "別生氣，我只是跟你開個玩笑！",
-                figSvg: createSVG("#311042", `<circle cx="150" cy="150" r="70" fill="#fde047"/><circle cx="125" cy="130" r="8" fill="#0f172a"/><circle cx="175" cy="130" r="8" fill="#0f172a"/><path d="M 115 165 Q 150 200 185 165" stroke="#0f172a" stroke-width="8" fill="none"/>`),
-                litSvg: createSVG("#1e1b4b", `<line x1="50" y1="150" x2="210" y2="150" stroke="#fed7aa" stroke-width="26" stroke-linecap="round"/><circle cx="240" cy="150" r="20" fill="#38bdf8"/>`)
-            },
-            {
-                id: 15, category: "👀 Body Parts", idiom: "Keep an eye on", phonetic: "/kiːp ən aɪ ɒn/",
-                hint: "Watching something carefully to protect it!",
-                figCaption: "Watching something carefully", litCaption: "Eye resting on cake",
-                figurativeMeaning: "照看、特別留意 (Watch carefully).",
-                literalMeaning: "字面直譯：把一顆眼睛直接放在物品上。",
-                exampleEn: "Please keep an eye on my puppy while I buy juice.", exampleZh: "我去買果汁時，請幫忙照看我的小狗。",
-                figSvg: createSVG("#064e3b", `<circle cx="150" cy="150" r="75" fill="#ffffff"/><circle cx="150" cy="150" r="35" fill="#0284c7"/><circle cx="150" cy="150" r="14" fill="#0f172a"/>`),
-                litSvg: createSVG("#451a03", `<rect x="80" y="160" width="140" height="80" rx="14" fill="#b45309"/><ellipse cx="150" cy="120" rx="35" ry="20" fill="#ffffff"/><circle cx="150" cy="120" r="12" fill="#ef4444"/>`)
-            },
-            {
-                id: 16, category: "👀 Body Parts", idiom: "See eye to eye", phonetic: "/siː aɪ tuː aɪ/",
-                hint: "Agreeing completely with each other!",
-                figCaption: "Agreeing with each other", litCaption: "Eyes touching each other",
-                figurativeMeaning: "意見一致、完全贊同 (Agree with each other).",
-                literalMeaning: "字面直譯：兩個人的大眼睛貼在一起。",
-                exampleEn: "They finally saw eye to eye on the project budget.", exampleZh: "他們終於在專案預算上達成了一致意見。",
-                figSvg: createSVG("#064e3b", `<circle cx="150" cy="150" r="70" fill="#10b981"/><path d="M 100 150 L 135 185 L 205 115" stroke="#ffffff" stroke-width="16" stroke-linecap="round" fill="none"/>`),
-                litSvg: createSVG("#311042", `<circle cx="110" cy="150" r="35" fill="#ffffff"/><circle cx="190" cy="150" r="35" fill="#ffffff"/><circle cx="130" cy="150" r="14" fill="#0f172a"/><circle cx="170" cy="150" r="14" fill="#0f172a"/>`)
-            },
-            {
-                id: 17, category: "👀 Body Parts", idiom: "Head in the clouds", phonetic: "/hed ɪn ðə klaʊdz/",
-                hint: "Daydreaming and not paying attention!",
-                figCaption: "Daydreaming away", litCaption: "Head inside cloud",
-                figurativeMeaning: "心不在焉、做白日夢 (Daydreaming or impractical).",
-                literalMeaning: "字面直譯：一顆頭伸進天上的雲朵裡。",
-                exampleEn: "Pay attention! Your head is in the clouds again.", exampleZh: "專心點！你又在做白日夢心不在焉了。",
-                figSvg: createSVG("#1e1b4b", `<circle cx="150" cy="150" r="70" fill="#c7d2fe"/><circle cx="120" cy="130" r="8" fill="#312e81"/><circle cx="180" cy="130" r="8" fill="#312e81"/>`),
-                litSvg: createSVG("#0284c7", `<path d="M 70 140 Q 80 80 130 90 Q 170 50 230 90 Q 260 140 210 150 Z" fill="#ffffff"/><line x1="150" y1="150" x2="150" y2="230" stroke="#fed7aa" stroke-width="24"/>`)
-            },
-            {
-                id: 18, category: "👀 Body Parts", idiom: "Bite your tongue", phonetic: "/baɪt jʊər tʌŋ/",
-                hint: "Stopping yourself from speaking out loud!",
-                figCaption: "Stopping yourself from speaking", litCaption: "Biting down on tongue",
-                figurativeMeaning: "忍住不說、咬緊牙關 (Stop yourself from saying something).",
-                literalMeaning: "字面直譯：用牙齒咬住自己的舌頭。",
-                exampleEn: "I had to bite my tongue to prevent an argument.", exampleZh: "我不得不忍住不說話，以免引發爭執。",
-                figSvg: createSVG("#0f172a", `<rect x="70" y="80" width="160" height="140" rx="16" fill="#334155"/><circle cx="150" cy="150" r="30" fill="#ef4444"/>`),
-                litSvg: createSVG("#831843", `<ellipse cx="150" cy="150" rx="60" ry="20" fill="#ffffff"/><path d="M 130 150 C 130 190 170 190 170 150 Z" fill="#f43f5e"/>`)
-            },
-            {
-                id: 19, category: "👀 Body Parts", idiom: "All ears", phonetic: "/ɔːl ɪəz/",
-                hint: "Listening very carefully and eagerly!",
-                figCaption: "Listening very carefully", litCaption: "Head with giant ears",
-                figurativeMeaning: "洗耳恭聽、全神貫注地聽 (Listening attentively).",
-                literalMeaning: "字面直譯：一顆頭上面長滿了巨型耳朵。",
-                exampleEn: "Tell me your trip plan—I'm all ears!", exampleZh: "跟我說說你的旅行計劃吧，我洗耳恭聽！",
-                figSvg: createSVG("#1e293b", `<path d="M 80 150 Q 120 90 150 150 T 220 150" stroke="#38bdf8" stroke-width="12" fill="none"/>`),
-                litSvg: createSVG("#4c1d95", `<circle cx="150" cy="150" r="45" fill="#fed7aa"/><ellipse cx="75" cy="150" rx="18" ry="32" fill="#fca5a5"/><ellipse cx="225" cy="150" rx="18" ry="32" fill="#fca5a5"/>`)
-            },
-            {
-                id: 20, category: "👀 Body Parts", idiom: "Lend a hand", phonetic: "/lend ə hænd/",
-                hint: "Helping someone with a task!",
-                figCaption: "Helping a friend in need", litCaption: "Handing over a fake hand",
-                figurativeMeaning: "伸出援手、給予幫助 (Help someone).",
-                literalMeaning: "字面直譯：把拆下來的手借給別人。",
-                exampleEn: "Could you lend a hand moving this heavy box?", exampleZh: "你能伸出援手幫忙搬這個重箱子嗎？",
-                figSvg: createSVG("#047857", `<path d="M 150 70 L 190 150 L 110 150 Z" fill="#34d399"/><circle cx="150" cy="200" r="25" fill="#facc15"/>`),
-                litSvg: createSVG("#1e1b4b", `<path d="M 90 150 L 170 150" stroke="#fed7aa" stroke-width="20" stroke-linecap="round"/><circle cx="210" cy="150" r="22" fill="#f43f5e"/>`)
-            },
-
-            // 21-30 FOOD & COOKING
-            {
-                id: 21, category: "🍕 Food & Cooking", idiom: "A piece of cake", phonetic: "/ə piːs əv keɪk/",
-                hint: "Something that is very easy to do!",
-                figCaption: "Easy math test", litCaption: "A slice of cake",
-                figurativeMeaning: "極其簡單的事、小菜一碟 (An extremely easy task).",
-                literalMeaning: "字面直譯：一塊切好的美味蛋糕。",
-                exampleEn: "The math exam was a piece of cake for her!", exampleZh: "這場數學考試對她來說簡直是小菜一碟！",
-                figSvg: createSVG("#064e3b", `<rect x="60" y="80" width="180" height="140" rx="16" fill="#047857" stroke="#34d399" stroke-width="6"/><path d="M 110 150 L 145 185 L 205 115" stroke="#4ade80" stroke-width="16" stroke-linecap="round" stroke-linejoin="round" fill="none"/>`),
-                litSvg: createSVG("#1e1b4b", `<path d="M 70 190 L 230 205 L 250 145 L 150 105 Z" fill="#f43f5e"/><ellipse cx="150" cy="105" rx="55" ry="20" fill="#fb7185"/><circle cx="180" cy="90" r="14" fill="#e11d48"/>`)
-            },
-            {
-                id: 22, category: "🍕 Food & Cooking", idiom: "Spill the beans", phonetic: "/spɪl ðə biːnz/",
-                hint: "Telling a secret to someone!",
-                figCaption: "Telling secret by mistake", litCaption: "Spilling a tin of beans",
-                figurativeMeaning: "洩漏秘密 (Reveal a secret).",
-                literalMeaning: "字面直譯：打翻一罐豆子撒落一地。",
-                exampleEn: "Tom spilled the beans about the party.", exampleZh: "湯姆把派對的秘密洩漏出去了。",
-                figSvg: createSVG("#172554", `<circle cx="90" cy="150" r="35" fill="#fde047"/><circle cx="210" cy="150" r="35" fill="#f43f5e"/><path d="M 120 135 C 145 105 175 105 200 135" stroke="#38bdf8" stroke-width="8" stroke-dasharray="10 8" fill="none"/>`),
-                litSvg: createSVG("#1e1b4b", `<rect x="70" y="110" width="75" height="95" rx="10" fill="#ef4444" transform="rotate(-30 70 110)"/><ellipse cx="180" cy="200" rx="16" ry="10" fill="#92400e"/><ellipse cx="220" cy="190" rx="16" ry="10" fill="#92400e"/>`)
-            },
-            {
-                id: 23, category: "🍕 Food & Cooking", idiom: "Bad apple", phonetic: "/bæd ˈæpl/",
-                hint: "A troublemaker who causes problems for others!",
-                figCaption: "Troublemaker in group", litCaption: "A rotten bad apple",
-                figurativeMeaning: "害群之馬、破壞規矩的人 (Troublemaker in a group).",
-                literalMeaning: "字面直譯：一小箱好蘋果裡的一顆腐爛蘋果。",
-                exampleEn: "He is a bad apple in our student council.", exampleZh: "他是我們學生會裡的害群之馬。",
-                figSvg: createSVG("#1e293b", `<circle cx="80" cy="150" r="25" fill="#22c55e"/><circle cx="150" cy="150" r="25" fill="#ef4444"/><circle cx="220" cy="150" r="25" fill="#22c55e"/>`),
-                litSvg: createSVG("#14532d", `<circle cx="150" cy="150" r="55" fill="#84cc16"/><circle cx="175" cy="165" r="18" fill="#78350f"/>`)
-            },
-            {
-                id: 24, category: "🍕 Food & Cooking", idiom: "Crying over spilt milk", phonetic: "/kraɪɪŋ ˈoʊvər spɪlt mɪlk/",
-                hint: "Being upset about something that cannot be undone!",
-                figCaption: "Upset about past mistake", litCaption: "Crying over dropped milk",
-                figurativeMeaning: "為無法挽回的事徒然沮喪 (Regretting past mistakes).",
-                literalMeaning: "字面直譯：對著倒灑在地上的牛奶哭泣。",
-                exampleEn: "Don't cry over spilt milk—just start again!", exampleZh: "別為不可挽回的錯沮喪了，重新開始吧！",
-                figSvg: createSVG("#0f172a", `<circle cx="150" cy="150" r="70" fill="#94a3b8"/><path d="M 120 170 Q 150 140 180 170" stroke="#0f172a" stroke-width="8" fill="none"/>`),
-                litSvg: createSVG("#475569", `<ellipse cx="150" cy="200" rx="90" ry="22" fill="#ffffff"/><path d="M 100 100 L 140 180" stroke="#cbd5e1" stroke-width="12"/>`)
-            },
-            {
-                id: 25, category: "🍕 Food & Cooking", idiom: "Couch potato", phonetic: "/kaʊtʃ pəˈteɪtoʊ/",
-                hint: "A lazy person who sits and watches TV all day!",
-                figCaption: "Lazy person watching TV", litCaption: "Potato sitting on couch",
-                figurativeMeaning: "整天看電視的懶人 (Lazy television viewer).",
-                literalMeaning: "字面直譯：直接坐在沙發上的土豆。",
-                exampleEn: "Don't be a couch potato during holidays!", exampleZh: "假期裡別當個整天看電視的懶蟲！",
-                figSvg: createSVG("#1e293b", `<rect x="60" y="140" width="180" height="80" rx="16" fill="#9333ea"/><rect x="90" y="70" width="120" height="70" rx="10" fill="#38bdf8"/>`),
-                litSvg: createSVG("#713f12", `<rect x="60" y="150" width="180" height="70" rx="16" fill="#9333ea"/><ellipse cx="150" cy="120" rx="45" ry="30" fill="#a16207"/>`)
-            },
-            {
-                id: 26, category: "🍕 Food & Cooking", idiom: "In a nutshell", phonetic: "/ɪn ə ˈnʌtʃel/",
-                hint: "Explaining something briefly in a few words!",
-                figCaption: "Summing up briefly", litCaption: "Sitting inside nutshell",
-                figurativeMeaning: "簡而言之、概括地說 (In short / summarized).",
-                literalMeaning: "字面直譯：裝在堅果殼裡面。",
-                exampleEn: "In a nutshell, we won first place!", exampleZh: "簡而言之，我們贏得了第一名！",
-                figSvg: createSVG("#0f172a", `<rect x="70" y="90" width="160" height="120" rx="16" fill="#0284c7"/><line x1="90" y1="130" x2="210" y2="130" stroke="#ffffff" stroke-width="8"/><line x1="90" y1="170" x2="160" y2="170" stroke="#ffffff" stroke-width="8"/>`),
-                litSvg: createSVG("#451a03", `<path d="M 70 150 C 70 230 230 230 230 150 Z" fill="#78350f"/><circle cx="150" cy="130" r="22" fill="#fed7aa"/>`)
-            },
-            {
-                id: 27, category: "🍕 Food & Cooking", idiom: "Take with a grain of salt", phonetic: "/teɪk wɪð ə ɡreɪn əv sɔːlt/",
-                hint: "Doubting if a story is completely true!",
-                figCaption: "Doubting a wild story", litCaption: "Holding giant salt grain",
-                figurativeMeaning: "對說法持保留態度 (Be skeptical about information).",
-                literalMeaning: "字面直譯：捏著一粒鹽巴去聽消息。",
-                exampleEn: "Take his story with a grain of salt.", exampleZh: "對他說的話要抱持保留態度。",
-                figSvg: createSVG("#1e293b", `<circle cx="150" cy="150" r="70" fill="#facc15"/><line x1="100" y1="110" x2="140" y2="110" stroke="#0f172a" stroke-width="8"/>`),
-                litSvg: createSVG("#0f172a", `<polygon points="150,90 200,150 150,210 100,150" fill="#ffffff"/>`)
-            },
-            {
-                id: 28, category: "🍕 Food & Cooking", idiom: "Butter someone up", phonetic: "/ˈbʌtər ˈsʌmwʌn ʌp/",
-                hint: "Flattering someone to ask for a favor!",
-                figCaption: "Flattering for a favor", litCaption: "Spreading butter on arm",
-                figurativeMeaning: "阿諛奉承、討好某人 (Flatter someone to gain favor).",
-                literalMeaning: "字面直譯：用奶油塗抹在別人手臂上。",
-                exampleEn: "He's buttering up the teacher for extra credit.", exampleZh: "他正在討好老師以爭取額外分數。",
-                figSvg: createSVG("#311042", `<circle cx="150" cy="150" r="70" fill="#ec4899"/><path d="M 110 160 Q 150 190 190 160" stroke="#ffffff" stroke-width="8" fill="none"/>`),
-                litSvg: createSVG("#713f12", `<rect x="90" y="130" width="120" height="50" rx="8" fill="#fde047"/><line x1="70" y1="150" x2="230" y2="150" stroke="#ca8a04" stroke-width="12"/>`)
-            },
-            {
-                id: 29, category: "🍕 Food & Cooking", idiom: "Sell like hot cakes", phonetic: "/sel laɪk hɑːt keɪks/",
-                hint: "Selling out extremely fast!",
-                figCaption: "Selling out super fast", litCaption: "Hot pancakes flying off stand",
-                figurativeMeaning: "熱銷、搶購一空 (Sell out quickly).",
-                literalMeaning: "字面直譯：剛出爐的熱蛋糕迅速售出。",
-                exampleEn: "The new toy sold like hot cakes!", exampleZh: "這款新玩具熱銷一空！",
-                figSvg: createSVG("#064e3b", `<rect x="70" y="90" width="160" height="120" rx="16" fill="#10b981"/><path d="M 100 150 L 140 190 L 200 110" stroke="#ffffff" stroke-width="14" stroke-linecap="round"/>`),
-                litSvg: createSVG("#78350f", `<ellipse cx="150" cy="170" rx="60" ry="20" fill="#f59e0b"/><ellipse cx="150" cy="140" rx="55" ry="18" fill="#f59e0b"/><ellipse cx="150" cy="110" rx="50" ry="16" fill="#f59e0b"/>`)
-            },
-            {
-                id: 30, category: "🍕 Food & Cooking", idiom: "Cool as a cucumber", phonetic: "/kuːl æz ə ˈkjuːkʌmbər/",
-                hint: "Staying calm and relaxed under stress!",
-                figCaption: "Staying very calm", litCaption: "Cool cucumber with glasses",
-                figurativeMeaning: "泰然自若、極沉著 (Very calm and collected).",
-                literalMeaning: "字面直譯：像冰涼黃瓜一樣爽快。",
-                exampleEn: "She was as cool as a cucumber during the audition.", exampleZh: "試鏡期間她表現得泰然自若。",
-                figSvg: createSVG("#064e3b", `<circle cx="150" cy="150" r="70" fill="#6ee7b7"/><path d="M 115 165 Q 150 195 185 165" stroke="#047857" stroke-width="8" fill="none"/>`),
-                litSvg: createSVG("#14532d", `<rect x="70" y="130" width="160" height="60" rx="30" fill="#22c55e"/><rect x="100" y="145" width="45" height="25" rx="6" fill="#0f172a"/><rect x="155" y="145" width="45" height="25" rx="6" fill="#0f172a"/>`)
-            },
-
-            // 31-40 WEATHER & NATURE
-            {
-                id: 31, category: "🌧️ Weather & Nature", idiom: "Under the weather", phonetic: "/ˈʌndər ðə ˈweðər/",
-                hint: "Feeling slightly sick or unwell!",
-                figCaption: "Feeling sick in bed", litCaption: "Standing under raincloud",
-                figurativeMeaning: "身體不適、生病 (Feeling sick or unwell).",
-                literalMeaning: "字面直譯：站在下雨烏雲的正下方。",
-                exampleEn: "I'm feeling under the weather today.", exampleZh: "我今天身體有些不適。",
-                figSvg: createSVG("#0f172a", `<rect x="50" y="110" width="130" height="70" rx="10" fill="#cbd5e1"/><circle cx="115" cy="120" r="30" fill="#fed7aa"/><rect x="210" y="90" width="20" height="90" rx="10" fill="#ef4444"/>`),
-                litSvg: createSVG("#1e1b4b", `<path d="M 90 90 Q 150 40 210 90 Q 240 120 200 135 Q 150 150 90 120 Z" fill="#475569"/><line x1="120" y1="150" x2="105" y2="230" stroke="#38bdf8" stroke-width="6"/><line x1="180" y1="150" x2="165" y2="230" stroke="#38bdf8" stroke-width="6"/>`)
-            },
-            {
-                id: 32, category: "🌧️ Weather & Nature", idiom: "Break the ice", phonetic: "/breɪk ðə aɪs/",
-                hint: "Making people feel relaxed in a new group!",
-                figCaption: "Making friends easily", litCaption: "Chopping ice block",
-                figurativeMeaning: "打破僵局、破冰 (Make people feel comfortable).",
-                literalMeaning: "字面直譯：用力敲碎大冰塊。",
-                exampleEn: "He told a joke to break the ice with new friends.", exampleZh: "他講了個笑話打破與新朋友的僵局。",
-                figSvg: createSVG("#1e293b", `<circle cx="90" cy="150" r="35" fill="#fde047"/><circle cx="210" cy="150" r="35" fill="#38bdf8"/><path d="M 125 150 L 175 150" stroke="#4ade80" stroke-width="8"/>`),
-                litSvg: createSVG("#0284c7", `<rect x="60" y="110" width="180" height="100" fill="#bae6fd" rx="16"/><path d="M 150 50 L 130 110 L 170 110 Z" fill="#475569"/>`)
-            },
-            {
-                id: 33, category: "🌧️ Weather & Nature", idiom: "Rain cats and dogs", phonetic: "/reɪn kæts ænd dɒɡz/",
-                hint: "Raining very heavily outside!",
-                figCaption: "Heavy rain outside", litCaption: "Cats and dogs falling down",
-                figurativeMeaning: "傾盆大雨 (Raining heavily).",
-                literalMeaning: "字面直譯：天空降落貓咪和狗狗。",
-                exampleEn: "It's raining cats and dogs outside!", exampleZh: "外面正下著傾盆大雨！",
-                figSvg: createSVG("#0f172a", `<path d="M 70 70 Q 150 20 230 70 Q 260 100 210 120 Z" fill="#475569"/><line x1="90" y1="140" x2="70" y2="230" stroke="#38bdf8" stroke-width="8"/><line x1="150" y1="140" x2="130" y2="230" stroke="#38bdf8" stroke-width="8"/><line x1="210" y1="140" x2="190" y2="230" stroke="#38bdf8" stroke-width="8"/>`),
-                litSvg: createSVG("#172554", `<path d="M 60 50 Q 150 20 240 50 Z" fill="#475569"/><circle cx="100" cy="140" r="28" fill="#fb923c"/><circle cx="200" cy="170" r="30" fill="#a16207"/>`)
-            },
-            {
-                id: 34, category: "🌧️ Weather & Nature", idiom: "Steal someone's thunder", phonetic: "/stiːl ˈsʌmwʌnz ˈθʌndər/",
-                hint: "Taking attention away from someone else!",
-                figCaption: "Taking away attention", litCaption: "Stealing lightning bolt",
-                figurativeMeaning: "搶風頭 (Take attention away from someone).",
-                literalMeaning: "字面直譯：偷走別人的閃電與雷聲。",
-                exampleEn: "She stole my thunder at the show.", exampleZh: "她在展覽上搶走了我的風頭。",
-                figSvg: createSVG("#311042", `<polygon points="150,30 50,230 250,230" fill="#fde047" opacity="0.3"/><circle cx="150" cy="150" r="30" fill="#f472b6"/>`),
-                litSvg: createSVG("#0f172a", `<polygon points="150,50 120,130 160,130 110,230 190,110 140,110" fill="#facc15"/>`)
-            },
-            {
-                id: 35, category: "🌧️ Weather & Nature", idiom: "Chasing rainbows", phonetic: "/ˈtʃeɪsɪŋ ˈreɪnboʊz/",
-                hint: "Trying to achieve unrealistic goals!",
-                figCaption: "Following unrealistic goals", litCaption: "Running after rainbow",
-                figurativeMeaning: "做白日夢、追逐虛幻 (Pursuing unrealistic goals).",
-                literalMeaning: "字面直譯：在草地上追趕彩虹。",
-                exampleEn: "Stop chasing rainbows and focus on work.", exampleZh: "別再做白日夢了，專心工作吧。",
-                figSvg: createSVG("#1e293b", `<circle cx="150" cy="150" r="70" fill="#c7d2fe"/><circle cx="150" cy="150" r="20" fill="#312e81"/>`),
-                litSvg: createSVG("#0284c7", `<path d="M 50 200 A 100 100 0 0 1 250 200" stroke="#ef4444" stroke-width="14" fill="none"/><path d="M 70 200 A 80 80 0 0 1 230 200" stroke="#facc15" stroke-width="14" fill="none"/>`)
-            },
-            {
-                id: 36, category: "🌧️ Weather & Nature", idiom: "Save for a rainy day", phonetic: "/seɪv fɔːr ə ˈreɪni deɪ/",
-                hint: "Saving money for future unexpected needs!",
-                figCaption: "Saving money for future", litCaption: "Storing umbrella in case",
-                figurativeMeaning: "未雨綢繆、存錢以備不時之需 (Save money for future emergencies).",
-                literalMeaning: "字面直譯：為了下雨天預先存一把傘。",
-                exampleEn: "It is wise to save money for a rainy day.", exampleZh: "存錢以備不時之需是明智之舉。",
-                figSvg: createSVG("#064e3b", `<ellipse cx="150" cy="160" rx="55" ry="40" fill="#f43f5e"/><line x1="150" y1="90" x2="150" y2="120" stroke="#facc15" stroke-width="8"/>`),
-                litSvg: createSVG("#0f172a", `<path d="M 70 140 Q 150 70 230 140 Z" fill="#38bdf8"/><line x1="150" y1="140" x2="150" y2="210" stroke="#cbd5e1" stroke-width="8"/>`)
-            },
-            {
-                id: 37, category: "🌧️ Weather & Nature", idiom: "Storm in a teacup", phonetic: "/stɔːrm ɪn ə ˈtiːkʌp/",
-                hint: "Making a big deal out of a tiny problem!",
-                figCaption: "Big fuss over small thing", litCaption: "Storm inside tea cup",
-                figurativeMeaning: "大驚小怪、風波過後平息 (Fuss over a small matter).",
-                literalMeaning: "字面直譯：茶杯裡的小暴風雨。",
-                exampleEn: "Don't worry; it's just a storm in a teacup.", exampleZh: "別擔心，那只不過是大驚小怪罷了。",
-                figSvg: createSVG("#1e293b", `<circle cx="150" cy="150" r="70" fill="#ef4444"/><line x1="100" y1="100" x2="200" y2="200" stroke="#ffffff" stroke-width="12"/>`),
-                litSvg: createSVG("#172554", `<path d="M 80 130 C 80 230 220 230 220 130 Z" fill="#ffffff"/><path d="M 120 140 Q 150 100 180 140" stroke="#38bdf8" stroke-width="8"/>`)
-            },
-            {
-                id: 38, category: "🌧️ Weather & Nature", idiom: "On cloud nine", phonetic: "/ɒn klaʊd naɪn/",
-                hint: "Feeling super excited and happy!",
-                figCaption: "Feeling extremely happy", litCaption: "Bouncing on cloud nine",
-                figurativeMeaning: "高興得飄飄然、九霄雲外 (Feeling extremely happy).",
-                literalMeaning: "字面直譯：坐在第 9 號雲朵上。",
-                exampleEn: "She was on cloud nine after winning first place.", exampleZh: "獲勝後她高興得飄飄然。",
-                figSvg: createSVG("#831843", `<circle cx="150" cy="120" r="45" fill="#fde047"/><path d="M 90 190 Q 150 140 210 190" stroke="#f472b6" stroke-width="12" fill="none"/>`),
-                litSvg: createSVG("#0284c7", `<path d="M 80 170 Q 150 120 220 170 Z" fill="#ffffff"/><circle cx="150" cy="110" r="24" fill="#fed7aa"/>`)
-            },
-            {
-                id: 39, category: "🌧️ Weather & Nature", idiom: "Every cloud has a silver lining", phonetic: "/ˈevri klaʊd hæz ə ˈsɪlvər ˈlaɪnɪŋ/",
-                hint: "Finding hope even in difficult situations!",
-                figCaption: "Hope in bad times", litCaption: "Cloud with silver edge",
-                figurativeMeaning: "黑暗中總有一線生機 (Optimism in bad times).",
-                literalMeaning: "字面直譯：烏雲邊緣都鑲著銀邊。",
-                exampleEn: "Don't worry; every cloud has a silver lining.", exampleZh: "別擔心，黑暗中總有一線生機。",
-                figSvg: createSVG("#064e3b", `<circle cx="150" cy="150" r="70" fill="#facc15"/><line x1="150" y1="50" x2="150" y2="20" stroke="#facc15" stroke-width="10"/>`),
-                litSvg: createSVG("#0f172a", `<path d="M 80 150 Q 150 90 220 150 Z" fill="#334155" stroke="#e2e8f0" stroke-width="10"/>`)
-            },
-            {
-                id: 40, category: "🌧️ Weather & Nature", idiom: "Come rain or shine", phonetic: "/kʌm reɪn ɔːr ʃaɪn/",
-                hint: "Doing something whatever happens!",
-                figCaption: "Working in any condition", litCaption: "Half rain half sun scene",
-                figurativeMeaning: "無論風雨無阻 (Whatever happens).",
-                literalMeaning: "字面直譯：無論是下雨還是太陽高照。",
-                exampleEn: "We will play the match come rain or shine.", exampleZh: "無論風雨無阻，我們都會進行這場比賽。",
-                figSvg: createSVG("#1e293b", `<circle cx="150" cy="150" r="70" fill="#3b82f6"/><path d="M 100 150 L 135 185 L 205 115" stroke="#ffffff" stroke-width="16" stroke-linecap="round"/>`),
-                litSvg: createSVG("#0284c7", `<circle cx="90" cy="110" r="35" fill="#facc15"/><path d="M 180 140 Q 230 110 260 140 Z" fill="#475569"/>`)
-            },
-
-            // 41-50 ACTIONS & OBJECTS
-            {
-                id: 41, category: "🎯 Actions & Objects", idiom: "Bite the bullet", phonetic: "/baɪt ðə ˈbʊlɪt/",
-                hint: "Facing a tough challenge bravely!",
-                figCaption: "Facing hard challenge bravely", litCaption: "Biting a metal bullet",
-                figurativeMeaning: "咬緊牙關面對困難 (Face tough situation bravely).",
-                literalMeaning: "字面直譯：用嘴巴咬住金屬子彈。",
-                exampleEn: "I decided to bite the bullet and take the test.", exampleZh: "我決定咬緊牙關勇敢去考這個測驗。",
-                figSvg: createSVG("#0f172a", `<path d="M 150 60 L 220 220 L 80 220 Z" fill="#38bdf8"/>`),
-                litSvg: createSVG("#451a03", `<rect x="100" y="130" width="100" height="40" rx="10" fill="#f59e0b"/>`)
-            },
-            {
-                id: 42, category: "🎯 Actions & Objects", idiom: "Burn the midnight oil", phonetic: "/bɜːrn ðə ˈmɪdnaɪt ɔɪl/",
-                hint: "Studying or working late into the night!",
-                figCaption: "Studying late at night", litCaption: "Lighting an oil lamp",
-                figurativeMeaning: "挑燈夜戰、熬夜工作 (Work late into the night).",
-                literalMeaning: "字面直譯：點燃煤油燈直到深夜。",
-                exampleEn: "He burned the midnight oil to prepare for exams.", exampleZh: "他為了備考挑燈夜戰。",
-                figSvg: createSVG("#1e1b4b", `<circle cx="150" cy="150" r="70" fill="#312e81"/><path d="M 175 95 A 55 55 0 1 1 125 205 A 60 60 0 1 0 175 95 Z" fill="#fde047"/>`),
-                litSvg: createSVG("#451a03", `<ellipse cx="150" cy="180" rx="45" ry="26" fill="#b45309"/><path d="M 150 150 L 150 100" stroke="#facc15" stroke-width="10"/>`)
-            },
-            {
-                id: 43, category: "🎯 Actions & Objects", idiom: "Hit the nail on the head", phonetic: "/hɪt ðə neɪl ɒn ðə hed/",
-                hint: "Describing something with exact truth!",
-                figCaption: "Saying the exact truth", litCaption: "Hammer hitting nail",
-                figurativeMeaning: "一針見血、完全正確 (Exactly right).",
-                literalMeaning: "字面直譯：拿鐵鎚擊中釘子頭。",
-                exampleEn: "You hit the nail on the head with that answer!", exampleZh: "你的答案說得一針見血、完全正確！",
-                figSvg: createSVG("#064e3b", `<circle cx="150" cy="150" r="75" fill="none" stroke="#34d399" stroke-width="12"/><circle cx="150" cy="150" r="30" fill="#34d399"/>`),
-                litSvg: createSVG("#334155", `<line x1="150" y1="150" x2="150" y2="240" stroke="#cbd5e1" stroke-width="14"/><rect x="120" y="70" width="60" height="60" fill="#475569"/>`)
-            },
-            {
-                id: 44, category: "🎯 Actions & Objects", idiom: "Tie the knot", phonetic: "/taɪ ðə nɑːt/",
-                hint: "Getting married to your love!",
-                figCaption: "Getting married", litCaption: "Tying rope in knot",
-                figurativeMeaning: "喜結連理、結婚 (Get married).",
-                literalMeaning: "字面直譯：拿繩子打一個結。",
-                exampleEn: "They plan to tie the knot next summer.", exampleZh: "他們計劃明年夏天結婚。",
-                figSvg: createSVG("#831843", `<circle cx="110" cy="150" r="35" fill="none" stroke="#facc15" stroke-width="10"/><circle cx="190" cy="150" r="35" fill="none" stroke="#facc15" stroke-width="10"/>`),
-                litSvg: createSVG("#78350f", `<circle cx="150" cy="150" r="40" fill="none" stroke="#f59e0b" stroke-width="20"/>`)
-            },
-            {
-                id: 45, category: "🎯 Actions & Objects", idiom: "On the fence", phonetic: "/ɒn ðə fens/",
-                hint: "Undecided about making a choice!",
-                figCaption: "Undecided about choice", litCaption: "Sitting on wooden fence",
-                figurativeMeaning: "猶豫不決、保持中立 (Undecided).",
-                literalMeaning: "字面直譯：坐在籬笆欄杆上面。",
-                exampleEn: "I'm still on the fence about joining the club.", exampleZh: "關於是否加入社團，我仍在猶豫不決。",
-                figSvg: createSVG("#1e293b", `<rect x="50" y="120" width="90" height="60" rx="12" fill="#3b82f6"/><rect x="160" y="120" width="90" height="60" rx="12" fill="#ec4899"/>`),
-                litSvg: createSVG("#78350f", `<line x1="30" y1="180" x2="270" y2="180" stroke="#b45309" stroke-width="18"/><circle cx="150" cy="120" r="28" fill="#fed7aa"/>`)
-            },
-            {
-                id: 46, category: "🎯 Actions & Objects", idiom: "Kick the bucket", phonetic: "/kɪk ðə ˈbʌkɪt/",
-                hint: "Passing away or dying (informal)!",
-                figCaption: "Plant wilting away", litCaption: "Kicking a yellow bucket",
-                figurativeMeaning: "去世、死亡 (Pass away / die).",
-                literalMeaning: "字面直譯：腳踢到水桶。",
-                exampleEn: "The old engine finally kicked the bucket.", exampleZh: "那台舊引擎終於壽終正寢壞掉了。",
-                figSvg: createSVG("#0f172a", `<path d="M 150 180 Q 120 120 150 80" stroke="#94a3b8" stroke-width="6" fill="none"/><circle cx="150" cy="180" r="14" fill="#64748b"/>`),
-                litSvg: createSVG("#713f12", `<rect x="100" y="120" width="100" height="100" fill="#facc15" rx="10"/><line x1="50" y1="180" x2="100" y2="180" stroke="#fed7aa" stroke-width="18"/>`)
-            },
-            {
-                id: 47, category: "🎯 Actions & Objects", idiom: "Spill the tea", phonetic: "/spɪl ðə tiː/",
-                hint: "Sharing exciting gossip or news!",
-                figCaption: "Sharing exciting gossip", litCaption: "Splashing hot tea on table",
-                figurativeMeaning: "分享八卦消息 (Share gossip or secret news).",
-                literalMeaning: "字面直譯：打翻熱紅茶潑在桌上。",
-                exampleEn: "Sit down and spill the tea about the event!", exampleZh: "坐下來跟我分享關於活動的八卦吧！",
-                figSvg: createSVG("#311042", `<circle cx="100" cy="150" r="30" fill="#fde047"/><circle cx="200" cy="150" r="30" fill="#f472b6"/>`),
-                litSvg: createSVG("#451a03", `<path d="M 100 140 C 100 220 200 220 200 140 Z" fill="#ffffff"/><ellipse cx="150" cy="190" rx="80" ry="20" fill="#9a3412"/>`)
-            },
-            {
-                id: 48, category: "🎯 Actions & Objects", idiom: "Hit the books", phonetic: "/hɪt ðə bʊks/",
-                hint: "Studying hard for an upcoming test!",
-                figCaption: "Studying hard for test", litCaption: "Punching a book",
-                figurativeMeaning: "努力用功讀書 (Study hard).",
-                literalMeaning: "字面直譯：用拳頭揍書本。",
-                exampleEn: "I have exams next week so I need to hit the books.", exampleZh: "我下週有考試，所以必須努力用功讀書。",
-                figSvg: createSVG("#0f382c", `<rect x="70" y="90" width="160" height="120" rx="12" fill="#15803d"/><line x1="150" y1="90" x2="150" y2="210" stroke="#ffffff" stroke-width="6"/>`),
-                litSvg: createSVG("#1e1b4b", `<rect x="90" y="140" width="120" height="60" fill="#3b82f6" rx="8"/><circle cx="150" cy="90" r="26" fill="#fed7aa"/>`)
-            },
-            {
-                id: 49, category: "🎯 Actions & Objects", idiom: "Bury the hatchet", phonetic: "/ˈberi ðə ˈhætʃɪt/",
-                hint: "Making peace and ending a fight!",
-                figCaption: "Making peace with friend", litCaption: "Burying hatchet in dirt",
-                figurativeMeaning: "握手言和、言歸於好 (Make peace).",
-                literalMeaning: "字面直譯：把斧頭埋進泥土裡。",
-                exampleEn: "After years of fighting, they decided to bury the hatchet.", exampleZh: "爭吵多年後，他們決定言歸於好。",
-                figSvg: createSVG("#047857", `<path d="M 100 170 L 150 120 L 200 170" stroke="#ffffff" stroke-width="14" stroke-linecap="round" fill="none"/>`),
-                litSvg: createSVG("#451a03", `<rect x="60" y="160" width="180" height="80" fill="#78350f"/><line x1="150" y1="80" x2="150" y2="170" stroke="#cbd5e1" stroke-width="12"/>`)
-            },
-            {
-                id: 50, category: "🎯 Actions & Objects", idiom: "Break a leg", phonetic: "/breɪk ə leɡ/",
-                hint: "Wishing someone good luck before a performance!",
-                figCaption: "Great show on stage", litCaption: "A broken leg with cast",
-                figurativeMeaning: "祝你演出順利、成功！(Good luck on stage).",
-                literalMeaning: "字面直譯：摔斷腿、骨折。",
-                exampleEn: "You are going on stage next. Break a leg!", exampleZh: "你馬上就要登場表演了，祝你演出成功！",
-                figSvg: createSVG("#0f172a", `<polygon points="150,20 60,240 240,240" fill="#fef08a" opacity="0.3"/><circle cx="150" cy="120" r="30" fill="#fde047"/><path d="M 110 200 L 135 225 L 195 165" stroke="#4ade80" stroke-width="14" stroke-linecap="round" fill="none"/>`),
-                litSvg: createSVG("#1e1b4b", `<path d="M 90 60 L 90 170 L 180 170" stroke="#f8fafc" stroke-width="32" stroke-linecap="round"/><path d="M 75 140 L 105 140" stroke="#ef4444" stroke-width="8"/>`)
+                id: "04",
+                category: "🐶 Animals",
+                idiom: "Barking up the wrong tree",
+                ipa: "/ˈbɑːrkɪŋ ʌp ðə rɔːŋ triː/",
+                hint: "Mistakenly following a wrong idea!",
+                figurative: {
+                    file: "04_figurative.jpg",
+                    caption: "Following a wrong idea",
+                    explanationZh: "搞錯對象、找錯方向 (Pursuing a wrong line of thought)",
+                    svg: createSVG("#1e293b", `<path d="M 90 90 L 210 210 M 210 90 L 90 210" stroke="#ef4444" stroke-width="26" stroke-linecap="round"/>`)
+                },
+                literal: {
+                    file: "04_literal.jpg",
+                    caption: "Dog barking at a tree",
+                    explanationZh: "字面意思：狗對著錯誤的樹狂吠",
+                    svg: createSVG("#064e3b", `<rect x="90" y="130" width="35" height="120" fill="#78350f"/><circle cx="107" cy="95" r="50" fill="#15803d"/><circle cx="210" cy="200" r="30" fill="#d97706"/>`)
+                },
+                exampleEn: "If you think I stole your pen, you are barking up the wrong tree.",
+                exampleZh: "如果你認為是我偷了你的筆，那你絕對是搞錯對象了。"
             }
         ];
 
         // =========================================================================
-        // LOCALSTORAGE & CONFIGURATION MANAGEMENT
+        // CONFIGURATION & LOCALSTORAGE
         // =========================================================================
-        const STORAGE_PLAYED_KEY = 'english_idiom_played_ids_v10';
-        const STORAGE_CDN_KEY = 'english_idiom_cdn_url_v10';
-        const DEFAULT_CDN_URL = 'images/'; // Default to local folder, easy to override via Settings gear
+        const STORAGE_CDN_KEY = 'idiom_cdn_url_v4';
+        const DEFAULT_CDN_URL = 'images/';
 
         let currentRoundIdioms = [];
         let currentQuestionIndex = 0;
         let correctAnswersCount = 0;
         let isAnswered = false;
-
         let cdnBaseUrl = DEFAULT_CDN_URL;
 
         function loadCdnConfig() {
             try {
                 const stored = localStorage.getItem(STORAGE_CDN_KEY);
-                if (stored && stored.trim() !== '') {
-                    cdnBaseUrl = stored.trim();
-                } else {
-                    cdnBaseUrl = DEFAULT_CDN_URL;
-                }
+                cdnBaseUrl = (stored && stored.trim() !== '') ? stored.trim() : DEFAULT_CDN_URL;
             } catch (e) {
                 cdnBaseUrl = DEFAULT_CDN_URL;
             }
-            // Ensure trailing slash
             if (!cdnBaseUrl.endsWith('/')) {
                 cdnBaseUrl += '/';
             }
@@ -1001,7 +563,7 @@
             } catch (e) {}
         }
 
-        // Speech Synthesis
+        // Web Speech API
         function speakIdiom(text) {
             if ('speechSynthesis' in window) {
                 window.speechSynthesis.cancel();
@@ -1031,46 +593,7 @@
         }
 
         // =========================================================================
-        // LOCALSTORAGE POOL SELECTION
-        // =========================================================================
-        function getPlayedIdiomIds() {
-            try {
-                const stored = localStorage.getItem(STORAGE_PLAYED_KEY);
-                return stored ? JSON.parse(stored) : [];
-            } catch (e) {
-                return [];
-            }
-        }
-
-        function savePlayedIdiomIds(idsArray) {
-            try {
-                localStorage.setItem(STORAGE_PLAYED_KEY, JSON.stringify(idsArray));
-            } catch (e) {}
-        }
-
-        function selectUnplayed5Idioms() {
-            let played = getPlayedIdiomIds();
-            let unplayed = IDIOMS_DATABASE.filter(item => !played.includes(item.id));
-
-            if (unplayed.length < 5) {
-                played = [];
-                savePlayedIdiomIds([]);
-                unplayed = [...IDIOMS_DATABASE];
-                showToast("🎉 Pool reset! You completed all 50 idioms!");
-            }
-
-            const selected5 = shuffleArray(unplayed).slice(0, 5);
-            const newPlayedList = [...played, ...selected5.map(i => i.id)];
-            savePlayedIdiomIds(newPlayedList);
-
-            return {
-                roundItems: selected5,
-                totalPlayedCount: newPlayedList.length
-            };
-        }
-
-        // =========================================================================
-        // DOM BINDINGS & UI CONTROLLERS
+        // DOM ELEMENTS
         // =========================================================================
         const gameScreen = document.getElementById('game-screen');
         const endScreen = document.getElementById('end-screen');
@@ -1093,8 +616,8 @@
         const btnHint = document.getElementById('btn-hint');
         const hintBox = document.getElementById('hint-box');
 
-        const poolCountDisplay = document.getElementById('pool-count-display');
         const currentQuestionNum = document.getElementById('current-question-num');
+        const hudScoreDisplay = document.getElementById('hud-score-display');
         const progressBarInner = document.getElementById('progress-bar-inner');
 
         const idiomTitle = document.getElementById('idiom-title');
@@ -1104,7 +627,7 @@
 
         const optionCards = document.querySelectorAll('.option-card');
 
-        // Settings Modal Binding
+        // Event Listeners for Settings Modal
         btnOpenSettings.addEventListener('click', () => {
             playSound('click');
             settingCdnUrl.value = cdnBaseUrl;
@@ -1112,19 +635,14 @@
         });
         btnCloseSettings.addEventListener('click', () => { modalSettings.classList.add('hidden'); });
 
-        presetLocal.addEventListener('click', () => {
-            settingCdnUrl.value = 'images/';
-        });
-        presetGithub.addEventListener('click', () => {
-            settingCdnUrl.value = 'https://raw.githubusercontent.com/your-username/idiom-game/main/images/';
-        });
+        presetLocal.addEventListener('click', () => { settingCdnUrl.value = 'images/'; });
+        presetGithub.addEventListener('click', () => { settingCdnUrl.value = 'https://raw.githubusercontent.com/user/repo/main/images/'; });
 
         btnSaveSettings.addEventListener('click', () => {
             playSound('click');
             saveCdnConfig(settingCdnUrl.value);
             modalSettings.classList.add('hidden');
-            showToast("☁️ Cloud CDN Host Saved!");
-            // Reload question with new CDN paths
+            showToast("📁 Image folder path updated!");
             loadQuestion(currentQuestionIndex);
         });
 
@@ -1152,15 +670,14 @@
         btnNextQuestion.addEventListener('click', () => { playSound('click'); closeModalAndAdvance(); });
 
         // =========================================================================
-        // GAME LOGIC
+        // GAMEPLAY ENGINE
         // =========================================================================
         function startRound() {
-            const { roundItems, totalPlayedCount } = selectUnplayed5Idioms();
-            currentRoundIdioms = roundItems;
+            currentRoundIdioms = shuffleArray(IDIOMS_DATABASE);
             currentQuestionIndex = 0;
             correctAnswersCount = 0;
 
-            poolCountDisplay.textContent = `${totalPlayedCount}/50`;
+            hudScoreDisplay.textContent = `0/4`;
 
             endScreen.classList.add('hidden');
             endScreen.classList.remove('flex');
@@ -1178,24 +695,22 @@
 
             categoryBadge.textContent = item.category;
             idiomTitle.textContent = item.idiom;
-            idiomPhonetic.textContent = item.phonetic;
+            idiomPhonetic.textContent = item.ipa;
             hintText.textContent = item.hint;
 
-            setTimeout(() => { speakIdiom(item.idiom); }, 350);
+            setTimeout(() => { speakIdiom(item.idiom); }, 300);
 
             currentQuestionNum.textContent = index + 1;
-            progressBarInner.style.width = `${((index + 1) / 5) * 100}%`;
+            progressBarInner.style.width = `${((index + 1) / 4) * 100}%`;
+            hudScoreDisplay.textContent = `${correctAnswersCount}/4`;
 
-            // Prepare Options with Randomized Left/Right order
+            // Prepare Choice Options (Randomized Left/Right Card position)
             const options = [
-                { type: 'figurative', isCorrect: true, svg: item.figSvg, caption: item.figCaption },
-                { type: 'literal', isCorrect: false, svg: item.litSvg, caption: item.litCaption }
+                { type: 'figurative', isCorrect: true, svg: item.figurative.svg, caption: item.figurative.caption, file: item.figurative.file },
+                { type: 'literal', isCorrect: false, svg: item.literal.svg, caption: item.literal.caption, file: item.literal.file }
             ];
             const shuffledOptions = shuffleArray(options);
             item.currentShuffledOptions = shuffledOptions;
-
-            // Padded 2-digit ID format (e.g. 01, 02 ... 50)
-            const paddedId = String(item.id).padStart(2, '0');
 
             shuffledOptions.forEach((opt, i) => {
                 const shimmerElem = document.getElementById(`shimmer-${i}`);
@@ -1203,7 +718,7 @@
                 const fallbackElem = document.getElementById(`svg-fallback-${i}`);
                 const captionContainer = document.getElementById(`caption-${i}`);
 
-                // Reset UI states
+                // Reset card UI states
                 shimmerElem.classList.remove('hidden');
                 imgElem.classList.add('hidden');
                 fallbackElem.classList.add('hidden');
@@ -1213,24 +728,23 @@
 
                 optionCards[i].className = "option-card glass-card rounded-3xl border border-white/15 flex flex-col cursor-pointer focus:outline-none relative group overflow-hidden";
 
-                // Resolve Cloud CDN File Path: e.g. `${cdnBaseUrl}01_figurative.jpg`
-                const cdnImageUrl = `${cdnBaseUrl}${paddedId}_${opt.type}.jpg`;
+                // Construct full image URL e.g. images/01_figurative.jpg
+                const imageUrl = `${cdnBaseUrl}${opt.file}`;
 
-                // Set image handlers
                 imgElem.onload = () => {
                     shimmerElem.classList.add('hidden');
                     imgElem.classList.remove('hidden');
                 };
 
                 imgElem.onerror = () => {
-                    // Seamless fallback to vector SVG if CDN image 404 or missing
+                    // Fallback to text-free vector SVG illustration
                     shimmerElem.classList.add('hidden');
                     imgElem.classList.add('hidden');
                     fallbackElem.classList.remove('hidden');
                     fallbackElem.classList.add('flex');
                 };
 
-                imgElem.src = cdnImageUrl;
+                imgElem.src = imageUrl;
             });
         }
 
@@ -1246,6 +760,7 @@
                 playSound('correct');
                 triggerConfetti();
                 correctAnswersCount++;
+                hudScoreDisplay.textContent = `${correctAnswersCount}/4`;
             } else {
                 selectedCard.classList.add('border-rose-500', 'bg-rose-950/40', 'ring-4', 'ring-rose-500/50');
                 playSound('incorrect');
@@ -1267,21 +782,21 @@
 
             if (isCorrect) {
                 feedbackBadge.className = "px-4 py-1.5 rounded-full text-white font-extrabold text-sm sm:text-base flex items-center gap-2 bg-emerald-500 shadow-md";
-                feedbackBadge.innerHTML = `<i class="fa-solid fa-circle-check"></i> Correct! 答對了！`;
+                feedbackBadge.innerHTML = `<i class="fa-solid fa-circle-check"></i> Correct! 🎉 答對了！`;
             } else {
                 feedbackBadge.className = "px-4 py-1.5 rounded-full text-white font-extrabold text-sm sm:text-base flex items-center gap-2 bg-rose-500 shadow-md";
-                feedbackBadge.innerHTML = `<i class="fa-solid fa-circle-xmark"></i> Incorrect 踩中字面陷阱！`;
+                feedbackBadge.innerHTML = `<i class="fa-solid fa-circle-xmark"></i> Not Quite! 💡 踩中字面陷阱！`;
             }
 
             modalIdiomText.textContent = item.idiom;
-            modalPhonetic.textContent = item.phonetic;
-            modalFigurative.textContent = item.figurativeMeaning;
-            modalLiteral.textContent = item.literalMeaning;
+            modalPhonetic.textContent = item.ipa;
+            modalFigurative.textContent = item.figurative.explanationZh;
+            modalLiteral.textContent = item.literal.explanationZh;
             modalExampleEn.textContent = `"${item.exampleEn}"`;
-            modalExampleZh.textContent = item.exampleZh;
+            modalExampleZh.textContent = `「${item.exampleZh}」`;
 
-            if (currentQuestionIndex === 4) {
-                btnNextText.textContent = "View Final Score";
+            if (currentQuestionIndex === 3) {
+                btnNextText.textContent = "View Final Results";
             } else {
                 btnNextText.textContent = "Next Question";
             }
@@ -1300,7 +815,7 @@
             setTimeout(() => {
                 modalExplanation.classList.add('hidden');
                 currentQuestionIndex++;
-                if (currentQuestionIndex < 5) {
+                if (currentQuestionIndex < 4) {
                     loadQuestion(currentQuestionIndex);
                 } else {
                     showEndScreen();
@@ -1315,26 +830,23 @@
             endScreen.classList.remove('hidden');
             endScreen.classList.add('flex');
 
-            document.getElementById('final-score-text').textContent = `You scored ${correctAnswersCount} out of 5!`;
-
-            const playedCount = getPlayedIdiomIds().length;
-            document.getElementById('pool-remaining-text').textContent = `Idioms Mastered: ${playedCount} / 50`;
+            document.getElementById('final-score-text').textContent = `You scored ${correctAnswersCount} out of 4!`;
 
             const rewardBox = document.getElementById('reward-status-box');
             if (correctAnswersCount >= 3) {
                 rewardBox.innerHTML = `<i class="fa-solid fa-award text-yellow-300 mr-2"></i> You earned a Stamp 💮 AND a Special Prize 🎁!`;
             } else if (correctAnswersCount === 2) {
-                rewardBox.innerHTML = `<i class="fa-solid fa-stamp text-amber-300 mr-2"></i> You earned a Stamp 💮! Keep going for the prize!`;
+                rewardBox.innerHTML = `<i class="fa-solid fa-stamp text-amber-300 mr-2"></i> You earned a Stamp 💮! Score 3+ for a prize!`;
             } else {
-                rewardBox.innerHTML = `<i class="fa-solid fa-bullseye text-purple-300 mr-2"></i> Practice makes perfect! Try again for a stamp!`;
+                rewardBox.innerHTML = `<i class="fa-solid fa-bullseye text-purple-300 mr-2"></i> Practice makes perfect! Score 2 or more to earn a stamp 💮!`;
             }
 
             const starContainer = document.getElementById('final-star-rating');
-            if (correctAnswersCount === 5) {
+            if (correctAnswersCount === 4) {
                 starContainer.innerHTML = '<i class="fa-solid fa-star"></i> <i class="fa-solid fa-star"></i> <i class="fa-solid fa-star"></i>';
                 playSound('victory');
                 triggerConfetti();
-            } else if (correctAnswersCount >= 3) {
+            } else if (correctAnswersCount === 3) {
                 starContainer.innerHTML = '<i class="fa-solid fa-star"></i> <i class="fa-solid fa-star"></i> <i class="fa-regular fa-star text-purple-400"></i>';
                 playSound('correct');
                 triggerConfetti();
@@ -1412,7 +924,7 @@
             }
         }
 
-        // Initialize Direct Entry on Window Load
+        // Direct Game Entry on Load
         window.onload = function() {
             startRound();
         };
