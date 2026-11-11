@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>English Idiom Visual Matching Game</title>
+    <title>Idiom Mastermind 🧩</title>
     <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- FontAwesome Icons CDN -->
@@ -92,17 +92,11 @@
         <!-- ================= TOP-LEVEL HOME SCREEN ================= -->
         <div id="home-screen" class="flex flex-col flex-grow items-center justify-center space-y-6 my-auto py-6 text-center">
             
-            <!-- Game Logo & Title Header -->
+            <!-- Game Title Header (Clean, No Subtitles or Badges) -->
             <div class="space-y-2">
-                <div class="inline-block px-4 py-1.5 rounded-full bg-pink-500/20 text-pink-300 font-extrabold text-xs sm:text-sm border border-pink-500/30 uppercase tracking-widest">
-                    ✨ Primary English Learning (P4–P6)
-                </div>
-                <h1 class="text-3xl sm:text-5xl font-black font-display text-transparent bg-clip-text bg-gradient-to-r from-pink-300 via-purple-200 to-yellow-200 drop-shadow-lg">
-                    English Idioms Visual Match
+                <h1 class="text-4xl sm:text-6xl font-black font-display text-transparent bg-clip-text bg-gradient-to-r from-pink-300 via-purple-200 to-yellow-200 drop-shadow-lg">
+                    Idiom Mastermind 🧩
                 </h1>
-                <p class="text-xs sm:text-sm text-purple-200 font-medium max-w-md mx-auto">
-                    Master 20 essential English idioms through 3D visual matching and bilingual explanations!
-                </p>
             </div>
 
             <!-- Main Info Card: Instructions & Rewards -->
@@ -144,35 +138,24 @@
                             <span class="text-3xl">💮</span>
                             <div>
                                 <div class="font-extrabold text-amber-200">Get a stamp</div>
-                                <div class="text-[11px] text-purple-300">For 2 correct answers</div>
+                                <div class="text-[11px] text-purple-300">For 2 correct answers 💮</div>
                             </div>
                         </div>
                         <div class="p-3.5 rounded-2xl bg-purple-950/60 border border-purple-400/30 flex items-center gap-3">
                             <span class="text-3xl">🎁</span>
                             <div>
                                 <div class="font-extrabold text-yellow-300">Win a prize</div>
-                                <div class="text-[11px] text-purple-300">For 3 or more correct answers</div>
+                                <div class="text-[11px] text-purple-300">For 3 or more correct answers 🎁</div>
                             </div>
                         </div>
                     </div>
                 </div>
-
-                <!-- Overall Progress Status -->
-                <div class="bg-indigo-950/70 p-3.5 rounded-2xl border border-indigo-400/30 flex items-center justify-between text-xs sm:text-sm">
-                    <span class="text-indigo-200 font-bold flex items-center gap-2">
-                        <i class="fa-solid fa-layer-group text-pink-400"></i> Mastered Progress:
-                    </span>
-                    <span id="home-progress-text" class="font-mono font-extrabold text-yellow-300 text-sm">0 / 20 Idioms</span>
-                </div>
             </div>
 
-            <!-- Start Game Button & Settings Button -->
-            <div class="flex flex-col sm:flex-row items-center gap-4 w-full max-w-md">
+            <!-- Start Game Button -->
+            <div class="w-full max-w-md">
                 <button id="btn-start-game" class="w-full py-4 px-8 rounded-2xl bg-gradient-to-r from-pink-500 via-purple-500 to-indigo-600 hover:from-pink-400 hover:to-indigo-500 text-white font-black font-display text-xl shadow-xl shadow-purple-900/50 hover:scale-105 active:scale-95 transition-all flex items-center justify-center gap-3">
                     Start Game 🚀
-                </button>
-                <button id="btn-home-settings" title="Settings" class="w-full sm:w-auto py-4 px-5 rounded-2xl bg-purple-900/40 hover:bg-purple-800/60 border border-purple-400/30 text-yellow-300 font-bold text-sm flex items-center justify-center gap-2 transition active:scale-95">
-                    <i class="fa-solid fa-gear"></i> Settings
                 </button>
             </div>
 
@@ -196,7 +179,7 @@
                     </div>
                 </div>
 
-                <!-- Right Toolbar: Home + Score + Settings -->
+                <!-- Right Toolbar: Home + Score -->
                 <div class="flex items-center space-x-2">
                     <div class="flex items-center space-x-2 bg-indigo-950/70 border border-indigo-400/30 px-3 py-1.5 rounded-xl">
                         <i class="fa-solid fa-star text-yellow-400 text-xs"></i>
@@ -205,9 +188,6 @@
                     </div>
                     <button id="btn-return-home" title="Return Home" class="w-10 h-10 rounded-xl bg-purple-600/40 hover:bg-purple-500/60 border border-purple-300/30 text-yellow-300 flex items-center justify-center text-lg transition active:scale-95">
                         <i class="fa-solid fa-house"></i>
-                    </button>
-                    <button id="btn-open-settings" title="Cloud / Image Settings" class="w-10 h-10 rounded-xl bg-purple-600/40 hover:bg-purple-500/60 border border-purple-300/30 text-yellow-300 flex items-center justify-center text-lg transition active:scale-95">
-                        <i class="fa-solid fa-gear"></i>
                     </button>
                 </div>
             </div>
@@ -254,22 +234,22 @@
                 </span>
             </div>
 
-            <!-- DUAL CHOICE CARDS WITH CDN RESOLUTION (.png) & AUTOMATIC SVG FALLBACK -->
+            <!-- DUAL CHOICE CARDS WITH AUTOMATIC FALLBACK ORDER (images/ -> Images/ -> jpg -> SVG) -->
             <div class="grid grid-cols-1 md:grid-cols-2 gap-5 flex-grow">
                 <!-- Option Card 0 -->
                 <button data-option-index="0" class="option-card glass-card rounded-3xl border border-white/15 flex flex-col cursor-pointer focus:outline-none relative group overflow-hidden">
                     <div class="w-full aspect-square bg-slate-950 border-b border-white/10 overflow-hidden relative flex items-center justify-center">
                         <!-- Shimmer Loading State -->
                         <div id="shimmer-0" class="absolute inset-0 shimmer-bg flex flex-col items-center justify-center space-y-2 text-purple-200 font-bold text-xs p-4 text-center z-10">
-                            <i class="fa-solid fa-cloud-arrow-down text-3xl text-pink-400 animate-pulse"></i>
+                            <i class="fa-solid fa-spinner text-3xl text-pink-400 animate-spin"></i>
                             <span class="text-sm">Loading Image...</span>
                         </div>
-                        <!-- PNG Image -->
+                        <!-- PNG/JPG Image -->
                         <img id="img-0" src="" alt="Idiom Option A" class="w-full h-full object-cover hidden relative z-0" />
                         <!-- Fallback Vector SVG Container -->
                         <div id="svg-fallback-0" class="w-full h-full hidden items-center justify-center absolute inset-0 z-0"></div>
                     </div>
-                    <!-- Simplified 3-6 Word English Caption Overlay -->
+                    <!-- English Caption Overlay -->
                     <div id="caption-0" class="py-3.5 px-4 bg-slate-900/90 text-yellow-300 text-center font-bold text-xs sm:text-sm tracking-wide flex items-center justify-center min-h-[52px]">
                         ...
                     </div>
@@ -280,64 +260,18 @@
                     <div class="w-full aspect-square bg-slate-950 border-b border-white/10 overflow-hidden relative flex items-center justify-center">
                         <!-- Shimmer Loading State -->
                         <div id="shimmer-1" class="absolute inset-0 shimmer-bg flex flex-col items-center justify-center space-y-2 text-purple-200 font-bold text-xs p-4 text-center z-10">
-                            <i class="fa-solid fa-cloud-arrow-down text-3xl text-pink-400 animate-pulse"></i>
+                            <i class="fa-solid fa-spinner text-3xl text-pink-400 animate-spin"></i>
                             <span class="text-sm">Loading Image...</span>
                         </div>
-                        <!-- PNG Image -->
+                        <!-- PNG/JPG Image -->
                         <img id="img-1" src="" alt="Idiom Option B" class="w-full h-full object-cover hidden relative z-0" />
                         <!-- Fallback Vector SVG Container -->
                         <div id="svg-fallback-1" class="w-full h-full hidden items-center justify-center absolute inset-0 z-0"></div>
                     </div>
-                    <!-- Simplified 3-6 Word English Caption Overlay -->
+                    <!-- English Caption Overlay -->
                     <div id="caption-1" class="py-3.5 px-4 bg-slate-900/90 text-yellow-300 text-center font-bold text-xs sm:text-sm tracking-wide flex items-center justify-center min-h-[52px]">
                         ...
                     </div>
-                </button>
-            </div>
-        </div>
-
-        <!-- ================= SETTINGS MODAL ================= -->
-        <div id="modal-settings" class="fixed inset-0 bg-slate-950/85 backdrop-blur-md flex items-center justify-center z-50 p-4 hidden">
-            <div class="glass-card-light rounded-3xl max-w-md w-full p-6 text-slate-900 space-y-5 shadow-2xl border border-white/40">
-                <div class="flex items-center justify-between border-b border-slate-200 pb-3">
-                    <h3 class="text-xl font-black font-display text-purple-950 flex items-center gap-2">
-                        <i class="fa-solid fa-folder-open text-purple-600"></i> Image Directory / CDN Path
-                    </h3>
-                    <button id="btn-close-settings" class="text-slate-400 hover:text-slate-600 text-lg">
-                        <i class="fa-solid fa-xmark"></i>
-                    </button>
-                </div>
-
-                <div class="space-y-4 text-xs sm:text-sm">
-                    <div>
-                        <label class="block font-bold text-slate-700 mb-1">Base Directory / URL (圖片目錄網址):</label>
-                        <input type="text" id="setting-cdn-url" placeholder="images/" class="w-full p-3 rounded-xl border border-slate-300 bg-white font-mono text-xs text-purple-900 focus:outline-none focus:ring-2 focus:ring-purple-500" />
-                        <p class="text-[11px] text-slate-500 mt-1">Appends <code class="bg-purple-100 text-purple-800 px-1 rounded">01_figurative.png</code>, <code class="bg-purple-100 text-purple-800 px-1 rounded">01_literal.png</code>, etc.</p>
-                    </div>
-
-                    <!-- Quick Presets -->
-                    <div class="space-y-1.5">
-                        <label class="block font-bold text-slate-700">Presets (預設目錄):</label>
-                        <div class="grid grid-cols-2 gap-2">
-                            <button id="preset-local" class="py-2 px-3 rounded-xl border border-purple-200 bg-purple-50 hover:bg-purple-100 text-purple-900 font-bold text-xs flex items-center justify-center gap-1">
-                                📁 Local (<code class="text-purple-600">images/</code>)
-                            </button>
-                            <button id="preset-github" class="py-2 px-3 rounded-xl border border-purple-200 bg-purple-50 hover:bg-purple-100 text-purple-900 font-bold text-xs flex items-center justify-center gap-1">
-                                🌐 GitHub Raw Server
-                            </button>
-                        </div>
-                    </div>
-
-                    <!-- Reset Learning Progress -->
-                    <div class="pt-2 border-t border-slate-200">
-                        <button id="btn-reset-session" class="w-full py-2.5 px-3 rounded-xl border border-rose-200 bg-rose-50 hover:bg-rose-100 text-rose-800 font-bold text-xs flex items-center justify-center gap-2">
-                            <i class="fa-solid fa-arrow-rotate-left"></i> Clear Session Progress & Reset 20 Idioms
-                        </button>
-                    </div>
-                </div>
-
-                <button id="btn-save-settings" class="w-full py-3.5 rounded-xl bg-purple-600 hover:bg-purple-700 text-white font-black font-display text-base shadow-md transition">
-                    Save Configuration
                 </button>
             </div>
         </div>
@@ -375,7 +309,7 @@
                     <div class="p-4 rounded-2xl bg-emerald-50 border border-emerald-200 space-y-1.5">
                         <div class="flex items-center text-emerald-800 font-extrabold text-sm">
                             <i class="fa-solid fa-bullseye mr-2 text-emerald-600"></i>
-                            真實比喻含意 (Figurative)
+                            真實引申義 (Figurative)
                         </div>
                         <p id="modal-figurative-meaning" class="text-xs sm:text-sm font-bold text-emerald-950 leading-relaxed">
                             ...
@@ -386,7 +320,7 @@
                     <div class="p-4 rounded-2xl bg-amber-50 border border-amber-200 space-y-1.5">
                         <div class="flex items-center text-amber-800 font-extrabold text-sm">
                             <i class="fa-solid fa-triangle-exclamation mr-2 text-amber-600"></i>
-                            字面直譯陷阱 (Literal Trap)
+                            字面陷阱 (Literal Trap)
                         </div>
                         <p id="modal-literal-meaning" class="text-xs sm:text-sm font-medium text-amber-950 leading-relaxed">
                             ...
@@ -401,9 +335,6 @@
                     </div>
                     <p id="modal-example-en" class="text-xs sm:text-sm font-semibold text-purple-950 italic">
                         "..."
-                    </p>
-                    <p id="modal-example-zh" class="text-xs text-purple-800 font-medium">
-                        「...」
                     </p>
                 </div>
 
@@ -441,15 +372,10 @@
                     <!-- Injected via JS -->
                 </div>
 
-                <!-- Overall Session Progress -->
-                <div class="bg-indigo-950/70 p-3.5 rounded-2xl border border-indigo-400/30 text-xs sm:text-sm text-indigo-200 font-bold">
-                    Mastered Idioms Progress: <span id="final-progress-counter" class="text-yellow-300 font-mono font-extrabold">0 / 20</span>
-                </div>
-
                 <!-- Navigation Action Buttons -->
                 <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-2">
                     <button id="btn-restart" class="w-full py-3.5 px-4 rounded-2xl bg-gradient-to-r from-pink-500 via-purple-500 to-indigo-600 hover:from-pink-400 hover:to-indigo-500 text-white font-black font-display text-lg shadow-xl shadow-purple-900/50 hover:scale-105 active:scale-95 transition-all flex items-center justify-center gap-2">
-                        <i class="fa-solid fa-rotate-right"></i> Next Round 🔄
+                        <i class="fa-solid fa-rotate-right"></i> Play Next Round 🔄
                     </button>
                     <button id="btn-end-home" class="w-full py-3.5 px-4 rounded-2xl bg-purple-900/50 hover:bg-purple-800/70 border border-purple-300/30 text-yellow-200 font-black font-display text-lg shadow-md transition active:scale-95 flex items-center justify-center gap-2">
                         <i class="fa-solid fa-house"></i> Home 🏠
@@ -471,7 +397,7 @@
         }
 
         // =========================================================================
-        // 20-IDIOM MASTER DATABASE (.png filenames)
+        // 20-IDIOM MASTER DATABASE (Padded IDs "01" to "20")
         // =========================================================================
         const IDIOMS_DATABASE = [
             {
@@ -481,40 +407,38 @@
                 ipa: "/lɛt ðə kæt aʊt əv ðə bæɡ/",
                 hint: "Accidentally telling a secret!",
                 figurative: {
-                    file: "01_figurative.png",
+                    baseName: "01_figurative",
                     caption: "Accidentally telling a secret",
-                    explanationZh: "無意中洩漏秘密 (Reveal a secret accidentally)",
+                    explanationZh: "透露秘密",
                     svg: createSVG("#1e293b", `<rect x="60" y="80" width="180" height="140" rx="16" fill="#0f172a" stroke="#38bdf8" stroke-width="6"/><circle cx="150" cy="150" r="35" fill="#fde047"/><path d="M 135 135 L 165 165 M 165 135 L 135 165" stroke="#0f172a" stroke-width="8"/><circle cx="150" cy="150" r="10" fill="#ef4444"/>`)
                 },
                 literal: {
-                    file: "01_literal.png",
-                    caption: "A cat leaping from a sack",
-                    explanationZh: "將貓從袋子裡放出來",
+                    baseName: "01_literal",
+                    caption: "A cat leaping from a bag",
+                    explanationZh: "把貓從袋釋放",
                     svg: createSVG("#1e1b4b", `<path d="M 90 220 C 70 120 120 90 150 90 C 180 90 230 120 210 220 Z" fill="#b45309"/><circle cx="150" cy="80" r="32" fill="#fb923c"/><polygon points="125,55 138,80 115,80" fill="#fb923c"/><polygon points="175,55 162,80 185,80" fill="#fb923c"/><circle cx="140" cy="75" r="4" fill="#000"/><circle cx="160" cy="75" r="4" fill="#000"/>`)
                 },
-                exampleEn: "Tom let the cat out of the bag about the party.",
-                exampleZh: "湯姆不小心把派對的驚喜秘密洩漏出去了。"
+                exampleEn: "She let the cat out of the bag about the surprise party."
             },
             {
                 id: "02",
                 category: "🐶 Animals",
                 idiom: "Hold your horses",
-                ipa: "/hoʊld jʊər ˈhɔːrsɪz/",
+                ipa: "/hoʊld jʊər hɔːrsɪz/",
                 hint: "Wait patiently before acting!",
                 figurative: {
-                    file: "02_figurative.png",
+                    baseName: "02_figurative",
                     caption: "Waiting patiently before acting",
-                    explanationZh: "稍安勿躁、保持耐心 (Wait patiently)",
+                    explanationZh: "保持冷靜耐心",
                     svg: createSVG("#1e293b", `<circle cx="150" cy="150" r="70" fill="#dc2626"/><rect x="135" y="110" width="30" height="80" fill="#ffffff" rx="6"/><circle cx="150" cy="90" r="10" fill="#dc2626"/>`)
                 },
                 literal: {
-                    file: "02_literal.png",
+                    baseName: "02_literal",
                     caption: "Holding reins of pulling horses",
-                    explanationZh: "拉住你的馬匹",
+                    explanationZh: "抓緊你的馬匹",
                     svg: createSVG("#2e1065", `<ellipse cx="120" cy="150" rx="55" ry="40" fill="#78350f"/><path d="M 160 120 Q 195 60 230 90" stroke="#78350f" stroke-width="24" stroke-linecap="round"/><line x1="210" y1="90" x2="270" y2="150" stroke="#fde047" stroke-width="6"/>`)
                 },
-                exampleEn: "Hold your horses! We have plenty of time.",
-                exampleZh: "稍安勿躁！我們時間還非常充裕。"
+                exampleEn: "Hold your horses! We need to wait for everyone."
             },
             {
                 id: "03",
@@ -523,19 +447,18 @@
                 ipa: "/kɪl tuː bɜːrdz wɪð wʌn stoʊn/",
                 hint: "Solve two problems at the same time!",
                 figurative: {
-                    file: "03_figurative.png",
+                    baseName: "03_figurative",
                     caption: "Achieving two goals at once",
-                    explanationZh: "一石二鳥、一舉兩得 (Achieve two goals at once)",
+                    explanationZh: "一舉兩得",
                     svg: createSVG("#064e3b", `<circle cx="150" cy="150" r="90" fill="#047857" stroke="#34d399" stroke-width="8"/><circle cx="150" cy="150" r="60" fill="#065f46"/><circle cx="150" cy="150" r="30" fill="#ef4444"/><circle cx="150" cy="150" r="10" fill="#facc15"/>`)
                 },
                 literal: {
-                    file: "03_literal.png",
+                    baseName: "03_literal",
                     caption: "Throwing a rock at two birds",
-                    explanationZh: "用一顆石頭打死兩隻鳥",
+                    explanationZh: "用石頭打死兩隻鳥",
                     svg: createSVG("#451a03", `<circle cx="210" cy="90" r="22" fill="#38bdf8"/><circle cx="250" cy="150" r="22" fill="#38bdf8"/><circle cx="110" cy="120" r="18" fill="#94a3b8"/><line x1="50" y1="160" x2="95" y2="130" stroke="#78350f" stroke-width="8"/>`)
                 },
-                exampleEn: "I killed two birds with one stone by studying at the cafe.",
-                exampleZh: "我在咖啡館讀書，既能享受咖啡又能完成作業，真是一舉兩得。"
+                exampleEn: "By walking to work, I kill two birds with one stone."
             },
             {
                 id: "04",
@@ -544,19 +467,18 @@
                 ipa: "/ˈbɑːrkɪŋ ʌp ðə rɔːŋ triː/",
                 hint: "Mistakenly following a wrong idea!",
                 figurative: {
-                    file: "04_figurative.png",
+                    baseName: "04_figurative",
                     caption: "Following the wrong solution",
-                    explanationZh: "抓錯重點、找錯對象 (Pursuing a wrong line of thought)",
+                    explanationZh: "搞錯對象或方向",
                     svg: createSVG("#1e293b", `<path d="M 90 90 L 210 210 M 210 90 L 90 210" stroke="#ef4444" stroke-width="26" stroke-linecap="round"/>`)
                 },
                 literal: {
-                    file: "04_literal.png",
-                    caption: "A dog barking at an empty tree",
-                    explanationZh: "對著錯誤的樹對狗吠",
+                    baseName: "04_literal",
+                    caption: "A dog barking at a tree",
+                    explanationZh: "對著錯誤的樹吠叫",
                     svg: createSVG("#064e3b", `<rect x="90" y="130" width="35" height="120" fill="#78350f"/><circle cx="107" cy="95" r="50" fill="#15803d"/><circle cx="210" cy="200" r="30" fill="#d97706"/>`)
                 },
-                exampleEn: "If you think I broke it, you are barking up the wrong tree.",
-                exampleZh: "如果你認為是我打破了它，那你絕對是找錯人了。"
+                exampleEn: "If you think I stole it, you're barking up the wrong tree."
             },
             {
                 id: "05",
@@ -565,40 +487,38 @@
                 ipa: "/waɪld ɡuːs tʃeɪs/",
                 hint: "Searching for something impossible to find!",
                 figurative: {
-                    file: "05_figurative.png",
+                    baseName: "05_figurative",
                     caption: "A hopeless search for something",
-                    explanationZh: "徒勞無功的搜尋、瞎忙 (A hopeless attempt or search)",
+                    explanationZh: "徒勞無功的搜尋",
                     svg: createSVG("#0f172a", `<circle cx="150" cy="150" r="75" fill="none" stroke="#f43f5e" stroke-width="8" stroke-dasharray="12 12"/><polygon points="150,50 170,110 130,110" fill="#f43f5e"/>`)
                 },
                 literal: {
-                    file: "05_literal.png",
-                    caption: "Chasing a flying goose across fields",
-                    explanationZh: "追捕野鵝",
+                    baseName: "05_literal",
+                    caption: "Chasing a flying wild goose",
+                    explanationZh: "追逐野鵝",
                     svg: createSVG("#0284c7", `<path d="M 50 160 Q 110 100 170 140" stroke="#ffffff" stroke-width="12" fill="none"/><circle cx="180" cy="135" r="16" fill="#ffffff"/><polygon points="195,135 215,140 195,148" fill="#f59e0b"/>`)
                 },
-                exampleEn: "Searching for the lost key turned into a wild goose chase.",
-                exampleZh: "尋找遺失的鑰匙最終演變成了一場徒勞無功的瞎忙。"
+                exampleEn: "Searching for my lost keys was a wild goose chase."
             },
             {
                 id: "06",
                 category: "🐶 Animals",
                 idiom: "Curiosity killed the cat",
-                ipa: "/ˌkjʊəriˈɒsəti kɪld ðə kæt/",
+                ipa: "/ˌkjʊriˈɑːsəti kɪld ðə kæt/",
                 hint: "Being too inquisitive can lead to trouble!",
                 figurative: {
-                    file: "06_figurative.png",
+                    baseName: "06_figurative",
                     caption: "Being too inquisitive is dangerous",
-                    explanationZh: "好奇心害死貓、少管閒事 (Too much curiosity leads to danger)",
+                    explanationZh: "好奇多管閒事易惹禍",
                     svg: createSVG("#312e81", `<path d="M 150 60 L 240 220 L 60 220 Z" fill="#f59e0b" stroke="#fbbf24" stroke-width="6"/><text x="150" y="190" text-anchor="middle" fill="#000" font-size="70" font-weight="bold">!</text>`)
                 },
                 literal: {
-                    file: "06_literal.png",
-                    caption: "A curious cat opening a mysterious trap",
-                    explanationZh: "好奇心殺死了貓",
+                    baseName: "06_literal",
+                    caption: "A cat poking into danger",
+                    explanationZh: "好奇心害死貓",
                     svg: createSVG("#4c1d95", `<rect x="80" y="100" width="140" height="110" fill="#78350f" rx="10"/><circle cx="150" cy="80" r="28" fill="#f97316"/><polygon points="130,55 142,75 120,75" fill="#f97316"/><polygon points="170,55 158,75 180,75" fill="#f97316"/>`)
                 },
-                exampleEn: "Don't poke around in that closet; curiosity killed the cat.",
-                exampleZh: "別在那壁櫥裡到處翻找，好奇心會害死貓的。"
+                exampleEn: "Don't ask too many questions; curiosity killed the cat."
             },
             {
                 id: "07",
@@ -607,19 +527,18 @@
                 ipa: "/smɛl ə ræt/",
                 hint: "Feeling that something is wrong or dishonest!",
                 figurative: {
-                    file: "07_figurative.png",
+                    baseName: "07_figurative",
                     caption: "Suspecting something is wrong",
-                    explanationZh: "感到可疑、察覺有異 (Suspecting deception or wrong)",
+                    explanationZh: "察覺到有可疑或陰謀",
                     svg: createSVG("#0f172a", `<circle cx="150" cy="120" r="45" fill="#38bdf8"/><path d="M 125 190 Q 150 160 175 190" stroke="#f43f5e" stroke-width="8" fill="none"/>`)
                 },
                 literal: {
-                    file: "07_literal.png",
+                    baseName: "07_literal",
                     caption: "Sniffing a sneaky rat nearby",
-                    explanationZh: "聞到老鼠的味道",
+                    explanationZh: "聞到老鼠味道",
                     svg: createSVG("#3f6212", `<ellipse cx="140" cy="160" rx="60" ry="35" fill="#6b7280"/><circle cx="210" cy="150" r="16" fill="#6b7280"/><polygon points="225,150 245,155 225,160" fill="#f43f5e"/>`)
                 },
-                exampleEn: "When he offered a deal that was too good, I smelt a rat.",
-                exampleZh: "當他提出過於優渥的條件時，我察覺事情有點可疑。"
+                exampleEn: "Something feels wrong here; I smell a rat."
             },
             {
                 id: "08",
@@ -628,19 +547,18 @@
                 ipa: "/wɛn pɪɡz flaɪ/",
                 hint: "Something that is impossible and will never happen!",
                 figurative: {
-                    file: "08_figurative.png",
+                    baseName: "08_figurative",
                     caption: "Something that will never happen",
-                    explanationZh: "絕不可能發生的事 (An event that will never happen)",
+                    explanationZh: "絕不可能發生的事",
                     svg: createSVG("#1e293b", `<rect x="70" y="80" width="160" height="140" rx="12" fill="#334155"/><line x1="70" y1="130" x2="230" y2="130" stroke="#f43f5e" stroke-width="8"/><text x="150" y="185" text-anchor="middle" fill="#fde047" font-size="32" font-weight="bold">NEVER</text>`)
                 },
                 literal: {
-                    file: "08_literal.png",
-                    caption: "A cute pig flying with wings",
-                    explanationZh: "當豬飛起來的時候",
+                    baseName: "08_literal",
+                    caption: "A pig flying in the sky with wings",
+                    explanationZh: "當豬會飛的時候",
                     svg: createSVG("#0284c7", `<circle cx="150" cy="150" r="55" fill="#f472b6"/><circle cx="130" cy="140" r="6" fill="#000"/><circle cx="170" cy="140" r="6" fill="#000"/><ellipse cx="150" cy="160" rx="16" ry="10" fill="#f43f5e"/><path d="M 85 140 Q 60 90 100 110" stroke="#ffffff" stroke-width="12" fill="none"/><path d="M 215 140 Q 240 90 200 110" stroke="#ffffff" stroke-width="12" fill="none"/>`)
                 },
-                exampleEn: "He will clean his bedroom when pigs fly!",
-                exampleZh: "想讓他打掃房間？太陽從西邊出來才可能！"
+                exampleEn: "He will clean his room when pigs fly!"
             },
             {
                 id: "09",
@@ -649,19 +567,18 @@
                 ipa: "/teɪk ðə bʊl baɪ ðə hɔːrnz/",
                 hint: "Facing a difficult situation directly and bravely!",
                 figurative: {
-                    file: "09_figurative.png",
+                    baseName: "09_figurative",
                     caption: "Facing a difficulty bravely",
-                    explanationZh: "挺身而出、勇於面對困難 (Confronting a tough situation bravely)",
+                    explanationZh: "勇於正面面對困難",
                     svg: createSVG("#7f1d1d", `<path d="M 150 50 L 250 230 L 50 230 Z" fill="#b91c1c"/><circle cx="150" cy="160" r="30" fill="#fde047"/>`)
                 },
                 literal: {
-                    file: "09_literal.png",
-                    caption: "Grabbing a angry bull by its horns",
+                    baseName: "09_literal",
+                    caption: "Grabbing a bull by its horns",
                     explanationZh: "抓住公牛的角",
                     svg: createSVG("#451a03", `<circle cx="150" cy="160" r="55" fill="#78350f"/><path d="M 100 130 Q 70 70 120 90" stroke="#f59e0b" stroke-width="14" fill="none"/><path d="M 200 130 Q 230 70 180 90" stroke="#f59e0b" stroke-width="14" fill="none"/>`)
                 },
-                exampleEn: "She decided to take the bull by the horns and fix the problem.",
-                exampleZh: "她決定挺身而出，勇敢地解決問題。"
+                exampleEn: "She decided to take the bull by the horns and solve the issue."
             },
             {
                 id: "10",
@@ -670,19 +587,18 @@
                 ipa: "/ə wʊlf ɪn ʃiːps ˈkloʊðɪŋ/",
                 hint: "A dangerous person pretending to be harmless!",
                 figurative: {
-                    file: "10_figurative.png",
+                    baseName: "10_figurative",
                     caption: "An enemy pretending to be a friend",
-                    explanationZh: "披著羊皮的狼、口蜜腹劍的人 (A deceitful person hiding bad motives)",
+                    explanationZh: "偽善奸詐的人",
                     svg: createSVG("#1e1b4b", `<circle cx="150" cy="140" r="60" fill="#fbbf24"/><path d="M 110 180 Q 150 220 190 180" stroke="#dc2626" stroke-width="10" fill="none"/>`)
                 },
                 literal: {
-                    file: "10_literal.png",
-                    caption: "A wolf wearing fluffy sheep wool",
-                    explanationZh: "穿著羊皮的狼",
+                    baseName: "10_literal",
+                    caption: "A wolf wearing sheep wool",
+                    explanationZh: "披著羊皮的狼",
                     svg: createSVG("#334155", `<circle cx="150" cy="150" r="65" fill="#f8fafc" stroke="#cbd5e1" stroke-width="8"/><polygon points="120,90 150,140 180,90" fill="#475569"/><circle cx="135" cy="120" r="5" fill="#ef4444"/><circle cx="165" cy="120" r="5" fill="#ef4444"/>`)
                 },
-                exampleEn: "Be careful! That friendly guy might be a wolf in sheep's clothing.",
-                exampleZh: "小心！那個看似友善的人可能是個口蜜腹劍的危險傢伙。"
+                exampleEn: "Be careful of him; he is a wolf in sheep's clothing."
             },
             {
                 id: "11",
@@ -691,19 +607,18 @@
                 ipa: "/kɔːst ən ɑːrm ænd ə lɛɡ/",
                 hint: "Very expensive to buy!",
                 figurative: {
-                    file: "11_figurative.png",
+                    baseName: "11_figurative",
                     caption: "Extremely expensive item",
-                    explanationZh: "價格極其昂貴、索價過高 (Extremely expensive)",
+                    explanationZh: "價格極其昂貴",
                     svg: createSVG("#0f172a", `<rect x="90" y="80" width="120" height="140" rx="16" fill="#15803d"/><text x="150" y="165" text-anchor="middle" fill="#fde047" font-size="64" font-weight="bold">$</text>`)
                 },
                 literal: {
-                    file: "11_literal.png",
-                    caption: "Trading an arm and leg for a price tag",
-                    explanationZh: "花費一隻手臂和一條腿",
+                    baseName: "11_literal",
+                    caption: "Trading an arm and a leg",
+                    explanationZh: "花費一隻手和一隻腳",
                     svg: createSVG("#581c87", `<rect x="80" y="120" width="140" height="40" rx="10" fill="#f43f5e"/><rect x="130" y="80" width="40" height="140" rx="10" fill="#f43f5e"/>`)
                 },
-                exampleEn: "That fancy new video game console costs an arm and a leg.",
-                exampleZh: "那台款新型遊戲主機價格真是貴得驚人。"
+                exampleEn: "Buying that high-end laptop cost an arm and a leg."
             },
             {
                 id: "12",
@@ -712,19 +627,18 @@
                 ipa: "/koʊld fiːt/",
                 hint: "Nervous and scared before doing something important!",
                 figurative: {
-                    file: "12_figurative.png",
+                    baseName: "12_figurative",
                     caption: "Feeling nervous before an event",
-                    explanationZh: "臨陣退縮、心虛膽怯 (Loss of courage right before an action)",
+                    explanationZh: "臨陣退縮或緊張畏縮",
                     svg: createSVG("#1e293b", `<path d="M 150 70 L 220 200 L 80 200 Z" fill="#38bdf8"/><circle cx="150" cy="150" r="20" fill="#0f172a"/>`)
                 },
                 literal: {
-                    file: "12_literal.png",
-                    caption: "Bare feet sitting in ice blocks",
+                    baseName: "12_literal",
+                    caption: "Bare feet sitting in ice",
                     explanationZh: "雙腳冰冷",
                     svg: createSVG("#0284c7", `<rect x="70" y="140" width="70" height="70" fill="#e0f2fe" stroke="#38bdf8" stroke-width="6"/><rect x="160" y="140" width="70" height="70" fill="#e0f2fe" stroke="#38bdf8" stroke-width="6"/>`)
                 },
-                exampleEn: "The performer got cold feet right before going on stage.",
-                exampleZh: "表演者在登台前一刻突然膽怯想退縮。"
+                exampleEn: "He got cold feet right before giving the speech."
             },
             {
                 id: "13",
@@ -733,19 +647,18 @@
                 ipa: "/ɡɪv ə koʊld ˈʃoʊldər/",
                 hint: "Intentionally ignoring or being unfriendly to someone!",
                 figurative: {
-                    file: "13_figurative.png",
+                    baseName: "13_figurative",
                     caption: "Intentionally ignoring someone",
-                    explanationZh: "冷落某人、不理不睬 (Intentionally ignoring someone)",
+                    explanationZh: "故意冷落或態度冷淡",
                     svg: createSVG("#0f172a", `<circle cx="100" cy="140" r="35" fill="#64748b"/><circle cx="200" cy="140" r="35" fill="#f43f5e"/><path d="M 135 140 L 165 140" stroke="#ef4444" stroke-width="8" stroke-dasharray="4 4"/>`)
                 },
                 literal: {
-                    file: "13_literal.png",
-                    caption: "A frosty icy shoulder facing a person",
-                    explanationZh: "給出冰冷的肩膀",
+                    baseName: "13_literal",
+                    caption: "Showing an icy shoulder",
+                    explanationZh: "給對方一個冰冷的肩膀",
                     svg: createSVG("#1e1b4b", `<path d="M 70 230 C 70 140 140 120 200 120 L 200 230 Z" fill="#38bdf8"/><circle cx="210" cy="100" r="8" fill="#ffffff"/><circle cx="170" cy="80" r="12" fill="#ffffff"/>`)
                 },
-                exampleEn: "She gave him the cold shoulder after their argument.",
-                exampleZh: "他們吵架後，她對他不理不睬、十分冷淡。"
+                exampleEn: "She gave him a cold shoulder after their argument."
             },
             {
                 id: "14",
@@ -754,40 +667,38 @@
                 ipa: "/pʊl ˈsʌmwʌnz lɛɡ/",
                 hint: "Teasing or tricking someone as a joke!",
                 figurative: {
-                    file: "14_figurative.png",
+                    baseName: "14_figurative",
                     caption: "Teasing or joking with someone",
-                    explanationZh: "開玩笑、愚弄某人 (Joking or teasing someone playfully)",
+                    explanationZh: "開玩笑或戲弄他人",
                     svg: createSVG("#312e81", `<circle cx="150" cy="130" r="50" fill="#fde047"/><circle cx="130" cy="120" r="8" fill="#000"/><circle cx="170" cy="120" r="8" fill="#000"/><path d="M 120 150 Q 150 180 180 150" stroke="#000" stroke-width="6" fill="none"/>`)
                 },
                 literal: {
-                    file: "14_literal.png",
-                    caption: "Tugging a friend's leg on the floor",
+                    baseName: "14_literal",
+                    caption: "Tugging someone's physical leg",
                     explanationZh: "拉某人的腿",
                     svg: createSVG("#831843", `<rect x="60" y="130" width="130" height="35" rx="8" fill="#fb923c"/><rect x="170" y="120" width="60" height="55" rx="8" fill="#ec4899"/>`)
                 },
-                exampleEn: "Don't worry, I was just pulling your leg about the quiz!",
-                exampleZh: "別擔心，我剛才說突擊測驗只是在跟你開玩笑！"
+                exampleEn: "Don't be mad; I was just pulling your leg!"
             },
             {
                 id: "15",
                 category: "🦴 Body Parts",
                 idiom: "Keep an eye on",
-                ipa: "/kiːp ən aɪ ɒn/",
+                ipa: "/kiːp ən aɪ ɑːn/",
                 hint: "Watching or taking care of something closely!",
                 figurative: {
-                    file: "15_figurative.png",
+                    baseName: "15_figurative",
                     caption: "Watching or taking care of something",
-                    explanationZh: "密切照看、留意 (Watching or guarding carefully)",
+                    explanationZh: "照看或密切注意",
                     svg: createSVG("#064e3b", `<ellipse cx="150" cy="150" rx="80" ry="45" fill="#ffffff"/><circle cx="150" cy="150" r="28" fill="#0284c7"/><circle cx="150" cy="150" r="12" fill="#0f172a"/>`)
                 },
                 literal: {
-                    file: "15_literal.png",
-                    caption: "Holding a big eyeball near an object",
-                    explanationZh: "把眼睛放在上面",
+                    baseName: "15_literal",
+                    caption: "Placing an eyeball onto an object",
+                    explanationZh: "把眼睛放在某物上",
                     svg: createSVG("#0f172a", `<rect x="90" y="160" width="120" height="80" rx="10" fill="#3b82f6"/><circle cx="150" cy="100" r="35" fill="#ffffff" stroke="#ef4444" stroke-width="6"/><circle cx="150" cy="100" r="14" fill="#000"/>`)
                 },
-                exampleEn: "Please keep an eye on my schoolbag while I get water.",
-                exampleZh: "在我去拿水的時候，請幫忙看管一下我的書包。"
+                exampleEn: "Please keep an eye on my bag while I step away."
             },
             {
                 id: "16",
@@ -796,19 +707,18 @@
                 ipa: "/siː aɪ tuː aɪ/",
                 hint: "Agreeing fully with another person!",
                 figurative: {
-                    file: "16_figurative.png",
+                    baseName: "16_figurative",
                     caption: "Fully agreeing with someone",
-                    explanationZh: "意見一致、看法相同 (Full agreement with someone)",
+                    explanationZh: "意見一致",
                     svg: createSVG("#15803d", `<path d="M 110 150 L 140 180 L 200 110" stroke="#ffffff" stroke-width="18" stroke-linecap="round" fill="none"/>`)
                 },
                 literal: {
-                    file: "16_literal.png",
-                    caption: "Two faces looking directly into eyes",
-                    explanationZh: "雙眼互相對視",
+                    baseName: "16_literal",
+                    caption: "Looking directly eye to eye",
+                    explanationZh: "眼睛對著眼睛看",
                     svg: createSVG("#1e1b4b", `<circle cx="90" cy="150" r="45" fill="#f472b6"/><circle cx="210" cy="150" r="45" fill="#60a5fa"/><line x1="125" y1="150" x2="175" y2="150" stroke="#fde047" stroke-width="8"/>`)
                 },
-                exampleEn: "My best friend and I see eye to eye on almost everything.",
-                exampleZh: "我和我最好的朋友在幾乎所有事情上都意見一致。"
+                exampleEn: "They don't always see eye to eye on music tastes."
             },
             {
                 id: "17",
@@ -817,19 +727,18 @@
                 ipa: "/hɛd ɪn ðə klaʊdz/",
                 hint: "Daydreaming and not paying attention to reality!",
                 figurative: {
-                    file: "17_figurative.png",
+                    baseName: "17_figurative",
                     caption: "Daydreaming or being impractical",
-                    explanationZh: "心不在焉、白日夢想 (Daydreaming or impractical thoughts)",
+                    explanationZh: "心不在焉或幻想白日夢",
                     svg: createSVG("#0284c7", `<circle cx="120" cy="150" r="40" fill="#ffffff"/><circle cx="160" cy="130" r="50" fill="#ffffff"/><circle cx="200" cy="150" r="40" fill="#ffffff"/>`)
                 },
                 literal: {
-                    file: "17_literal.png",
-                    caption: "A person's head sticking inside a cloud",
-                    explanationZh: "頭在雲朵裡面",
+                    baseName: "17_literal",
+                    caption: "A head sticking inside a cloud",
+                    explanationZh: "頭伸進雲朵裡",
                     svg: createSVG("#1e293b", `<rect x="135" y="170" width="30" height="90" fill="#f97316"/><ellipse cx="150" cy="120" rx="75" ry="45" fill="#e2e8f0"/>`)
                 },
-                exampleEn: "Stop putting your head in the clouds and focus on homework.",
-                exampleZh: "別再發白日夢了，專心做功課吧。"
+                exampleEn: "Pay attention in class, don't have your head in the clouds!"
             },
             {
                 id: "18",
@@ -838,19 +747,18 @@
                 ipa: "/baɪt jʊər tʌŋ/",
                 hint: "Stopping yourself from saying what you really think!",
                 figurative: {
-                    file: "18_figurative.png",
+                    baseName: "18_figurative",
                     caption: "Stopping yourself from speaking",
-                    explanationZh: "忍住不講、保持沉默 (Restraining yourself from speaking)",
+                    explanationZh: "忍住不說話或忍氣吞聲",
                     svg: createSVG("#0f172a", `<rect x="90" y="110" width="120" height="80" rx="12" fill="#ef4444"/><line x1="90" y1="150" x2="210" y2="150" stroke="#ffffff" stroke-width="8"/>`)
                 },
                 literal: {
-                    file: "18_literal.png",
+                    baseName: "18_literal",
                     caption: "Biting down on your own tongue",
                     explanationZh: "咬住自己的舌頭",
                     svg: createSVG("#831843", `<path d="M 110 120 Q 150 70 190 120 L 190 170 Q 150 210 110 170 Z" fill="#fb7185"/><path d="M 130 150 Q 150 200 170 150" fill="#f43f5e"/>`)
                 },
-                exampleEn: "I wanted to argue, but I decided to bite my tongue.",
-                exampleZh: "我原本想反駁，但我決定忍住不說。"
+                exampleEn: "I had to bite my tongue to refrain from arguing."
             },
             {
                 id: "19",
@@ -859,19 +767,18 @@
                 ipa: "/ɔːl ɪərz/",
                 hint: "Listening eagerly and paying total attention!",
                 figurative: {
-                    file: "19_figurative.png",
+                    baseName: "19_figurative",
                     caption: "Listening very attentively",
-                    explanationZh: "洗耳恭聽、全神貫注地聽 (Listening attentively)",
+                    explanationZh: "洗耳恭聽",
                     svg: createSVG("#15803d", `<path d="M 80 150 C 80 80 220 80 220 150" stroke="#fde047" stroke-width="12" fill="none"/><circle cx="150" cy="180" r="25" fill="#ffffff"/>`)
                 },
                 literal: {
-                    file: "19_literal.png",
-                    caption: "A person covered in giant ears",
-                    explanationZh: "全身都是耳朵",
+                    baseName: "19_literal",
+                    caption: "A head made entirely of ears",
+                    explanationZh: "全身上下都是耳朵",
                     svg: createSVG("#431407", `<ellipse cx="150" cy="150" rx="45" ry="60" fill="#f97316"/><ellipse cx="80" cy="130" rx="25" ry="40" fill="#fb923c"/><ellipse cx="220" cy="130" rx="25" ry="40" fill="#fb923c"/>`)
                 },
-                exampleEn: "Tell me your secret story; I am all ears!",
-                exampleZh: "快告訴我你的秘密故事吧，我洗耳恭聽！"
+                exampleEn: "Tell me your story; I am all ears!"
             },
             {
                 id: "20",
@@ -880,71 +787,49 @@
                 ipa: "/lɛnd ə hænd/",
                 hint: "Helping someone to do a job or task!",
                 figurative: {
-                    file: "20_figurative.png",
+                    baseName: "20_figurative",
                     caption: "Helping someone with a task",
-                    explanationZh: "伸出援手、幫忙 (Helping someone with a task)",
+                    explanationZh: "伸出援手提供協助",
                     svg: createSVG("#0284c7", `<path d="M 90 180 L 130 140 L 170 160 L 210 110" stroke="#fde047" stroke-width="14" stroke-linecap="round" fill="none"/>`)
                 },
                 literal: {
-                    file: "20_literal.png",
+                    baseName: "20_literal",
                     caption: "Handing a detachable hand to a friend",
                     explanationZh: "把手借給別人",
                     svg: createSVG("#312e81", `<rect x="100" y="110" width="100" height="80" rx="16" fill="#fb923c"/><rect x="110" y="80" width="15" height="40" rx="5" fill="#fb923c"/><rect x="132" y="75" width="15" height="45" rx="5" fill="#fb923c"/><rect x="154" y="75" width="15" height="45" rx="5" fill="#fb923c"/><rect x="176" y="80" width="15" height="40" rx="5" fill="#fb923c"/>`)
                 },
-                exampleEn: "Can you lend me a hand with carrying these heavy books?",
-                exampleZh: "你能伸出援手幫我搬這些沉重的書嗎？"
+                exampleEn: "Could you lend a hand with these heavy boxes?"
             }
         ];
 
         // =========================================================================
         // STATE & LOCALSTORAGE SESSION TRACKING
         // =========================================================================
-        const STORAGE_CDN_KEY = 'idiom_cdn_url_v20';
-        const STORAGE_PLAYED_KEY = 'idiom_played_ids_v20';
-        const DEFAULT_CDN_URL = 'images/';
+        const STORAGE_PLAYED_KEY = 'idiom_played_ids';
 
         let currentRoundIdioms = [];
         let currentQuestionIndex = 0;
         let correctAnswersCount = 0;
         let isAnswered = false;
-        let cdnBaseUrl = DEFAULT_CDN_URL;
         let playedIdiomIds = [];
 
-        function loadStorageData() {
-            try {
-                const storedCdn = localStorage.getItem(STORAGE_CDN_KEY);
-                cdnBaseUrl = (storedCdn && storedCdn.trim() !== '') ? storedCdn.trim() : DEFAULT_CDN_URL;
-            } catch (e) {
-                cdnBaseUrl = DEFAULT_CDN_URL;
-            }
-            if (!cdnBaseUrl.endsWith('/')) cdnBaseUrl += '/';
-
+        function loadPlayedProgress() {
             try {
                 const storedPlayed = localStorage.getItem(STORAGE_PLAYED_KEY);
                 playedIdiomIds = storedPlayed ? JSON.parse(storedPlayed) : [];
+                if (!Array.isArray(playedIdiomIds)) playedIdiomIds = [];
             } catch (e) {
                 playedIdiomIds = [];
             }
         }
 
-        function saveCdnConfig(url) {
-            let cleanUrl = url.trim();
-            if (cleanUrl !== '' && !cleanUrl.endsWith('/')) cleanUrl += '/';
-            cdnBaseUrl = cleanUrl || DEFAULT_CDN_URL;
-            try { localStorage.setItem(STORAGE_CDN_KEY, cdnBaseUrl); } catch (e) {}
-        }
-
         function savePlayedProgress() {
-            try { localStorage.setItem(STORAGE_PLAYED_KEY, JSON.stringify(playedIdiomIds)); } catch (e) {}
+            try {
+                localStorage.setItem(STORAGE_PLAYED_KEY, JSON.stringify(playedIdiomIds));
+            } catch (e) {}
         }
 
-        function resetSessionProgress() {
-            playedIdiomIds = [];
-            try { localStorage.removeItem(STORAGE_PLAYED_KEY); } catch (e) {}
-            updateHomeProgressUI();
-        }
-
-        loadStorageData();
+        loadPlayedProgress();
 
         // Web Audio API Synthesizer
         const AudioCtx = window.AudioContext || window.webkitAudioContext;
@@ -1019,15 +904,6 @@
             }
         }
 
-        function showToast(msg) {
-            const toastContainer = document.getElementById('toast-container');
-            const toast = document.createElement('div');
-            toast.className = 'bg-yellow-400 text-purple-950 font-bold px-4 py-2 rounded-xl shadow-lg border border-yellow-300 text-xs sm:text-sm animate-bounce';
-            toast.textContent = msg;
-            toastContainer.appendChild(toast);
-            setTimeout(() => { toast.remove(); }, 3500);
-        }
-
         function shuffleArray(arr) {
             const copy = [...arr];
             for (let i = copy.length - 1; i > 0; i--) {
@@ -1045,16 +921,6 @@
         const endScreen = document.getElementById('end-screen');
         const modalExplanation = document.getElementById('modal-explanation');
         const modalContent = document.getElementById('modal-content');
-
-        const modalSettings = document.getElementById('modal-settings');
-        const btnOpenSettings = document.getElementById('btn-open-settings');
-        const btnHomeSettings = document.getElementById('btn-home-settings');
-        const btnCloseSettings = document.getElementById('btn-close-settings');
-        const btnSaveSettings = document.getElementById('btn-save-settings');
-        const btnResetSession = document.getElementById('btn-reset-session');
-        const settingCdnUrl = document.getElementById('setting-cdn-url');
-        const presetLocal = document.getElementById('preset-local');
-        const presetGithub = document.getElementById('preset-github');
 
         const btnStartGame = document.getElementById('btn-start-game');
         const btnReturnHome = document.getElementById('btn-return-home');
@@ -1075,42 +941,8 @@
         const idiomPhonetic = document.getElementById('idiom-phonetic');
         const hintText = document.getElementById('hint-text');
         const categoryBadge = document.getElementById('category-badge');
-        const homeProgressText = document.getElementById('home-progress-text');
 
         const optionCards = document.querySelectorAll('.option-card');
-
-        function updateHomeProgressUI() {
-            homeProgressText.textContent = `${playedIdiomIds.length} / 20 Idioms`;
-        }
-
-        // Settings Listeners
-        function openSettingsModal() {
-            playSound('click');
-            settingCdnUrl.value = cdnBaseUrl;
-            modalSettings.classList.remove('hidden');
-        }
-        btnOpenSettings.addEventListener('click', openSettingsModal);
-        btnHomeSettings.addEventListener('click', openSettingsModal);
-        btnCloseSettings.addEventListener('click', () => { modalSettings.classList.add('hidden'); });
-
-        presetLocal.addEventListener('click', () => { settingCdnUrl.value = 'images/'; });
-        presetGithub.addEventListener('click', () => { settingCdnUrl.value = 'https://raw.githubusercontent.com/mfchan-2026/idiom-mastermind/main/images/'; });
-
-        btnSaveSettings.addEventListener('click', () => {
-            playSound('click');
-            saveCdnConfig(settingCdnUrl.value);
-            modalSettings.classList.add('hidden');
-            showToast("📁 Image folder path updated!");
-            if (!gameScreen.classList.contains('hidden')) {
-                loadQuestion(currentQuestionIndex);
-            }
-        });
-
-        btnResetSession.addEventListener('click', () => {
-            playSound('click');
-            resetSessionProgress();
-            showToast("🔄 Session history cleared!");
-        });
 
         // Navigation Listeners
         btnStartGame.addEventListener('click', () => { playSound('click'); startRound(); });
@@ -1141,7 +973,6 @@
         btnNextQuestion.addEventListener('click', () => { playSound('click'); closeModalAndAdvance(); });
 
         function showHomeScreen() {
-            updateHomeProgressUI();
             gameScreen.classList.add('hidden');
             gameScreen.classList.remove('flex');
             endScreen.classList.add('hidden');
@@ -1151,18 +982,60 @@
         }
 
         // =========================================================================
+        // RESILIENT MULTI-STAGE IMAGE LOADER
+        // =========================================================================
+        function loadImageWithResilientFallbacks(imgElem, shimmerElem, fallbackElem, baseName) {
+            const candidates = [
+                `images/${baseName}.png`,
+                `Images/${baseName}.png`,
+                `images/${baseName}.jpg`,
+                `Images/${baseName}.jpg`
+            ];
+            let candidateIndex = 0;
+
+            function tryNextCandidate() {
+                if (candidateIndex < candidates.length) {
+                    const src = candidates[candidateIndex++];
+                    imgElem.src = src;
+                } else {
+                    // All PNG/JPG variations failed -> Show SVG vector fallback
+                    shimmerElem.classList.add('hidden');
+                    imgElem.classList.add('hidden');
+                    fallbackElem.classList.remove('hidden');
+                    fallbackElem.classList.add('flex');
+                }
+            }
+
+            imgElem.onload = () => {
+                shimmerElem.classList.add('hidden');
+                imgElem.classList.remove('hidden');
+                fallbackElem.classList.add('hidden');
+            };
+
+            imgElem.onerror = () => {
+                tryNextCandidate();
+            };
+
+            shimmerElem.classList.remove('hidden');
+            imgElem.classList.add('hidden');
+            fallbackElem.classList.add('hidden');
+            tryNextCandidate();
+        }
+
+        // =========================================================================
         // ROUND & QUESTION ENGINE (5 IDIOMS / ROUND WITH 20-IDIOM CYCLE)
         // =========================================================================
         function startRound() {
-            // Find unplayed idioms
+            loadPlayedProgress();
+
+            // Filter unplayed idioms from the database
             let unplayed = IDIOMS_DATABASE.filter(item => !playedIdiomIds.includes(item.id));
             
-            // Auto reset pool if fewer than 5 unplayed idioms remain
+            // Auto reset pool if fewer than 5 unplayed idioms remain (or all 20 played)
             if (unplayed.length < 5) {
                 playedIdiomIds = [];
                 savePlayedProgress();
                 unplayed = [...IDIOMS_DATABASE];
-                showToast("🔄 Starting fresh 20-Idiom learning cycle!");
             }
 
             const shuffledUnplayed = shuffleArray(unplayed);
@@ -1188,7 +1061,7 @@
 
             const item = currentRoundIdioms[index];
 
-            // Mark idiom as played
+            // Record idiom as played in localStorage
             if (!playedIdiomIds.includes(item.id)) {
                 playedIdiomIds.push(item.id);
                 savePlayedProgress();
@@ -1207,8 +1080,8 @@
 
             // Randomize Choice Options (Figurative vs Literal)
             const options = [
-                { type: 'figurative', isCorrect: true, svg: item.figurative.svg, caption: item.figurative.caption, file: item.figurative.file },
-                { type: 'literal', isCorrect: false, svg: item.literal.svg, caption: item.literal.caption, file: item.literal.file }
+                { type: 'figurative', isCorrect: true, svg: item.figurative.svg, caption: item.figurative.caption, baseName: item.figurative.baseName },
+                { type: 'literal', isCorrect: false, svg: item.literal.svg, caption: item.literal.caption, baseName: item.literal.baseName }
             ];
             const shuffledOptions = shuffleArray(options);
             item.currentShuffledOptions = shuffledOptions;
@@ -1219,31 +1092,12 @@
                 const fallbackElem = document.getElementById(`svg-fallback-${i}`);
                 const captionContainer = document.getElementById(`caption-${i}`);
 
-                shimmerElem.classList.remove('hidden');
-                imgElem.classList.add('hidden');
-                fallbackElem.classList.add('hidden');
-                fallbackElem.classList.remove('flex');
                 fallbackElem.innerHTML = opt.svg;
                 captionContainer.textContent = opt.caption;
 
                 optionCards[i].className = "option-card glass-card rounded-3xl border border-white/15 flex flex-col cursor-pointer focus:outline-none relative group overflow-hidden";
 
-                // Image URL resolution (.png path)
-                const imageUrl = `${cdnBaseUrl}${opt.file}`;
-
-                imgElem.onload = () => {
-                    shimmerElem.classList.add('hidden');
-                    imgElem.classList.remove('hidden');
-                };
-
-                imgElem.onerror = () => {
-                    shimmerElem.classList.add('hidden');
-                    imgElem.classList.add('hidden');
-                    fallbackElem.classList.remove('hidden');
-                    fallbackElem.classList.add('flex');
-                };
-
-                imgElem.src = imageUrl;
+                loadImageWithResilientFallbacks(imgElem, shimmerElem, fallbackElem, opt.baseName);
             });
         }
 
@@ -1277,14 +1131,13 @@
             const modalFigurative = document.getElementById('modal-figurative-meaning');
             const modalLiteral = document.getElementById('modal-literal-meaning');
             const modalExampleEn = document.getElementById('modal-example-en');
-            const modalExampleZh = document.getElementById('modal-example-zh');
 
             if (isCorrect) {
                 feedbackBadge.className = "px-4 py-1.5 rounded-full text-white font-extrabold text-sm sm:text-base flex items-center gap-2 bg-emerald-500 shadow-md";
-                feedbackBadge.innerHTML = `<i class="fa-solid fa-circle-check"></i> Correct! 🎉 答對了！`;
+                feedbackBadge.innerHTML = `<i class="fa-solid fa-circle-check"></i> Correct! 🎉`;
             } else {
                 feedbackBadge.className = "px-4 py-1.5 rounded-full text-white font-extrabold text-sm sm:text-base flex items-center gap-2 bg-rose-500 shadow-md";
-                feedbackBadge.innerHTML = `<i class="fa-solid fa-circle-xmark"></i> Not Quite! 💡 踩中字面陷阱！`;
+                feedbackBadge.innerHTML = `<i class="fa-solid fa-circle-xmark"></i> Not Quite! 💡`;
             }
 
             modalIdiomText.textContent = item.idiom;
@@ -1292,10 +1145,9 @@
             modalFigurative.textContent = item.figurative.explanationZh;
             modalLiteral.textContent = item.literal.explanationZh;
             modalExampleEn.textContent = `"${item.exampleEn}"`;
-            modalExampleZh.textContent = `「${item.exampleZh}」`;
 
             if (currentQuestionIndex === 4) {
-                btnNextText.textContent = "View Final Results 🏆";
+                btnNextText.textContent = "See Results 🏆";
             } else {
                 btnNextText.textContent = "Next Question ➡️";
             }
@@ -1323,7 +1175,7 @@
         }
 
         // =========================================================================
-        // 100% ENGLISH REWARD / RESULTS SCREEN
+        // REWARD & RESULTS SCREEN
         // =========================================================================
         function showEndScreen() {
             gameScreen.classList.add('hidden');
@@ -1332,15 +1184,14 @@
             endScreen.classList.add('flex');
 
             document.getElementById('final-score-text').textContent = `You scored ${correctAnswersCount} out of 5!`;
-            document.getElementById('final-progress-counter').textContent = `${playedIdiomIds.length} / 20`;
 
             const rewardBox = document.getElementById('reward-status-box');
             if (correctAnswersCount >= 3) {
-                rewardBox.innerHTML = `<i class="fa-solid fa-award text-yellow-300 mr-2"></i> Prize Earned! 🎁 Outstanding!`;
+                rewardBox.innerHTML = `<i class="fa-solid fa-award text-yellow-300 mr-2"></i> You won a prize 🎁!`;
             } else if (correctAnswersCount === 2) {
-                rewardBox.innerHTML = `<i class="fa-solid fa-stamp text-amber-300 mr-2"></i> Stamp Earned! 💮 Great effort!`;
+                rewardBox.innerHTML = `<i class="fa-solid fa-stamp text-amber-300 mr-2"></i> You got a stamp 💮!`;
             } else {
-                rewardBox.innerHTML = `<i class="fa-solid fa-bullseye text-purple-300 mr-2"></i> Keep Practicing! 💪 Score 2+ to earn rewards!`;
+                rewardBox.innerHTML = `<i class="fa-solid fa-bullseye text-purple-300 mr-2"></i> Keep trying! Get 2 correct for a stamp 💮 or 3+ for a prize 🎁!`;
             }
 
             const starContainer = document.getElementById('final-star-rating');
@@ -1355,6 +1206,7 @@
             } else if (correctAnswersCount === 2) {
                 starContainer.innerHTML = '<i class="fa-solid fa-star"></i> <i class="fa-regular fa-star text-purple-400"></i> <i class="fa-regular fa-star text-purple-400"></i>';
                 playSound('correct');
+                triggerConfetti();
             } else {
                 starContainer.innerHTML = '<i class="fa-regular fa-star text-purple-400"></i> <i class="fa-regular fa-star text-purple-400"></i> <i class="fa-regular fa-star text-purple-400"></i>';
                 playSound('incorrect');
@@ -1426,10 +1278,6 @@
             }
         }
 
-        // On Load Init
-        window.onload = function() {
-            updateHomeProgressUI();
-        };
         window.addEventListener('click', () => { initAudio(); }, { once: true });
     </script>
 </body>
