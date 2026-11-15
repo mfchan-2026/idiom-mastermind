@@ -6,1279 +6,1464 @@
     <title>Idiom Mastermind 🧩</title>
     <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
-    <!-- FontAwesome Icons CDN -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <!-- Google Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+    <!-- Google Fonts: Fredoka & Nunito -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Nunito:wght@500;600;700;800;900&display=swap" rel="stylesheet">
     <style>
         body {
             font-family: 'Nunito', sans-serif;
-            background: linear-gradient(135deg, #0f172a 0%, #1e1b4b 35%, #311042 70%, #1e1035 100%);
+            background: radial-gradient(circle at top left, #3b0764 0%, #1e1b4b 48%, #0f172a 100%);
             min-height: 100vh;
             color: #f8fafc;
             user-select: none;
+            -webkit-tap-highlight-color: transparent;
         }
         .font-display {
             font-family: 'Fredoka', cursive, sans-serif;
         }
-        .glass-card {
-            background: rgba(255, 255, 255, 0.08);
-            backdrop-filter: blur(16px);
-            -webkit-backdrop-filter: blur(16px);
-            border: 1px solid rgba(255, 255, 255, 0.15);
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+        .glass-bar {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(14px);
+            -webkit-backdrop-filter: blur(14px);
+            border: 1px solid rgba(255, 255, 255, 0.18);
+            box-shadow: 0 12px 32px rgba(0, 0, 0, 0.35);
         }
-        .glass-card-light {
-            background: rgba(255, 255, 255, 0.98);
-            backdrop-filter: blur(12px);
-            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+        .cream-card {
+            background: #fffdf9;
+            color: #1e1b4b;
+            box-shadow: 0 24px 50px -12px rgba(0, 0, 0, 0.52);
         }
         .option-card {
-            transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+            transition: transform 0.26s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.26s ease, border-color 0.2s ease;
         }
-        .option-card:hover {
-            transform: translateY(-6px) scale(1.02);
-            box-shadow: 0 20px 35px -5px rgba(236, 72, 153, 0.4), 0 0 25px rgba(168, 85, 247, 0.5);
+        .option-card:hover:not(:disabled) {
+            transform: translateY(-6px) scale(1.015);
+            box-shadow: 0 22px 38px -6px rgba(236, 72, 153, 0.45), 0 0 26px rgba(168, 85, 247, 0.45);
         }
-        .option-card:active {
-            transform: translateY(-2px) scale(0.99);
-        }
-        @keyframes pulse-glow {
-            0%, 100% { box-shadow: 0 0 15px rgba(168, 85, 247, 0.3); }
-            50% { box-shadow: 0 0 30px rgba(236, 72, 153, 0.6); }
-        }
-        .glow-effect {
-            animation: pulse-glow 3s infinite ease-in-out;
+        .option-card:active:not(:disabled) {
+            transform: translateY(-1px) scale(0.99);
         }
         @keyframes shimmer {
             0% { background-position: -200% 0; }
             100% { background-position: 200% 0; }
         }
-        .shimmer-bg {
-            background: linear-gradient(90deg, rgba(30,41,59,0.8) 0%, rgba(51,65,85,0.9) 50%, rgba(30,41,59,0.8) 100%);
+        .shimmer-loader {
+            background: linear-gradient(90deg, #1e1b4b 0%, #312e81 50%, #1e1b4b 100%);
             background-size: 200% 100%;
-            animation: shimmer 2s infinite;
+            animation: shimmer 1.5s infinite linear;
         }
-        ::-webkit-scrollbar {
-            width: 8px;
+        @keyframes gentleBounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-5px); }
         }
-        ::-webkit-scrollbar-track {
-            background: rgba(15, 23, 42, 0.6);
-        }
-        ::-webkit-scrollbar-thumb {
-            background: rgba(168, 85, 247, 0.5);
-            border-radius: 4px;
+        .animate-gentle-bounce {
+            animation: gentleBounce 3s ease-in-out infinite;
         }
     </style>
 </head>
 <body class="flex flex-col min-h-screen relative overflow-x-hidden">
 
-    <!-- Canvas for Fireworks Confetti -->
+    <!-- Fullscreen Confetti Canvas -->
     <canvas id="confetti-canvas" class="fixed inset-0 pointer-events-none z-50"></canvas>
 
-    <!-- Background Glow Lights -->
+    <!-- Decorative Background Glow Orbs -->
     <div class="fixed inset-0 pointer-events-none overflow-hidden z-0">
-        <div class="absolute -top-16 -left-16 w-80 h-80 bg-pink-500/10 rounded-full blur-3xl"></div>
-        <div class="absolute top-1/2 -right-24 w-96 h-96 bg-purple-500/15 rounded-full blur-3xl"></div>
-        <div class="absolute -bottom-24 left-1/3 w-96 h-96 bg-indigo-500/15 rounded-full blur-3xl"></div>
+        <div class="absolute -top-24 -left-24 w-96 h-96 bg-fuchsia-500/15 rounded-full blur-3xl"></div>
+        <div class="absolute top-1/3 -right-24 w-96 h-96 bg-purple-500/15 rounded-full blur-3xl"></div>
+        <div class="absolute -bottom-24 left-1/4 w-96 h-96 bg-indigo-500/15 rounded-full blur-3xl"></div>
     </div>
 
-    <!-- Toast Notification Container -->
-    <div id="toast-container" class="fixed top-5 right-5 z-50 pointer-events-none flex flex-col space-y-2"></div>
+    <!-- Main App Container -->
+    <main class="relative z-10 flex-grow flex flex-col max-w-4xl mx-auto w-full px-4 py-5 sm:py-8">
 
-    <!-- MAIN APP CONTAINER -->
-    <div class="relative z-10 flex-grow flex flex-col max-w-4xl mx-auto w-full px-4 py-4 sm:py-6">
-
-        <!-- ================= TOP-LEVEL HOME SCREEN ================= -->
-        <div id="home-screen" class="flex flex-col flex-grow items-center justify-center space-y-6 my-auto py-6 text-center">
+        <!-- =========================================================
+             1. HOME SCREEN (COVER PAGE) - STRICT LAYOUT
+             ========================================================= -->
+        <section id="home-screen" class="flex flex-col flex-grow items-center justify-center my-auto space-y-6 sm:space-y-8 text-center">
             
-            <!-- Game Title Header (Clean, No Subtitles or Badges) -->
-            <div class="space-y-2">
-                <h1 class="text-4xl sm:text-6xl font-black font-display text-transparent bg-clip-text bg-gradient-to-r from-pink-300 via-purple-200 to-yellow-200 drop-shadow-lg">
-                    Idiom Mastermind 🧩
-                </h1>
-            </div>
+            <!-- Main Title -->
+            <h1 class="text-4xl sm:text-6xl font-bold font-display text-transparent bg-clip-text bg-gradient-to-r from-amber-200 via-pink-200 to-purple-200 drop-shadow-lg tracking-tight py-1">
+                Idiom Mastermind 🧩
+            </h1>
 
-            <!-- Main Info Card: Instructions & Rewards -->
-            <div class="glass-card rounded-3xl p-6 sm:p-8 w-full max-w-2xl text-left space-y-6 border border-white/20 shadow-2xl relative overflow-hidden">
-                <div class="absolute -top-10 -right-10 w-36 h-36 bg-purple-500/20 rounded-full blur-2xl"></div>
-
+            <!-- Instructions & Rewards Card -->
+            <div class="cream-card rounded-3xl p-6 sm:p-8 w-full max-w-2xl text-left space-y-6 border-2 border-purple-200/90">
+                
                 <!-- Instructions Section -->
                 <div class="space-y-3">
-                    <h2 class="text-lg sm:text-xl font-black font-display text-yellow-300 flex items-center gap-2 border-b border-white/10 pb-2">
-                        <i class="fa-solid fa-circle-info text-pink-400"></i> Instructions:
+                    <h2 class="text-xl sm:text-2xl font-bold font-display text-indigo-950 border-b-2 border-indigo-100 pb-2">
+                        Instructions:
                     </h2>
-                    <ul class="space-y-2.5 text-xs sm:text-sm text-purple-100 font-semibold leading-relaxed">
-                        <li class="flex items-start gap-2.5">
-                            <span class="w-5 h-5 rounded-full bg-purple-500/30 text-purple-200 text-xs flex items-center justify-center font-bold shrink-0 mt-0.5">1</span>
-                            <span>There are 5 idioms in each round.</span>
-                        </li>
-                        <li class="flex items-start gap-2.5">
-                            <span class="w-5 h-5 rounded-full bg-purple-500/30 text-purple-200 text-xs flex items-center justify-center font-bold shrink-0 mt-0.5">2</span>
-                            <span>Look at the idiom at the top and tap 🔊 to hear its pronunciation.</span>
-                        </li>
-                        <li class="flex items-start gap-2.5">
-                            <span class="w-5 h-5 rounded-full bg-purple-500/30 text-purple-200 text-xs flex items-center justify-center font-bold shrink-0 mt-0.5">3</span>
-                            <span>Choose the picture that shows the correct meaning.</span>
-                        </li>
-                        <li class="flex items-start gap-2.5">
-                            <span class="w-5 h-5 rounded-full bg-purple-500/30 text-purple-200 text-xs flex items-center justify-center font-bold shrink-0 mt-0.5">4</span>
-                            <span>Read the pop-up explanation to check the Chinese meaning and example sentence.</span>
-                        </li>
-                    </ul>
+                    <ol class="list-decimal list-inside space-y-2.5 text-sm sm:text-base text-slate-800 font-bold leading-relaxed">
+                        <li>There are 5 idioms in each round.</li>
+                        <li>Look at the idiom at the top.</li>
+                        <li>Choose the picture that matches the idiom.</li>
+                        <li>Read the pop-up explanation to check the Chinese meaning and example sentence.</li>
+                    </ol>
                 </div>
 
                 <!-- Rewards Section -->
-                <div class="space-y-3 pt-2">
-                    <h2 class="text-lg sm:text-xl font-black font-display text-yellow-300 flex items-center gap-2 border-b border-white/10 pb-2">
-                        <i class="fa-solid fa-trophy text-amber-400"></i> Rewards:
+                <div class="space-y-3 pt-1">
+                    <h2 class="text-xl sm:text-2xl font-bold font-display text-indigo-950 border-b-2 border-indigo-100 pb-2">
+                        Rewards:
                     </h2>
-                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs sm:text-sm">
-                        <div class="p-3.5 rounded-2xl bg-purple-950/60 border border-purple-400/30 flex items-center gap-3">
-                            <span class="text-3xl">💮</span>
-                            <div>
-                                <div class="font-extrabold text-amber-200">Get a stamp</div>
-                                <div class="text-[11px] text-purple-300">For 2 correct answers 💮</div>
-                            </div>
-                        </div>
-                        <div class="p-3.5 rounded-2xl bg-purple-950/60 border border-purple-400/30 flex items-center gap-3">
-                            <span class="text-3xl">🎁</span>
-                            <div>
-                                <div class="font-extrabold text-yellow-300">Win a prize</div>
-                                <div class="text-[11px] text-purple-300">For 3 or more correct answers 🎁</div>
-                            </div>
-                        </div>
-                    </div>
+                    <ol class="list-decimal list-inside space-y-2.5 text-sm sm:text-base text-slate-800 font-bold leading-relaxed">
+                        <li>Get a stamp for 2 correct answers 💮</li>
+                        <li>Win a prize for 3 or more correct answers 🎁</li>
+                        <li>Tap Play Again to draw 5 new idioms!</li>
+                    </ol>
                 </div>
+
             </div>
 
-            <!-- Start Game Button -->
+            <!-- Primary CTA Button -->
             <div class="w-full max-w-md">
-                <button id="btn-start-game" class="w-full py-4 px-8 rounded-2xl bg-gradient-to-r from-pink-500 via-purple-500 to-indigo-600 hover:from-pink-400 hover:to-indigo-500 text-white font-black font-display text-xl shadow-xl shadow-purple-900/50 hover:scale-105 active:scale-95 transition-all flex items-center justify-center gap-3">
-                    Start Game 🚀
+                <button id="btn-start-game" type="button" class="w-full py-4 px-8 rounded-2xl bg-gradient-to-r from-pink-500 via-purple-600 to-indigo-600 hover:from-pink-400 hover:via-purple-500 hover:to-indigo-500 text-white font-bold font-display text-2xl shadow-xl shadow-purple-950/60 hover:scale-[1.03] active:scale-95 transition-all flex items-center justify-center gap-3 cursor-pointer">
+                    <span>Start Game 🚀</span>
                 </button>
             </div>
+        </section>
 
-        </div>
+        <!-- =========================================================
+             2. GAMEPLAY SCREEN
+             ========================================================= -->
+        <section id="game-screen" class="hidden flex-col flex-grow space-y-4 sm:space-y-5">
+            
+            <!-- Top Bar: Home Button on Left, Round Question Counter (1 / 5) on Right -->
+            <div class="glass-bar rounded-2xl px-4 py-3 sm:px-6 sm:py-3.5 flex items-center justify-between">
+                <button id="btn-game-home" type="button" class="px-4 py-2 rounded-xl bg-white/15 hover:bg-white/25 border border-white/20 text-white font-display font-bold text-sm sm:text-base flex items-center gap-2 transition active:scale-95 cursor-pointer">
+                    <span>🏠 Home</span>
+                </button>
 
-        <!-- ================= GAMEPLAY SCREEN ================= -->
-        <div id="game-screen" class="hidden flex-col flex-grow space-y-4">
-
-            <!-- Top Header HUD -->
-            <div class="glass-card rounded-2xl p-4 flex flex-wrap items-center justify-between gap-3 border border-white/10 shadow-xl">
-                <!-- Question Counter & Progress Bar -->
-                <div class="flex items-center space-x-3 min-w-[160px]">
-                    <div class="w-12 h-12 rounded-xl bg-purple-500/30 border border-purple-400/40 flex items-center justify-center text-yellow-300 font-black font-display text-2xl shadow-inner">
-                        <span id="current-question-num">1</span>/5
-                    </div>
-                    <div>
-                        <div class="text-xs text-purple-300 font-bold uppercase tracking-wider">Round Progress</div>
-                        <div class="w-24 sm:w-32 bg-purple-950/70 h-3 rounded-full overflow-hidden mt-1 border border-purple-500/30">
-                            <div id="progress-bar-inner" class="bg-gradient-to-r from-pink-500 to-purple-400 h-full transition-all duration-300" style="width: 20%"></div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Right Toolbar: Home + Score -->
-                <div class="flex items-center space-x-2">
-                    <div class="flex items-center space-x-2 bg-indigo-950/70 border border-indigo-400/30 px-3 py-1.5 rounded-xl">
-                        <i class="fa-solid fa-star text-yellow-400 text-xs"></i>
-                        <span class="text-xs text-indigo-200 font-semibold">Score:</span>
-                        <span id="hud-score-display" class="font-mono font-extrabold text-yellow-300 text-xs">0/5</span>
-                    </div>
-                    <button id="btn-return-home" title="Return Home" class="w-10 h-10 rounded-xl bg-purple-600/40 hover:bg-purple-500/60 border border-purple-300/30 text-yellow-300 flex items-center justify-center text-lg transition active:scale-95">
-                        <i class="fa-solid fa-house"></i>
-                    </button>
+                <div id="question-counter" class="px-4 py-1.5 rounded-xl bg-indigo-950/80 border border-amber-300/35 font-display font-bold text-lg sm:text-xl text-amber-200 tracking-wide shadow-inner">
+                    1 / 5
                 </div>
             </div>
 
-            <!-- Idiom Challenge Card -->
-            <div class="glass-card rounded-3xl p-5 text-center space-y-2 border border-white/20 relative overflow-hidden glow-effect">
-                <div class="absolute -top-12 -right-12 w-32 h-32 bg-pink-500/20 rounded-full blur-2xl"></div>
-
-                <div class="flex items-center justify-center space-x-3">
-                    <span id="category-badge" class="px-3.5 py-1 rounded-full bg-pink-500/20 text-pink-300 text-xs font-extrabold uppercase tracking-wider border border-pink-500/30">
-                        🐶 Animals
-                    </span>
-                    <button id="btn-hint" class="text-xs text-amber-300 hover:text-amber-200 bg-amber-500/20 hover:bg-amber-500/30 px-3 py-1 rounded-full border border-amber-500/30 transition flex items-center gap-1.5 font-bold">
-                        <i class="fa-solid fa-lightbulb"></i> Hint
-                    </button>
-                </div>
-
-                <!-- Main Idiom Text + Pronunciation Button -->
-                <div class="flex items-center justify-center space-x-3">
-                    <h2 id="idiom-title" class="text-2xl sm:text-4xl md:text-5xl font-black font-display text-white tracking-wide drop-shadow-md">
+            <!-- Top Prompt Card: Target Idiom + IPA + Listen Button -->
+            <div class="cream-card rounded-3xl p-5 sm:p-7 text-center space-y-2 border-2 border-purple-200/90">
+                <div class="flex flex-wrap items-center justify-center gap-3">
+                    <h2 id="prompt-idiom" class="text-2xl sm:text-4xl md:text-5xl font-bold font-display text-indigo-950 tracking-tight">
                         Loading...
                     </h2>
-                    <button id="btn-audio" title="Listen Pronunciation" class="w-12 h-12 rounded-2xl bg-purple-600/50 hover:bg-purple-500/70 border border-purple-300/40 text-yellow-300 flex items-center justify-center text-xl shadow-md transition active:scale-95">
-                        <i class="fa-solid fa-volume-high"></i>
+                    <button id="btn-listen-idiom" type="button" class="px-4 py-2.5 rounded-2xl bg-indigo-600 hover:bg-indigo-500 active:scale-95 text-white font-bold text-sm sm:text-base shadow-md shadow-indigo-900/20 flex items-center gap-1.5 transition cursor-pointer">
+                        <span>🔊 Listen</span>
                     </button>
                 </div>
-
-                <!-- IPA Phonetic -->
-                <div id="idiom-phonetic" class="text-purple-200 text-xs sm:text-sm font-mono tracking-wider italic">
+                <p id="prompt-ipa" class="text-sm sm:text-base font-mono text-purple-700 font-semibold">
                     /.../
-                </div>
-
-                <!-- Hint Box -->
-                <div id="hint-box" class="hidden mt-2 p-3 bg-amber-950/70 border border-amber-500/40 rounded-2xl text-amber-200 text-xs sm:text-sm max-w-xl mx-auto">
-                    <i class="fa-solid fa-circle-info mr-1.5 text-amber-400"></i>
-                    <span id="hint-text">...</span>
-                </div>
+                </p>
             </div>
 
-            <!-- Choice Prompt Instructions -->
-            <div class="text-center py-1">
-                <span class="text-purple-200 text-xs sm:text-sm font-bold bg-purple-900/50 px-4 py-1 rounded-full border border-purple-400/20 shadow-sm">
-                    👇 Select the picture representing the <strong class="text-yellow-300 uppercase">FIGURATIVE MEANING</strong>:
-                </span>
-            </div>
-
-            <!-- DUAL CHOICE CARDS WITH AUTOMATIC FALLBACK ORDER (images/ -> Images/ -> jpg -> SVG) -->
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-5 flex-grow">
-                <!-- Option Card 0 -->
-                <button data-option-index="0" class="option-card glass-card rounded-3xl border border-white/15 flex flex-col cursor-pointer focus:outline-none relative group overflow-hidden">
-                    <div class="w-full aspect-square bg-slate-950 border-b border-white/10 overflow-hidden relative flex items-center justify-center">
-                        <!-- Shimmer Loading State -->
-                        <div id="shimmer-0" class="absolute inset-0 shimmer-bg flex flex-col items-center justify-center space-y-2 text-purple-200 font-bold text-xs p-4 text-center z-10">
-                            <i class="fa-solid fa-spinner text-3xl text-pink-400 animate-spin"></i>
-                            <span class="text-sm">Loading Image...</span>
-                        </div>
-                        <!-- PNG/JPG Image -->
-                        <img id="img-0" src="" alt="Idiom Option A" class="w-full h-full object-cover hidden relative z-0" />
-                        <!-- Fallback Vector SVG Container -->
-                        <div id="svg-fallback-0" class="w-full h-full hidden items-center justify-center absolute inset-0 z-0"></div>
+            <!-- Two Large 1:1 Square Clickable Picture Cards (NO Text Captions Before Selection) -->
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6 flex-grow items-center">
+                
+                <!-- Card 0 (Left) -->
+                <button id="option-btn-0" type="button" data-index="0" aria-label="Picture Choice A" class="option-card cream-card rounded-3xl border-4 border-white/95 overflow-hidden cursor-pointer focus:outline-none w-full aspect-square relative group">
+                    <!-- Corner Badge A -->
+                    <span class="absolute top-3.5 left-3.5 z-20 w-10 h-10 rounded-2xl bg-indigo-950/85 text-amber-300 font-display font-bold text-xl flex items-center justify-center border border-white/25 shadow-md">
+                        A
+                    </span>
+                    <!-- Shimmer Loader -->
+                    <div id="shimmer-0" class="absolute inset-0 shimmer-loader flex items-center justify-center z-10">
+                        <div class="w-10 h-10 border-4 border-pink-400 border-t-transparent rounded-full animate-spin"></div>
                     </div>
-                    <!-- English Caption Overlay -->
-                    <div id="caption-0" class="py-3.5 px-4 bg-slate-900/90 text-yellow-300 text-center font-bold text-xs sm:text-sm tracking-wide flex items-center justify-center min-h-[52px]">
-                        ...
-                    </div>
+                    <!-- Image Element -->
+                    <img id="img-0" src="" alt="Idiom visual option A" class="w-full h-full object-cover hidden relative z-0" />
+                    <!-- Bespoke Text-Free Vector SVG Fallback -->
+                    <div id="fallback-0" class="w-full h-full hidden relative z-0"></div>
                 </button>
 
-                <!-- Option Card 1 -->
-                <button data-option-index="1" class="option-card glass-card rounded-3xl border border-white/15 flex flex-col cursor-pointer focus:outline-none relative group overflow-hidden">
-                    <div class="w-full aspect-square bg-slate-950 border-b border-white/10 overflow-hidden relative flex items-center justify-center">
-                        <!-- Shimmer Loading State -->
-                        <div id="shimmer-1" class="absolute inset-0 shimmer-bg flex flex-col items-center justify-center space-y-2 text-purple-200 font-bold text-xs p-4 text-center z-10">
-                            <i class="fa-solid fa-spinner text-3xl text-pink-400 animate-spin"></i>
-                            <span class="text-sm">Loading Image...</span>
-                        </div>
-                        <!-- PNG/JPG Image -->
-                        <img id="img-1" src="" alt="Idiom Option B" class="w-full h-full object-cover hidden relative z-0" />
-                        <!-- Fallback Vector SVG Container -->
-                        <div id="svg-fallback-1" class="w-full h-full hidden items-center justify-center absolute inset-0 z-0"></div>
+                <!-- Card 1 (Right) -->
+                <button id="option-btn-1" type="button" data-index="1" aria-label="Picture Choice B" class="option-card cream-card rounded-3xl border-4 border-white/95 overflow-hidden cursor-pointer focus:outline-none w-full aspect-square relative group">
+                    <!-- Corner Badge B -->
+                    <span class="absolute top-3.5 left-3.5 z-20 w-10 h-10 rounded-2xl bg-indigo-950/85 text-amber-300 font-display font-bold text-xl flex items-center justify-center border border-white/25 shadow-md">
+                        B
+                    </span>
+                    <!-- Shimmer Loader -->
+                    <div id="shimmer-1" class="absolute inset-0 shimmer-loader flex items-center justify-center z-10">
+                        <div class="w-10 h-10 border-4 border-pink-400 border-t-transparent rounded-full animate-spin"></div>
                     </div>
-                    <!-- English Caption Overlay -->
-                    <div id="caption-1" class="py-3.5 px-4 bg-slate-900/90 text-yellow-300 text-center font-bold text-xs sm:text-sm tracking-wide flex items-center justify-center min-h-[52px]">
-                        ...
-                    </div>
+                    <!-- Image Element -->
+                    <img id="img-1" src="" alt="Idiom visual option B" class="w-full h-full object-cover hidden relative z-0" />
+                    <!-- Bespoke Text-Free Vector SVG Fallback -->
+                    <div id="fallback-1" class="w-full h-full hidden relative z-0"></div>
                 </button>
+
             </div>
-        </div>
+        </section>
 
-        <!-- ================= INTERACTIVE BILINGUAL EXPLANATION MODAL ================= -->
-        <div id="modal-explanation" class="fixed inset-0 bg-slate-950/85 backdrop-blur-md flex items-center justify-center z-50 p-4 hidden">
-            <div class="glass-card-light rounded-3xl max-w-2xl w-full p-6 sm:p-8 text-slate-900 space-y-5 shadow-2xl relative border border-white/40 transform transition-all scale-95 opacity-0 duration-300 max-h-[90vh] overflow-y-auto" id="modal-content">
-
-                <!-- Result Badge Header -->
-                <div class="flex items-center justify-between border-b border-slate-200 pb-3">
-                    <div id="feedback-badge" class="px-4 py-1.5 rounded-full text-white font-extrabold text-sm sm:text-base flex items-center gap-2">
-                        <!-- Injected via JS -->
-                    </div>
-                    <div class="text-xs font-bold text-slate-400 uppercase tracking-wider">
-                        Idiom Analysis 成語解析
-                    </div>
+        <!-- =========================================================
+             3. POP-UP EXPLANATION MODAL
+             ========================================================= -->
+        <div id="explanation-modal" class="fixed inset-0 bg-slate-950/80 backdrop-blur-md flex items-center justify-center z-50 p-4 hidden">
+            <div id="explanation-modal-box" class="cream-card rounded-3xl max-w-2xl w-full overflow-hidden border-2 border-white/70 transform scale-95 opacity-0 transition-all duration-200 max-h-[92vh] flex flex-col">
+                
+                <!-- Status Header -->
+                <div id="modal-status-banner" class="px-6 py-4 text-white font-display font-bold text-xl sm:text-2xl flex items-center justify-between bg-emerald-600">
+                    <span id="modal-status-text">🎉 Correct!</span>
                 </div>
 
-                <!-- Target Idiom Banner & Pronunciation -->
-                <div class="text-center space-y-1">
-                    <div class="flex items-center justify-center space-x-2">
-                        <h3 id="modal-idiom-text" class="text-2xl sm:text-3xl font-black font-display text-purple-950">
-                            ...
-                        </h3>
-                        <button id="modal-btn-audio" title="Listen Pronunciation" class="w-10 h-10 rounded-xl bg-purple-100 hover:bg-purple-200 text-purple-700 flex items-center justify-center text-lg transition">
-                            <i class="fa-solid fa-volume-high"></i>
-                        </button>
-                    </div>
-                    <p id="modal-phonetic" class="text-xs sm:text-sm text-purple-600 font-mono italic"></p>
-                </div>
-
-                <!-- Meaning Breakdown Comparison Box -->
-                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                    <!-- Correct Figurative Meaning -->
-                    <div class="p-4 rounded-2xl bg-emerald-50 border border-emerald-200 space-y-1.5">
-                        <div class="flex items-center text-emerald-800 font-extrabold text-sm">
-                            <i class="fa-solid fa-bullseye mr-2 text-emerald-600"></i>
-                            真實引申義 (Figurative)
+                <!-- Scrollable Explanation Body -->
+                <div class="p-5 sm:p-7 space-y-4 overflow-y-auto">
+                    
+                    <!-- Idiom + IPA + Audio Button -->
+                    <div class="text-center space-y-1 pb-2.5 border-b border-slate-200">
+                        <div class="flex flex-wrap items-center justify-center gap-2.5">
+                            <h3 id="modal-idiom" class="text-2xl sm:text-3xl font-bold font-display text-indigo-950">
+                                Idiom
+                            </h3>
+                            <button id="modal-btn-listen-idiom" type="button" class="w-10 h-10 rounded-xl bg-indigo-100 hover:bg-indigo-200 text-indigo-700 flex items-center justify-center text-lg transition active:scale-95 cursor-pointer" title="Listen to idiom">
+                                🔊
+                            </button>
                         </div>
-                        <p id="modal-figurative-meaning" class="text-xs sm:text-sm font-bold text-emerald-950 leading-relaxed">
-                            ...
-                        </p>
+                        <p id="modal-ipa" class="text-xs sm:text-sm font-mono text-purple-700 font-semibold">/.../</p>
                     </div>
 
-                    <!-- Literal Trap Meaning -->
-                    <div class="p-4 rounded-2xl bg-amber-50 border border-amber-200 space-y-1.5">
-                        <div class="flex items-center text-amber-800 font-extrabold text-sm">
-                            <i class="fa-solid fa-triangle-exclamation mr-2 text-amber-600"></i>
-                            字面陷阱 (Literal Trap)
+                    <!-- 真實引申義 (Figurative Meaning) -->
+                    <div class="p-4 rounded-2xl bg-emerald-50 border-2 border-emerald-200 space-y-1">
+                        <div class="text-xs sm:text-sm font-extrabold uppercase tracking-wider text-emerald-800">
+                            🎯 真實引申義 (Figurative Meaning)
                         </div>
-                        <p id="modal-literal-meaning" class="text-xs sm:text-sm font-medium text-amber-950 leading-relaxed">
-                            ...
-                        </p>
+                        <p id="modal-fig-en" class="text-sm sm:text-base font-bold text-emerald-950 leading-snug">...</p>
+                        <p id="modal-fig-zh" class="text-sm sm:text-base font-extrabold text-emerald-800">...</p>
                     </div>
-                </div>
 
-                <!-- Example Sentence -->
-                <div class="bg-purple-50 p-4 rounded-2xl border border-purple-100 space-y-1">
-                    <div class="text-xs font-bold text-purple-700 uppercase tracking-wider flex items-center">
-                        <i class="fa-solid fa-quote-left mr-1.5 text-purple-400"></i> 地道例句 (Example)
+                    <!-- 字面陷阱 (Literal Trap) -->
+                    <div class="p-4 rounded-2xl bg-amber-50 border-2 border-amber-200 space-y-1">
+                        <div class="text-xs sm:text-sm font-extrabold uppercase tracking-wider text-amber-800">
+                            🎭 字面陷阱 (Literal Trap)
+                        </div>
+                        <p id="modal-lit-zh" class="text-sm sm:text-base font-bold text-amber-950 leading-snug">...</p>
                     </div>
-                    <p id="modal-example-en" class="text-xs sm:text-sm font-semibold text-purple-950 italic">
-                        "..."
-                    </p>
-                </div>
 
-                <!-- Next Button -->
-                <button id="btn-next-question" class="w-full py-3.5 px-6 rounded-2xl bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-500 hover:to-indigo-500 text-white font-black font-display text-lg shadow-lg shadow-purple-900/30 transition hover:scale-[1.01] active:scale-95 flex items-center justify-center gap-2">
-                    <span id="btn-next-text">Next Question</span> <i class="fa-solid fa-arrow-right"></i>
-                </button>
-            </div>
-        </div>
-
-        <!-- ================= 100% ENGLISH END / RESULTS SCREEN ================= -->
-        <div id="end-screen" class="hidden flex-col my-auto space-y-6 py-6 text-center">
-            <div class="glass-card rounded-3xl p-8 max-w-lg mx-auto w-full space-y-6 border border-white/20 shadow-2xl relative overflow-hidden">
-                <div class="inline-block px-4 py-1.5 rounded-full bg-yellow-400/20 text-yellow-300 font-bold text-sm border border-yellow-400/30 mb-1">
-                    🎉 Round Completed!
-                </div>
-
-                <!-- Star Rating Badges -->
-                <div id="final-star-rating" class="text-4xl text-yellow-300 space-x-2">
-                    <i class="fa-solid fa-star"></i>
-                    <i class="fa-solid fa-star"></i>
-                    <i class="fa-solid fa-star"></i>
-                </div>
-
-                <!-- Score Display -->
-                <div class="space-y-2">
-                    <div class="text-sm text-purple-200 font-semibold uppercase tracking-wider">Final Score</div>
-                    <div id="final-score-text" class="text-4xl sm:text-5xl font-black font-display text-transparent bg-clip-text bg-gradient-to-r from-yellow-200 via-pink-200 to-white">
-                        You scored 5 out of 5!
+                    <!-- 例句 (Example Sentence) with Audio Button -->
+                    <div class="p-4 rounded-2xl bg-indigo-50 border-2 border-indigo-200 space-y-1.5">
+                        <div class="flex items-center justify-between gap-2">
+                            <span class="text-xs sm:text-sm font-extrabold uppercase tracking-wider text-indigo-800">
+                                💬 例句 (Example Sentence)
+                            </span>
+                            <button id="modal-btn-listen-example" type="button" class="px-3 py-1 rounded-lg bg-indigo-600 hover:bg-indigo-500 text-white text-xs font-bold flex items-center gap-1 shadow-sm transition active:scale-95 cursor-pointer" title="Listen to example sentence">
+                                <span>🔊</span>
+                            </button>
+                        </div>
+                        <p id="modal-ex-en" class="text-sm sm:text-base font-bold text-indigo-950 italic leading-snug">"..."</p>
+                        <p id="modal-ex-zh" class="text-xs sm:text-sm font-bold text-indigo-800">...</p>
                     </div>
-                </div>
 
-                <!-- Rewards Status Badge -->
-                <div id="reward-status-box" class="p-4 rounded-2xl border bg-purple-900/50 border-purple-400/30 text-yellow-200 font-extrabold text-base sm:text-lg shadow-inner">
-                    <!-- Injected via JS -->
-                </div>
-
-                <!-- Navigation Action Buttons -->
-                <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-2">
-                    <button id="btn-restart" class="w-full py-3.5 px-4 rounded-2xl bg-gradient-to-r from-pink-500 via-purple-500 to-indigo-600 hover:from-pink-400 hover:to-indigo-500 text-white font-black font-display text-lg shadow-xl shadow-purple-900/50 hover:scale-105 active:scale-95 transition-all flex items-center justify-center gap-2">
-                        <i class="fa-solid fa-rotate-right"></i> Play Next Round 🔄
-                    </button>
-                    <button id="btn-end-home" class="w-full py-3.5 px-4 rounded-2xl bg-purple-900/50 hover:bg-purple-800/70 border border-purple-300/30 text-yellow-200 font-black font-display text-lg shadow-md transition active:scale-95 flex items-center justify-center gap-2">
-                        <i class="fa-solid fa-house"></i> Home 🏠
+                    <!-- Next Button -->
+                    <button id="btn-next-idiom" type="button" class="w-full py-3.5 px-6 rounded-2xl bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-500 hover:to-purple-500 text-white font-display font-bold text-xl shadow-lg shadow-indigo-900/25 transition hover:scale-[1.01] active:scale-95 cursor-pointer">
+                        Next Idiom ➡️
                     </button>
                 </div>
             </div>
         </div>
 
-    </div>
+        <!-- =========================================================
+             4. RESULTS & REWARDS SCREEN
+             ========================================================= -->
+        <section id="result-screen" class="hidden flex-col flex-grow items-center justify-center my-auto text-center">
+            <div class="cream-card rounded-3xl p-7 sm:p-10 max-w-lg w-full space-y-6 border-2 border-purple-200">
+                
+                <!-- Visual Stars -->
+                <div id="result-stars" class="flex items-center justify-center gap-2.5 text-4xl sm:text-5xl">
+                    <!-- Populated via JS -->
+                </div>
 
-    <!-- ================= JAVASCRIPT LOGIC & 20-IDIOM DATABASE ================= -->
+                <!-- Round Score -->
+                <h2 id="result-score-text" class="text-3xl sm:text-5xl font-bold font-display text-indigo-950">
+                    Score: 5 / 5
+                </h2>
+
+                <!-- Exact Reward Outcome Banner -->
+                <div id="result-reward-banner" class="p-5 rounded-2xl border-2 text-xl sm:text-2xl font-black shadow-sm">
+                    <!-- Populated via JS -->
+                </div>
+
+                <!-- Action Buttons: Primary "Play Again" & Secondary "Home" -->
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-3.5 pt-2">
+                    <button id="btn-play-again" type="button" class="w-full py-3.5 px-5 rounded-2xl bg-gradient-to-r from-pink-500 via-purple-600 to-indigo-600 hover:from-pink-400 hover:to-indigo-500 text-white font-display font-bold text-xl shadow-lg shadow-purple-900/30 hover:scale-[1.02] active:scale-95 transition cursor-pointer">
+                        Play Again
+                    </button>
+                    <button id="btn-result-home" type="button" class="w-full py-3.5 px-5 rounded-2xl bg-slate-100 hover:bg-slate-200 text-indigo-950 font-display font-bold text-xl border border-slate-300 active:scale-95 transition cursor-pointer">
+                        Home
+                    </button>
+                </div>
+
+            </div>
+        </section>
+
+    </main>
+
+    <!-- =========================================================
+         JAVASCRIPT DATASET, FALLBACK VECTOR ARTWORK & ENGINE
+         ========================================================= -->
     <script>
-        // Helper to generate text-free vector SVG scenes for fallbacks
-        function createSVG(bg, content) {
-            return `<svg viewBox="0 0 300 300" class="w-full h-full object-cover pointer-events-none" xmlns="http://www.w3.org/2000/svg">
-                <rect width="300" height="300" fill="${bg}"/>
-                ${content}
-            </svg>`;
-        }
-
-        // =========================================================================
-        // 20-IDIOM MASTER DATABASE (Padded IDs "01" to "20")
-        // =========================================================================
-        const IDIOMS_DATABASE = [
+        /**
+         * Complete 50-Idiom Dataset (IDs "01" through "50" in exact sequential order)
+         */
+        const IDIOMS_50 = [
             {
                 id: "01",
-                category: "🐶 Animals",
                 idiom: "Let the cat out of the bag",
                 ipa: "/lɛt ðə kæt aʊt əv ðə bæɡ/",
-                hint: "Accidentally telling a secret!",
-                figurative: {
-                    baseName: "01_figurative",
-                    caption: "Accidentally telling a secret",
-                    explanationZh: "透露秘密",
-                    svg: createSVG("#1e293b", `<rect x="60" y="80" width="180" height="140" rx="16" fill="#0f172a" stroke="#38bdf8" stroke-width="6"/><circle cx="150" cy="150" r="35" fill="#fde047"/><path d="M 135 135 L 165 165 M 165 135 L 135 165" stroke="#0f172a" stroke-width="8"/><circle cx="150" cy="150" r="10" fill="#ef4444"/>`)
-                },
-                literal: {
-                    baseName: "01_literal",
-                    caption: "A cat leaping from a bag",
-                    explanationZh: "把貓從袋釋放",
-                    svg: createSVG("#1e1b4b", `<path d="M 90 220 C 70 120 120 90 150 90 C 180 90 230 120 210 220 Z" fill="#b45309"/><circle cx="150" cy="80" r="32" fill="#fb923c"/><polygon points="125,55 138,80 115,80" fill="#fb923c"/><polygon points="175,55 162,80 185,80" fill="#fb923c"/><circle cx="140" cy="75" r="4" fill="#000"/><circle cx="160" cy="75" r="4" fill="#000"/>`)
-                },
-                exampleEn: "She let the cat out of the bag about the surprise party."
+                figurativeEn: "To accidentally reveal a secret that was supposed to be kept hidden.",
+                figurativeZh: "無意中洩漏了秘密。",
+                literalZh: "真的打開袋子，讓一隻小貓從袋子裡跳出來。",
+                exampleEn: "Tom let the cat out of the bag about Mum's surprise birthday party.",
+                exampleZh: "湯姆不小心把媽媽驚喜生日派對的秘密說漏嘴了。"
             },
             {
                 id: "02",
-                category: "🐶 Animals",
                 idiom: "Hold your horses",
-                ipa: "/hoʊld jʊər hɔːrsɪz/",
-                hint: "Wait patiently before acting!",
-                figurative: {
-                    baseName: "02_figurative",
-                    caption: "Waiting patiently before acting",
-                    explanationZh: "保持冷靜耐心",
-                    svg: createSVG("#1e293b", `<circle cx="150" cy="150" r="70" fill="#dc2626"/><rect x="135" y="110" width="30" height="80" fill="#ffffff" rx="6"/><circle cx="150" cy="90" r="10" fill="#dc2626"/>`)
-                },
-                literal: {
-                    baseName: "02_literal",
-                    caption: "Holding reins of pulling horses",
-                    explanationZh: "抓緊你的馬匹",
-                    svg: createSVG("#2e1065", `<ellipse cx="120" cy="150" rx="55" ry="40" fill="#78350f"/><path d="M 160 120 Q 195 60 230 90" stroke="#78350f" stroke-width="24" stroke-linecap="round"/><line x1="210" y1="90" x2="270" y2="150" stroke="#fde047" stroke-width="6"/>`)
-                },
-                exampleEn: "Hold your horses! We need to wait for everyone."
+                ipa: "/hoʊld jʊər ˈhɔːrsɪz/",
+                figurativeEn: "To slow down, wait patiently, and think carefully before rushing.",
+                figurativeZh: "保持冷靜與耐心，不要急躁衝動。",
+                literalZh: "雙手緊緊拉住幾匹奔跑中的真馬韁繩。",
+                exampleEn: "Hold your horses! Wait for everyone to finish before you start eating.",
+                exampleZh: "別急！等大家都準備好再開始吃吧。"
             },
             {
                 id: "03",
-                category: "🐶 Animals",
                 idiom: "Kill two birds with one stone",
                 ipa: "/kɪl tuː bɜːrdz wɪð wʌn stoʊn/",
-                hint: "Solve two problems at the same time!",
-                figurative: {
-                    baseName: "03_figurative",
-                    caption: "Achieving two goals at once",
-                    explanationZh: "一舉兩得",
-                    svg: createSVG("#064e3b", `<circle cx="150" cy="150" r="90" fill="#047857" stroke="#34d399" stroke-width="8"/><circle cx="150" cy="150" r="60" fill="#065f46"/><circle cx="150" cy="150" r="30" fill="#ef4444"/><circle cx="150" cy="150" r="10" fill="#facc15"/>`)
-                },
-                literal: {
-                    baseName: "03_literal",
-                    caption: "Throwing a rock at two birds",
-                    explanationZh: "用石頭打死兩隻鳥",
-                    svg: createSVG("#451a03", `<circle cx="210" cy="90" r="22" fill="#38bdf8"/><circle cx="250" cy="150" r="22" fill="#38bdf8"/><circle cx="110" cy="120" r="18" fill="#94a3b8"/><line x1="50" y1="160" x2="95" y2="130" stroke="#78350f" stroke-width="8"/>`)
-                },
-                exampleEn: "By walking to work, I kill two birds with one stone."
+                figurativeEn: "To achieve two useful goals or solve two problems with a single action.",
+                figurativeZh: "用一個行動同時達成兩個目標（一舉兩得）。",
+                literalZh: "丟出一顆石頭同時擊中兩隻小鳥。",
+                exampleEn: "By cycling to school, I exercise and save money—killing two birds with one stone!",
+                exampleZh: "騎單車上學既能運動又能省錢，真是一舉兩得！"
             },
             {
                 id: "04",
-                category: "🐶 Animals",
                 idiom: "Barking up the wrong tree",
                 ipa: "/ˈbɑːrkɪŋ ʌp ðə rɔːŋ triː/",
-                hint: "Mistakenly following a wrong idea!",
-                figurative: {
-                    baseName: "04_figurative",
-                    caption: "Following the wrong solution",
-                    explanationZh: "搞錯對象或方向",
-                    svg: createSVG("#1e293b", `<path d="M 90 90 L 210 210 M 210 90 L 90 210" stroke="#ef4444" stroke-width="26" stroke-linecap="round"/>`)
-                },
-                literal: {
-                    baseName: "04_literal",
-                    caption: "A dog barking at a tree",
-                    explanationZh: "對著錯誤的樹吠叫",
-                    svg: createSVG("#064e3b", `<rect x="90" y="130" width="35" height="120" fill="#78350f"/><circle cx="107" cy="95" r="50" fill="#15803d"/><circle cx="210" cy="200" r="30" fill="#d97706"/>`)
-                },
-                exampleEn: "If you think I stole it, you're barking up the wrong tree."
+                figurativeEn: "To accuse the wrong person or follow a mistaken idea.",
+                figurativeZh: "找錯對象、怪錯人或用錯方向。",
+                literalZh: "一隻小狗對著一棵沒有獵物的大樹一直吠叫。",
+                exampleEn: "If you think I ate your cookies, you're barking up the wrong tree!",
+                exampleZh: "如果你以為是我吃了你的餅乾，那你可找錯人了！"
             },
             {
                 id: "05",
-                category: "🐶 Animals",
                 idiom: "Wild goose chase",
                 ipa: "/waɪld ɡuːs tʃeɪs/",
-                hint: "Searching for something impossible to find!",
-                figurative: {
-                    baseName: "05_figurative",
-                    caption: "A hopeless search for something",
-                    explanationZh: "徒勞無功的搜尋",
-                    svg: createSVG("#0f172a", `<circle cx="150" cy="150" r="75" fill="none" stroke="#f43f5e" stroke-width="8" stroke-dasharray="12 12"/><polygon points="150,50 170,110 130,110" fill="#f43f5e"/>`)
-                },
-                literal: {
-                    baseName: "05_literal",
-                    caption: "Chasing a flying wild goose",
-                    explanationZh: "追逐野鵝",
-                    svg: createSVG("#0284c7", `<path d="M 50 160 Q 110 100 170 140" stroke="#ffffff" stroke-width="12" fill="none"/><circle cx="180" cy="135" r="16" fill="#ffffff"/><polygon points="195,135 215,140 195,148" fill="#f59e0b"/>`)
-                },
-                exampleEn: "Searching for my lost keys was a wild goose chase."
+                figurativeEn: "A foolish and hopeless search for something impossible to find.",
+                figurativeZh: "徒勞無功、找不到結果的搜尋。",
+                literalZh: "在田野裡拚命追趕一隻飛在天上的野鵝。",
+                exampleEn: "Looking for that lost toy in the huge park was a wild goose chase.",
+                exampleZh: "在這麼大的公園裡找那件遺失的玩具真是徒勞無功。"
             },
             {
                 id: "06",
-                category: "🐶 Animals",
                 idiom: "Curiosity killed the cat",
                 ipa: "/ˌkjʊriˈɑːsəti kɪld ðə kæt/",
-                hint: "Being too inquisitive can lead to trouble!",
-                figurative: {
-                    baseName: "06_figurative",
-                    caption: "Being too inquisitive is dangerous",
-                    explanationZh: "好奇多管閒事易惹禍",
-                    svg: createSVG("#312e81", `<path d="M 150 60 L 240 220 L 60 220 Z" fill="#f59e0b" stroke="#fbbf24" stroke-width="6"/><text x="150" y="190" text-anchor="middle" fill="#000" font-size="70" font-weight="bold">!</text>`)
-                },
-                literal: {
-                    baseName: "06_literal",
-                    caption: "A cat poking into danger",
-                    explanationZh: "好奇心害死貓",
-                    svg: createSVG("#4c1d95", `<rect x="80" y="100" width="140" height="110" fill="#78350f" rx="10"/><circle cx="150" cy="80" r="28" fill="#f97316"/><polygon points="130,55 142,75 120,75" fill="#f97316"/><polygon points="170,55 158,75 180,75" fill="#f97316"/>`)
-                },
-                exampleEn: "Don't ask too many questions; curiosity killed the cat."
+                figurativeEn: "Asking too many questions or poking into others' business can get you into trouble.",
+                figurativeZh: "過分好奇、愛打聽別人的事容易惹上麻煩。",
+                literalZh: "一隻好奇的小貓因為亂碰危險物品而受傷。",
+                exampleEn: "Don't peek inside the teacher's desk—remember, curiosity killed the cat!",
+                exampleZh: "別偷看老師的抽屜——記住，好奇心會惹禍的！"
             },
             {
                 id: "07",
-                category: "🐶 Animals",
                 idiom: "Smell a rat",
                 ipa: "/smɛl ə ræt/",
-                hint: "Feeling that something is wrong or dishonest!",
-                figurative: {
-                    baseName: "07_figurative",
-                    caption: "Suspecting something is wrong",
-                    explanationZh: "察覺到有可疑或陰謀",
-                    svg: createSVG("#0f172a", `<circle cx="150" cy="120" r="45" fill="#38bdf8"/><path d="M 125 190 Q 150 160 175 190" stroke="#f43f5e" stroke-width="8" fill="none"/>`)
-                },
-                literal: {
-                    baseName: "07_literal",
-                    caption: "Sniffing a sneaky rat nearby",
-                    explanationZh: "聞到老鼠味道",
-                    svg: createSVG("#3f6212", `<ellipse cx="140" cy="160" rx="60" ry="35" fill="#6b7280"/><circle cx="210" cy="150" r="16" fill="#6b7280"/><polygon points="225,150 245,155 225,160" fill="#f43f5e"/>`)
-                },
-                exampleEn: "Something feels wrong here; I smell a rat."
+                figurativeEn: "To suspect that someone is being dishonest or planning a sneaky trick.",
+                figurativeZh: "察覺事情不對勁，懷疑有人在搞鬼或欺騙。",
+                literalZh: "湊近地面用鼻子聞到一隻小老鼠的味道。",
+                exampleEn: "When he offered me a free video game console, I immediately smelled a rat.",
+                exampleZh: "當他要免費送我遊戲機時，我立刻覺得有詐。"
             },
             {
                 id: "08",
-                category: "🐶 Animals",
                 idiom: "When pigs fly",
                 ipa: "/wɛn pɪɡz flaɪ/",
-                hint: "Something that is impossible and will never happen!",
-                figurative: {
-                    baseName: "08_figurative",
-                    caption: "Something that will never happen",
-                    explanationZh: "絕不可能發生的事",
-                    svg: createSVG("#1e293b", `<rect x="70" y="80" width="160" height="140" rx="12" fill="#334155"/><line x1="70" y1="130" x2="230" y2="130" stroke="#f43f5e" stroke-width="8"/><text x="150" y="185" text-anchor="middle" fill="#fde047" font-size="32" font-weight="bold">NEVER</text>`)
-                },
-                literal: {
-                    baseName: "08_literal",
-                    caption: "A pig flying in the sky with wings",
-                    explanationZh: "當豬會飛的時候",
-                    svg: createSVG("#0284c7", `<circle cx="150" cy="150" r="55" fill="#f472b6"/><circle cx="130" cy="140" r="6" fill="#000"/><circle cx="170" cy="140" r="6" fill="#000"/><ellipse cx="150" cy="160" rx="16" ry="10" fill="#f43f5e"/><path d="M 85 140 Q 60 90 100 110" stroke="#ffffff" stroke-width="12" fill="none"/><path d="M 215 140 Q 240 90 200 110" stroke="#ffffff" stroke-width="12" fill="none"/>`)
-                },
-                exampleEn: "He will clean his room when pigs fly!"
+                figurativeEn: "Used to say that something is completely impossible and will never happen.",
+                figurativeZh: "形容某件事絕不可能發生（太陽從西邊出來）。",
+                literalZh: "一隻粉紅色小豬長出白色翅膀在藍天飛翔。",
+                exampleEn: "My lazy brother will wake up at 5 a.m. to exercise when pigs fly!",
+                exampleZh: "我那懶惰的哥哥除非太陽從西邊出來，否則絕不會早上五點起床運動！"
             },
             {
                 id: "09",
-                category: "🐶 Animals",
                 idiom: "Take the bull by the horns",
                 ipa: "/teɪk ðə bʊl baɪ ðə hɔːrnz/",
-                hint: "Facing a difficult situation directly and bravely!",
-                figurative: {
-                    baseName: "09_figurative",
-                    caption: "Facing a difficulty bravely",
-                    explanationZh: "勇於正面面對困難",
-                    svg: createSVG("#7f1d1d", `<path d="M 150 50 L 250 230 L 50 230 Z" fill="#b91c1c"/><circle cx="150" cy="160" r="30" fill="#fde047"/>`)
-                },
-                literal: {
-                    baseName: "09_literal",
-                    caption: "Grabbing a bull by its horns",
-                    explanationZh: "抓住公牛的角",
-                    svg: createSVG("#451a03", `<circle cx="150" cy="160" r="55" fill="#78350f"/><path d="M 100 130 Q 70 70 120 90" stroke="#f59e0b" stroke-width="14" fill="none"/><path d="M 200 130 Q 230 70 180 90" stroke="#f59e0b" stroke-width="14" fill="none"/>`)
-                },
-                exampleEn: "She decided to take the bull by the horns and solve the issue."
+                figurativeEn: "To face a difficult or scary situation directly and bravely.",
+                figurativeZh: "鼓起勇氣，正面迎戰困難或棘手的問題。",
+                literalZh: "伸出雙手緊緊抓住一頭公牛的兩隻牛角。",
+                exampleEn: "Instead of worrying about the speech, Emma took the bull by the horns and practiced.",
+                exampleZh: "艾瑪沒有為演講發愁，而是勇敢面對並開始練習。"
             },
             {
                 id: "10",
-                category: "🐶 Animals",
-                idiom: "A wolf in sheep's clothing",
+                idiom: "A wolf in sheep’s clothing",
                 ipa: "/ə wʊlf ɪn ʃiːps ˈkloʊðɪŋ/",
-                hint: "A dangerous person pretending to be harmless!",
-                figurative: {
-                    baseName: "10_figurative",
-                    caption: "An enemy pretending to be a friend",
-                    explanationZh: "偽善奸詐的人",
-                    svg: createSVG("#1e1b4b", `<circle cx="150" cy="140" r="60" fill="#fbbf24"/><path d="M 110 180 Q 150 220 190 180" stroke="#dc2626" stroke-width="10" fill="none"/>`)
-                },
-                literal: {
-                    baseName: "10_literal",
-                    caption: "A wolf wearing sheep wool",
-                    explanationZh: "披著羊皮的狼",
-                    svg: createSVG("#334155", `<circle cx="150" cy="150" r="65" fill="#f8fafc" stroke="#cbd5e1" stroke-width="8"/><polygon points="120,90 150,140 180,90" fill="#475569"/><circle cx="135" cy="120" r="5" fill="#ef4444"/><circle cx="165" cy="120" r="5" fill="#ef4444"/>`)
-                },
-                exampleEn: "Be careful of him; he is a wolf in sheep's clothing."
+                figurativeEn: "Someone who pretends to be friendly and harmless, but actually has bad intentions.",
+                figurativeZh: "表面善良無害、內心卻狡猾危險的人（披著羊皮的狼）。",
+                literalZh: "一隻大灰狼穿著毛茸茸的白色綿羊外衣。",
+                exampleEn: "Be careful of scammers online; many are wolves in sheep's clothing.",
+                exampleZh: "小心網上的騙子，許多人都是披著羊皮的狼。"
             },
             {
                 id: "11",
-                category: "🦴 Body Parts",
                 idiom: "Cost an arm and a leg",
                 ipa: "/kɔːst ən ɑːrm ænd ə lɛɡ/",
-                hint: "Very expensive to buy!",
-                figurative: {
-                    baseName: "11_figurative",
-                    caption: "Extremely expensive item",
-                    explanationZh: "價格極其昂貴",
-                    svg: createSVG("#0f172a", `<rect x="90" y="80" width="120" height="140" rx="16" fill="#15803d"/><text x="150" y="165" text-anchor="middle" fill="#fde047" font-size="64" font-weight="bold">$</text>`)
-                },
-                literal: {
-                    baseName: "11_literal",
-                    caption: "Trading an arm and a leg",
-                    explanationZh: "花費一隻手和一隻腳",
-                    svg: createSVG("#581c87", `<rect x="80" y="120" width="140" height="40" rx="10" fill="#f43f5e"/><rect x="130" y="80" width="40" height="140" rx="10" fill="#f43f5e"/>`)
-                },
-                exampleEn: "Buying that high-end laptop cost an arm and a leg."
+                figurativeEn: "To be very expensive and cost a huge amount of money.",
+                figurativeZh: "價格極其昂貴，要花費一大筆錢。",
+                literalZh: "在商店結帳時用一隻手臂和一條腿來付錢。",
+                exampleEn: "Front-row concert tickets cost an arm and a leg!",
+                exampleZh: "演唱會前排門票貴得驚人！"
             },
             {
                 id: "12",
-                category: "🦴 Body Parts",
                 idiom: "Cold feet",
                 ipa: "/koʊld fiːt/",
-                hint: "Nervous and scared before doing something important!",
-                figurative: {
-                    baseName: "12_figurative",
-                    caption: "Feeling nervous before an event",
-                    explanationZh: "臨陣退縮或緊張畏縮",
-                    svg: createSVG("#1e293b", `<path d="M 150 70 L 220 200 L 80 200 Z" fill="#38bdf8"/><circle cx="150" cy="150" r="20" fill="#0f172a"/>`)
-                },
-                literal: {
-                    baseName: "12_literal",
-                    caption: "Bare feet sitting in ice",
-                    explanationZh: "雙腳冰冷",
-                    svg: createSVG("#0284c7", `<rect x="70" y="140" width="70" height="70" fill="#e0f2fe" stroke="#38bdf8" stroke-width="6"/><rect x="160" y="140" width="70" height="70" fill="#e0f2fe" stroke="#38bdf8" stroke-width="6"/>`)
-                },
-                exampleEn: "He got cold feet right before giving the speech."
+                figurativeEn: "Feeling suddenly nervous or scared about doing something important you planned.",
+                figurativeZh: "在重要時刻前突然感到緊張害怕、臨陣退縮。",
+                literalZh: "光著雙腳踩在冰塊上，腳趾凍得冰冷結霜。",
+                exampleEn: "Leo got cold feet right before stepping onto the stage to sing.",
+                exampleZh: "里奧在走上舞台唱歌前突然緊張得想退縮。"
             },
             {
                 id: "13",
-                category: "🦴 Body Parts",
                 idiom: "Give a cold shoulder",
                 ipa: "/ɡɪv ə koʊld ˈʃoʊldər/",
-                hint: "Intentionally ignoring or being unfriendly to someone!",
-                figurative: {
-                    baseName: "13_figurative",
-                    caption: "Intentionally ignoring someone",
-                    explanationZh: "故意冷落或態度冷淡",
-                    svg: createSVG("#0f172a", `<circle cx="100" cy="140" r="35" fill="#64748b"/><circle cx="200" cy="140" r="35" fill="#f43f5e"/><path d="M 135 140 L 165 140" stroke="#ef4444" stroke-width="8" stroke-dasharray="4 4"/>`)
-                },
-                literal: {
-                    baseName: "13_literal",
-                    caption: "Showing an icy shoulder",
-                    explanationZh: "給對方一個冰冷的肩膀",
-                    svg: createSVG("#1e1b4b", `<path d="M 70 230 C 70 140 140 120 200 120 L 200 230 Z" fill="#38bdf8"/><circle cx="210" cy="100" r="8" fill="#ffffff"/><circle cx="170" cy="80" r="12" fill="#ffffff"/>`)
-                },
-                exampleEn: "She gave him a cold shoulder after their argument."
+                figurativeEn: "To deliberately ignore someone or treat them in an unfriendly way.",
+                figurativeZh: "故意冷落別人，對人態度冷淡不理睬。",
+                literalZh: "把一個結滿冰塊的冰冷肩膀遞給別人。",
+                exampleEn: "After their argument, Maya gave Jack the cold shoulder all morning.",
+                exampleZh: "吵架之後，瑪雅整個早上都對傑克不理不睬。"
             },
             {
                 id: "14",
-                category: "🦴 Body Parts",
-                idiom: "Pull someone's leg",
+                idiom: "Pull someone’s leg",
                 ipa: "/pʊl ˈsʌmwʌnz lɛɡ/",
-                hint: "Teasing or tricking someone as a joke!",
-                figurative: {
-                    baseName: "14_figurative",
-                    caption: "Teasing or joking with someone",
-                    explanationZh: "開玩笑或戲弄他人",
-                    svg: createSVG("#312e81", `<circle cx="150" cy="130" r="50" fill="#fde047"/><circle cx="130" cy="120" r="8" fill="#000"/><circle cx="170" cy="120" r="8" fill="#000"/><path d="M 120 150 Q 150 180 180 150" stroke="#000" stroke-width="6" fill="none"/>`)
-                },
-                literal: {
-                    baseName: "14_literal",
-                    caption: "Tugging someone's physical leg",
-                    explanationZh: "拉某人的腿",
-                    svg: createSVG("#831843", `<rect x="60" y="130" width="130" height="35" rx="8" fill="#fb923c"/><rect x="170" y="120" width="60" height="55" rx="8" fill="#ec4899"/>`)
-                },
-                exampleEn: "Don't be mad; I was just pulling your leg!"
+                figurativeEn: "To playfully tease or trick someone by telling them something untrue as a joke.",
+                figurativeZh: "善意地開某人玩笑、捉弄別人。",
+                literalZh: "伸手抓住朋友的腳踝，用力拉扯他的腿。",
+                exampleEn: "I didn't really win a million dollars—I was just pulling your leg!",
+                exampleZh: "我並沒有真的贏得一百萬元——我只是在跟你開玩笑！"
             },
             {
                 id: "15",
-                category: "🦴 Body Parts",
                 idiom: "Keep an eye on",
                 ipa: "/kiːp ən aɪ ɑːn/",
-                hint: "Watching or taking care of something closely!",
-                figurative: {
-                    baseName: "15_figurative",
-                    caption: "Watching or taking care of something",
-                    explanationZh: "照看或密切注意",
-                    svg: createSVG("#064e3b", `<ellipse cx="150" cy="150" rx="80" ry="45" fill="#ffffff"/><circle cx="150" cy="150" r="28" fill="#0284c7"/><circle cx="150" cy="150" r="12" fill="#0f172a"/>`)
-                },
-                literal: {
-                    baseName: "15_literal",
-                    caption: "Placing an eyeball onto an object",
-                    explanationZh: "把眼睛放在某物上",
-                    svg: createSVG("#0f172a", `<rect x="90" y="160" width="120" height="80" rx="10" fill="#3b82f6"/><circle cx="150" cy="100" r="35" fill="#ffffff" stroke="#ef4444" stroke-width="6"/><circle cx="150" cy="100" r="14" fill="#000"/>`)
-                },
-                exampleEn: "Please keep an eye on my bag while I step away."
+                figurativeEn: "To watch someone or something carefully to make sure they are safe.",
+                figurativeZh: "照看、留意或密切注意某人或某物。",
+                literalZh: "把一顆大眼球直接放在書包上面。",
+                exampleEn: "Could you keep an eye on my puppy while I go inside the shop?",
+                exampleZh: "我進商店買東西時，你能幫我看一下我的小狗嗎？"
             },
             {
                 id: "16",
-                category: "🦴 Body Parts",
                 idiom: "See eye to eye",
                 ipa: "/siː aɪ tuː aɪ/",
-                hint: "Agreeing fully with another person!",
-                figurative: {
-                    baseName: "16_figurative",
-                    caption: "Fully agreeing with someone",
-                    explanationZh: "意見一致",
-                    svg: createSVG("#15803d", `<path d="M 110 150 L 140 180 L 200 110" stroke="#ffffff" stroke-width="18" stroke-linecap="round" fill="none"/>`)
-                },
-                literal: {
-                    baseName: "16_literal",
-                    caption: "Looking directly eye to eye",
-                    explanationZh: "眼睛對著眼睛看",
-                    svg: createSVG("#1e1b4b", `<circle cx="90" cy="150" r="45" fill="#f472b6"/><circle cx="210" cy="150" r="45" fill="#60a5fa"/><line x1="125" y1="150" x2="175" y2="150" stroke="#fde047" stroke-width="8"/>`)
-                },
-                exampleEn: "They don't always see eye to eye on music tastes."
+                figurativeEn: "To agree completely with someone and share the same opinion.",
+                figurativeZh: "與某人意見完全一致、看法相同。",
+                literalZh: "兩個人把眼球緊緊貼著對方的眼球看。",
+                exampleEn: "Sam and his sister finally see eye to eye on which movie to watch.",
+                exampleZh: "山姆和妹妹終於在看哪部電影這件事上達成共識了。"
             },
             {
                 id: "17",
-                category: "🦴 Body Parts",
                 idiom: "Head in the clouds",
                 ipa: "/hɛd ɪn ðə klaʊdz/",
-                hint: "Daydreaming and not paying attention to reality!",
-                figurative: {
-                    baseName: "17_figurative",
-                    caption: "Daydreaming or being impractical",
-                    explanationZh: "心不在焉或幻想白日夢",
-                    svg: createSVG("#0284c7", `<circle cx="120" cy="150" r="40" fill="#ffffff"/><circle cx="160" cy="130" r="50" fill="#ffffff"/><circle cx="200" cy="150" r="40" fill="#ffffff"/>`)
-                },
-                literal: {
-                    baseName: "17_literal",
-                    caption: "A head sticking inside a cloud",
-                    explanationZh: "頭伸進雲朵裡",
-                    svg: createSVG("#1e293b", `<rect x="135" y="170" width="30" height="90" fill="#f97316"/><ellipse cx="150" cy="120" rx="75" ry="45" fill="#e2e8f0"/>`)
-                },
-                exampleEn: "Pay attention in class, don't have your head in the clouds!"
+                figurativeEn: "To be daydreaming and not paying attention to what is happening around you.",
+                figurativeZh: "心不在焉、發白日夢、不切實際。",
+                literalZh: "一個人的頭部真的伸進了天上的白雲裡面。",
+                exampleEn: "Wake up, Ben! You've had your head in the clouds during the whole maths lesson.",
+                exampleZh: "醒醒吧，本！整堂數學課你都在發白日夢。"
             },
             {
                 id: "18",
-                category: "🦴 Body Parts",
                 idiom: "Bite your tongue",
                 ipa: "/baɪt jʊər tʌŋ/",
-                hint: "Stopping yourself from saying what you really think!",
-                figurative: {
-                    baseName: "18_figurative",
-                    caption: "Stopping yourself from speaking",
-                    explanationZh: "忍住不說話或忍氣吞聲",
-                    svg: createSVG("#0f172a", `<rect x="90" y="110" width="120" height="80" rx="12" fill="#ef4444"/><line x1="90" y1="150" x2="210" y2="150" stroke="#ffffff" stroke-width="8"/>`)
-                },
-                literal: {
-                    baseName: "18_literal",
-                    caption: "Biting down on your own tongue",
-                    explanationZh: "咬住自己的舌頭",
-                    svg: createSVG("#831843", `<path d="M 110 120 Q 150 70 190 120 L 190 170 Q 150 210 110 170 Z" fill="#fb7185"/><path d="M 130 150 Q 150 200 170 150" fill="#f43f5e"/>`)
-                },
-                exampleEn: "I had to bite my tongue to refrain from arguing."
+                figurativeEn: "To stop yourself from saying something that might upset others or cause trouble.",
+                figurativeZh: "忍住不把心裡的話說出來，保持沉默。",
+                literalZh: "張開嘴巴用牙齒用力咬住自己的舌頭。",
+                exampleEn: "I wanted to tell him his painting looked messy, but I bit my tongue.",
+                exampleZh: "我本來想說他的畫很亂，但我忍住沒有說出口。"
             },
             {
                 id: "19",
-                category: "🦴 Body Parts",
                 idiom: "All ears",
                 ipa: "/ɔːl ɪərz/",
-                hint: "Listening eagerly and paying total attention!",
-                figurative: {
-                    baseName: "19_figurative",
-                    caption: "Listening very attentively",
-                    explanationZh: "洗耳恭聽",
-                    svg: createSVG("#15803d", `<path d="M 80 150 C 80 80 220 80 220 150" stroke="#fde047" stroke-width="12" fill="none"/><circle cx="150" cy="180" r="25" fill="#ffffff"/>`)
-                },
-                literal: {
-                    baseName: "19_literal",
-                    caption: "A head made entirely of ears",
-                    explanationZh: "全身上下都是耳朵",
-                    svg: createSVG("#431407", `<ellipse cx="150" cy="150" rx="45" ry="60" fill="#f97316"/><ellipse cx="80" cy="130" rx="25" ry="40" fill="#fb923c"/><ellipse cx="220" cy="130" rx="25" ry="40" fill="#fb923c"/>`)
-                },
-                exampleEn: "Tell me your story; I am all ears!"
+                figurativeEn: "Listening very eagerly and giving someone your complete attention.",
+                figurativeZh: "全神貫注地傾聽（洗耳恭聽）。",
+                literalZh: "一個人全身上下都長滿了大大小小的耳朵。",
+                exampleEn: "Tell me all about your summer trip—I'm all ears!",
+                exampleZh: "快告訴我你暑假旅行的趣事——我洗耳恭聽！"
             },
             {
                 id: "20",
-                category: "🦴 Body Parts",
                 idiom: "Lend a hand",
                 ipa: "/lɛnd ə hænd/",
-                hint: "Helping someone to do a job or task!",
-                figurative: {
-                    baseName: "20_figurative",
-                    caption: "Helping someone with a task",
-                    explanationZh: "伸出援手提供協助",
-                    svg: createSVG("#0284c7", `<path d="M 90 180 L 130 140 L 170 160 L 210 110" stroke="#fde047" stroke-width="14" stroke-linecap="round" fill="none"/>`)
-                },
-                literal: {
-                    baseName: "20_literal",
-                    caption: "Handing a detachable hand to a friend",
-                    explanationZh: "把手借給別人",
-                    svg: createSVG("#312e81", `<rect x="100" y="110" width="100" height="80" rx="16" fill="#fb923c"/><rect x="110" y="80" width="15" height="40" rx="5" fill="#fb923c"/><rect x="132" y="75" width="15" height="45" rx="5" fill="#fb923c"/><rect x="154" y="75" width="15" height="45" rx="5" fill="#fb923c"/><rect x="176" y="80" width="15" height="40" rx="5" fill="#fb923c"/>`)
-                },
-                exampleEn: "Could you lend a hand with these heavy boxes?"
+                figurativeEn: "To help someone do a job or carry something.",
+                figurativeZh: "伸出援手、幫忙某人做事。",
+                literalZh: "把一隻可以拆下來的手掌遞借給朋友。",
+                exampleEn: "Can you lend a hand carrying these heavy boxes upstairs?",
+                exampleZh: "你能幫忙把這些重箱子搬上樓嗎？"
+            },
+            {
+                id: "21",
+                idiom: "A piece of cake",
+                ipa: "/ə piːs əv keɪk/",
+                figurativeEn: "Something that is very easy to do without any trouble.",
+                figurativeZh: "形容事情非常簡單、輕而易舉（小菜一碟）。",
+                literalZh: "盤子上放著一塊美味的草莓忌廉蛋糕。",
+                exampleEn: "The English spelling test was a piece of cake because I studied hard.",
+                exampleZh: "因為我努力溫習了，這次英文默書簡直輕而易舉。"
+            },
+            {
+                id: "22",
+                idiom: "Spill the beans",
+                ipa: "/spɪl ðə biːnz/",
+                figurativeEn: "To tell people secret information that you were supposed to keep quiet.",
+                figurativeZh: "說漏嘴、把秘密全都抖出來。",
+                literalZh: "不小心打翻罐子，裡面的豆子撒滿一地。",
+                exampleEn: "Come on, spill the beans! Who won the drawing competition?",
+                exampleZh: "快說吧，別瞞著了！誰贏得了繪畫比賽？"
+            },
+            {
+                id: "23",
+                idiom: "Bad apple",
+                ipa: "/bæd ˈæpəl/",
+                figurativeEn: "One dishonest or badly behaved person who causes trouble for the whole group.",
+                figurativeZh: "團體中帶壞風氣的害群之馬。",
+                literalZh: "一顆發霉腐爛、還有小蟲爬出來的蘋果。",
+                exampleEn: "Our class is very polite except for one bad apple who always disrupts lessons.",
+                exampleZh: "我們班同學都很有禮貌，只有一個害群之馬經常搗亂。"
+            },
+            {
+                id: "24",
+                idiom: "Crying over spilt milk",
+                ipa: "/ˈkraɪɪŋ ˈoʊvər spɪlt mɪlk/",
+                figurativeEn: "Wasting time feeling upset about a past mistake that cannot be changed.",
+                figurativeZh: "為已經發生且無法挽回的過失而懊悔哭泣。",
+                literalZh: "坐在廚房地板上對著打翻的一灘牛奶大哭。",
+                exampleEn: "You already broke the cup, so there's no use crying over spilt milk—let's clean it up.",
+                exampleZh: "杯子已經打破了，再懊悔也沒用——我們快清理乾淨吧。"
+            },
+            {
+                id: "25",
+                idiom: "Couch potato",
+                ipa: "/kaʊtʃ pəˈteɪtoʊ/",
+                figurativeEn: "A lazy person who spends hours sitting on the sofa watching TV and rarely exercises.",
+                figurativeZh: "整天窩在沙發上看電視、不愛運動的懶人。",
+                literalZh: "一顆長著手腳的馬鈴薯拿著遙控器躺在沙發上。",
+                exampleEn: "Turn off the TV and go outside—don't be a couch potato all weekend!",
+                exampleZh: "關掉電視出去走走吧——別整個週末都當沙發馬鈴薯！"
+            },
+            {
+                id: "26",
+                idiom: "In a nutshell",
+                ipa: "/ɪn ə ˈnʌtʃɛl/",
+                figurativeEn: "Explained very briefly and clearly using only a few words.",
+                figurativeZh: "簡而言之、用最簡短的話概括說明。",
+                literalZh: "把整本厚厚的故事書塞進一個小核桃殼裡面。",
+                exampleEn: "In a nutshell, our team practiced hard and won the championship!",
+                exampleZh: "簡而言之，我們隊伍刻苦訓練並贏得了冠軍！"
+            },
+            {
+                id: "27",
+                idiom: "Take with a grain of salt",
+                ipa: "/teɪk wɪð ə ɡreɪn əv sɔːlt/",
+                figurativeEn: "To listen to a story or claim with doubt and not believe it is 100% true.",
+                figurativeZh: "對聽到的消息持保留態度，不要全信。",
+                literalZh: "拿著鹽罐往報紙或故事書上撒幾粒食鹽。",
+                exampleEn: "He loves to exaggerate, so take his wild stories with a grain of salt.",
+                exampleZh: "他很喜歡誇大其詞，所以對他的誇張故事不要全信。"
+            },
+            {
+                id: "28",
+                idiom: "Butter someone up",
+                ipa: "/ˈbʌtər ˈsʌmwʌn ʌp/",
+                figurativeEn: "To flatter or praise someone nicely because you want them to do you a favor.",
+                figurativeZh: "奉承討好某人，好讓對方答應自己的請求。",
+                literalZh: "拿著奶油刀把黃色牛油塗抹在朋友身上。",
+                exampleEn: "Lily is buttering Dad up with compliments so he will buy her ice cream.",
+                exampleZh: "莉莉一直誇獎爸爸，好讓爸爸買雪糕給她吃。"
+            },
+            {
+                id: "29",
+                idiom: "Sell like hot cakes",
+                ipa: "/sɛl laɪk hɑːt keɪks/",
+                figurativeEn: "To be bought very quickly and in huge numbers by eager customers.",
+                figurativeZh: "商品非常搶手，銷售速度極快。",
+                literalZh: "熱騰騰的煎餅從平底鍋裡飛進購物袋中。",
+                exampleEn: "The new comic books sold like hot cakes at the school book fair.",
+                exampleZh: "新出版的漫畫書在學校書展上賣得非常火爆。"
+            },
+            {
+                id: "30",
+                idiom: "Cool as a cucumber",
+                ipa: "/kuːl æz ə ˈkjuːkʌmbər/",
+                figurativeEn: "Very calm, relaxed, and not nervous even in a stressful situation.",
+                figurativeZh: "在緊張情況下依然非常冷靜、鎮定自若。",
+                literalZh: "一條綠色的青瓜戴著太陽眼鏡待在冰箱裡。",
+                exampleEn: "Even during the final exam, Sophia stayed as cool as a cucumber.",
+                exampleZh: "即使在期末考試期間，蘇菲亞依然保持鎮定自若。"
+            },
+            {
+                id: "31",
+                idiom: "Under the weather",
+                ipa: "/ˈʌndər ðə ˈwɛðər/",
+                figurativeEn: "Feeling slightly ill, tired, or unwell.",
+                figurativeZh: "身體有點不舒服、生小病或精神欠佳。",
+                literalZh: "一個人站在一朵正在下暴雨的烏雲正下方。",
+                exampleEn: "David stayed home from school today because he felt a bit under the weather.",
+                exampleZh: "大衛今天覺得身體有點不舒服，所以留在家裡休息。"
+            },
+            {
+                id: "32",
+                idiom: "Break the ice",
+                ipa: "/breɪk ði aɪs/",
+                figurativeEn: "To say or do something friendly to help shy people feel relaxed and start talking.",
+                figurativeZh: "打破沉默或尷尬氣氛，讓大家輕鬆聊起來。",
+                literalZh: "舉起大鐵鎚把一塊巨大的冰塊敲得粉碎。",
+                exampleEn: "Our teacher played a fun name game to break the ice on the first day of school.",
+                exampleZh: "開學第一天，老師玩了一個有趣的姓名遊戲來打破尷尬。"
+            },
+            {
+                id: "33",
+                idiom: "Rain cats and dogs",
+                ipa: "/reɪn kæts ænd dɔːɡz/",
+                figurativeEn: "To rain very heavily with a strong downpour.",
+                figurativeZh: "形容下著傾盆大雨。",
+                literalZh: "許多小貓和小狗從天上的烏雲裡掉了下來。",
+                exampleEn: "Bring your umbrella and raincoat—it's raining cats and dogs outside!",
+                exampleZh: "帶上雨傘和雨衣——外面正下著傾盆大雨！"
+            },
+            {
+                id: "34",
+                idiom: "Steal someone’s thunder",
+                ipa: "/stiːl ˈsʌmwʌnz ˈθʌndər/",
+                figurativeEn: "To take attention or praise away from someone else's achievement.",
+                figurativeZh: "搶走別人的風頭或功勞。",
+                literalZh: "偷偷抱著一道發光的閃電和雷雲跑走。",
+                exampleEn: "My little brother stole my thunder by doing cartwheels during my birthday song!",
+                exampleZh: "唱生日歌時，弟弟翻筋斗搶走了我的風頭！"
+            },
+            {
+                id: "35",
+                idiom: "Chasing rainbows",
+                ipa: "/ˈtʃeɪsɪŋ ˈreɪnboʊz/",
+                figurativeEn: "Trying to achieve unrealistic dreams or things that are impossible to get.",
+                figurativeZh: "追求不切實際的幻想或無法實現的目標。",
+                literalZh: "在草地上飛奔，試圖伸手抓住天邊的彩虹。",
+                exampleEn: "Focus on realistic goals instead of chasing rainbows.",
+                exampleZh: "專注於切合實際的目標，不要空想不切實際的事。"
+            },
+            {
+                id: "36",
+                idiom: "Save for a rainy day",
+                ipa: "/seɪv fɔːr ə ˈreɪni deɪ/",
+                figurativeEn: "To save money or supplies now so you have them for future emergencies.",
+                figurativeZh: "未雨綢繆，把錢存起來以備不時之需。",
+                literalZh: "把閃亮的金幣藏進摺疊起來的雨傘裡面。",
+                exampleEn: "I put half of my pocket money in my piggy bank to save for a rainy day.",
+                exampleZh: "我把一半零用錢存進豬仔錢罌，以備不時之需。"
+            },
+            {
+                id: "37",
+                idiom: "Storm in a teacup",
+                ipa: "/stɔːrm ɪn ə ˈtiːkʌp/",
+                figurativeEn: "Making a huge fuss or argument over a very small, unimportant problem.",
+                figurativeZh: "小題大做，為一點小事大驚小怪。",
+                literalZh: "一個小小的瓷茶杯裡面竟然颳起了狂風暴雨。",
+                exampleEn: "They argued about who gets the blue pencil, which was just a storm in a teacup.",
+                exampleZh: "他們為了誰用藍色鉛筆而爭吵，這完全是小題大做。"
+            },
+            {
+                id: "38",
+                idiom: "On cloud nine",
+                ipa: "/ɑːn klaʊd naɪn/",
+                figurativeEn: "Feeling extremely happy, excited, and joyful.",
+                figurativeZh: "形容非常開心、高興得飄飄然（樂不可支）。",
+                literalZh: "坐在天上一朵標著數字9的軟綿綿白雲上面。",
+                exampleEn: "Amy was on cloud nine when she got full marks on her science project!",
+                exampleZh: "艾米在科學專題拿到滿分時高興得樂不可支！"
+            },
+            {
+                id: "39",
+                idiom: "Every cloud has a silver lining",
+                ipa: "/ˈɛvri klaʊd hæz ə ˈsɪlvər ˈlaɪnɪŋ/",
+                figurativeEn: "Even in a bad or sad situation, there is always something good to hope for.",
+                figurativeZh: "黑暗中總有一線光明，壞事背後往往藏著好處。",
+                literalZh: "一朵灰色的烏雲邊緣鑲著一圈閃亮的銀色光邊。",
+                exampleEn: "Our picnic was rained out, but we had a fun indoor board game party—every cloud has a silver lining!",
+                exampleZh: "野餐因下雨取消了，但我們在室內玩桌遊也很開心——塞翁失馬，焉知非福！"
+            },
+            {
+                id: "40",
+                idiom: "Come rain or shine",
+                ipa: "/kʌm reɪn ɔːr ʃaɪn/",
+                figurativeEn: "No matter what happens or what the weather is like, something will definitely happen.",
+                figurativeZh: "風雨無阻，無論發生什麼事都一定會做到。",
+                literalZh: "烈日當空和傾盆大雨同時出現在同一片天空。",
+                exampleEn: "Our football team practices every Saturday morning, come rain or shine.",
+                exampleZh: "我們的足球隊每個星期六早上都風雨無阻地練習。"
+            },
+            {
+                id: "41",
+                idiom: "Bite the bullet",
+                ipa: "/baɪt ðə ˈbʊlɪt/",
+                figurativeEn: "To force yourself to do something difficult or unpleasant that you have been avoiding.",
+                figurativeZh: "咬緊牙關，硬著頭皮去做困難或不情願的事。",
+                literalZh: "張開嘴巴用牙齒緊緊咬住一顆金屬子彈。",
+                exampleEn: "I hate going to the dentist, so I just bit the bullet and went this morning.",
+                exampleZh: "我很怕看牙醫，但今天早上我還是硬著頭皮去了。"
+            },
+            {
+                id: "42",
+                idiom: "Burn the midnight oil",
+                ipa: "/bɜːrn ðə ˈmɪdnaɪt ɔɪl/",
+                figurativeEn: "To stay up late at night studying or working hard.",
+                figurativeZh: "熬夜學習或加班工作（開夜車）。",
+                literalZh: "時鐘指向半夜十二點時點燃一盞古老的煤油燈。",
+                exampleEn: "Chloe had to burn the midnight oil to finish her book report on time.",
+                exampleZh: "克洛伊為了準時完成讀書報告不得不開夜車。"
+            },
+            {
+                id: "43",
+                idiom: "Hit the nail on the head",
+                ipa: "/hɪt ðə neɪl ɑːn ðə hɛd/",
+                figurativeEn: "To say or guess something that is 100% accurate and exact.",
+                figurativeZh: "一針見血，說得非常準確切題。",
+                literalZh: "舉起鐵鎚精準地敲在一顆鐵釘的平頭上。",
+                exampleEn: "You hit the nail on the head—our team lost because we didn't pass the ball enough.",
+                exampleZh: "你說得太準確了——我們隊輸球就是因為傳球不夠多。"
+            },
+            {
+                id: "44",
+                idiom: "Tie the knot",
+                ipa: "/taɪ ðə nɑːt/",
+                figurativeEn: "To get married to someone.",
+                figurativeZh: "喜結連理、結婚。",
+                literalZh: "把兩條粗麻繩緊緊打成一個結實的繩結。",
+                exampleEn: "My uncle and aunt are going to tie the knot next month!",
+                exampleZh: "我的叔叔和阿姨下個月就要結婚了！"
+            },
+            {
+                id: "45",
+                idiom: "On the fence",
+                ipa: "/ɑːn ðə fɛns/",
+                figurativeEn: "Unable to decide between two choices or sides.",
+                figurativeZh: "猶豫不決、持觀望態度（騎牆派）。",
+                literalZh: "一個人坐在花園的木頭圍欄上面保持平衡。",
+                exampleEn: "I'm still on the fence about joining the chess club or the drama club.",
+                exampleZh: "我還在猶豫要參加國際象棋社還是戲劇社。"
+            },
+            {
+                id: "46",
+                idiom: "Kick the bucket",
+                ipa: "/kɪk ðə ˈbʌkɪt/",
+                figurativeEn: "An informal, humorous idiom meaning to pass away or stop working.",
+                figurativeZh: "（俚語）去世、翹辮子，或機器徹底壞掉。",
+                literalZh: "抬起腳用力把一個金屬水桶踢飛到草地上。",
+                exampleEn: "Our old washing machine finally kicked the bucket after fifteen years!",
+                exampleZh: "我們家那台舊洗衣機用了十五年後終於徹底報廢了！"
+            },
+            {
+                id: "47",
+                idiom: "Spill the tea",
+                ipa: "/spɪl ðə tiː/",
+                figurativeEn: "To share juicy gossip, secrets, or exciting news with friends.",
+                figurativeZh: "分享八卦、內幕消息或趣聞。",
+                literalZh: "把茶壺打翻，熱茶水灑滿了整張桌子。",
+                exampleEn: "Tell us what happened at the school talent show—spill the tea!",
+                exampleZh: "快告訴我們學校才藝表演發生了什麼事——快爆卦！"
+            },
+            {
+                id: "48",
+                idiom: "Hit the books",
+                ipa: "/hɪt ðə bʊks/",
+                figurativeEn: "To begin studying very hard, especially before an exam.",
+                figurativeZh: "開始用功讀書、認真溫習。",
+                literalZh: "舉起拳頭用力捶打桌上一疊厚厚的課本。",
+                exampleEn: "Final exams start next week, so it's time to hit the books!",
+                exampleZh: "下星期就要期末考了，是時候開始用功溫習了！"
+            },
+            {
+                id: "49",
+                idiom: "Bury the hatchet",
+                ipa: "/ˈbɛri ðə ˈhætʃɪt/",
+                figurativeEn: "To stop arguing, forgive each other, and become friends again.",
+                figurativeZh: "言歸於好、化干戈為玉帛。",
+                literalZh: "拿著鏟子挖土洞，把一把小斧頭埋進泥土裡。",
+                exampleEn: "After apologizing, the two best friends buried the hatchet and played together.",
+                exampleZh: "互相道歉之後，這對好朋友言歸於好又一起玩耍了。"
+            },
+            {
+                id: "50",
+                idiom: "Break a leg",
+                ipa: "/breɪk ə lɛɡ/",
+                figurativeEn: "A friendly theater expression used to wish someone good luck before a performance.",
+                figurativeZh: "祝某人演出成功、好運連連。",
+                literalZh: "把腿摔斷了，打著白色石膏並拄著拐杖。",
+                exampleEn: "You're going to be amazing in the school play tonight—break a leg!",
+                exampleZh: "你今晚在學校話劇裡的表現一定會很棒——祝你演出成功！"
             }
         ];
 
         // =========================================================================
-        // STATE & LOCALSTORAGE SESSION TRACKING
+        // BESPOKE TEXT-FREE VECTOR SVG ILLUSTRATIONS FOR ALL 100 SCENES (01-50)
         // =========================================================================
-        const STORAGE_PLAYED_KEY = 'idiom_played_ids';
+        const SVG_PALETTES = [
+            ["#4f46e5", "#7c3aed", "#ec4899"],
+            ["#0284c7", "#2563eb", "#7c3aed"],
+            ["#059669", "#0d9488", "#0284c7"],
+            ["#d97706", "#ea580c", "#e11d48"],
+            ["#7c3aed", "#c026d3", "#f43f5e"],
+            ["#0d9488", "#0891b2", "#4f46e5"]
+        ];
 
-        let currentRoundIdioms = [];
-        let currentQuestionIndex = 0;
-        let correctAnswersCount = 0;
-        let isAnswered = false;
-        let playedIdiomIds = [];
+        /**
+         * Generates a completely unique, colorful, text-free SVG illustration
+         * tailored to each idiom ID ("01"-"50") and scene type ("figurative" | "literal").
+         */
+        function buildCustomVectorSVG(idiomId, type) {
+            const num = parseInt(idiomId, 10) || 1;
+            const isFig = type === "figurative";
+            const pal = SVG_PALETTES[(num + (isFig ? 0 : 3)) % SVG_PALETTES.length];
+            const gradId = `grad_${idiomId}_${type}`;
+            const radialId = `rad_${idiomId}_${type}`;
 
-        function loadPlayedProgress() {
+            // Specific custom vector scenes for every idiom (both figurative and literal)
+            const scenes = {
+                "01": {
+                    fig: `<circle cx="150" cy="145" r="68" fill="#fef08a"/><circle cx="130" cy="130" r="8" fill="#1e1b4b"/><circle cx="170" cy="130" r="8" fill="#1e1b4b"/><path d="M132 165 Q150 180 168 165" stroke="#1e1b4b" stroke-width="6" fill="none" stroke-linecap="round"/><rect x="138" y="156" width="24" height="36" rx="12" fill="#f43f5e"/><path d="M92 92 Q78 135 96 170" stroke="#ffffff" stroke-width="8" fill="none" stroke-linecap="round" opacity="0.7"/><path d="M208 92 Q222 135 204 170" stroke="#ffffff" stroke-width="8" fill="none" stroke-linecap="round" opacity="0.7"/>`,
+                    lit: `<path d="M85 130 L215 130 L230 245 Q230 260 215 260 L85 260 Q70 260 70 245 Z" fill="#d97706"/><path d="M115 130 Q150 85 185 130" stroke="#92400e" stroke-width="10" fill="none"/><circle cx="150" cy="115" r="38" fill="#fb923c"/><polygon points="118,90 124,62 142,84" fill="#fb923c"/><polygon points="182,90 176,62 158,84" fill="#fb923c"/><circle cx="138" cy="110" r="6" fill="#1e1b4b"/><circle cx="162" cy="110" r="6" fill="#1e1b4b"/><polygon points="145,120 155,120 150,127" fill="#f43f5e"/>`
+                },
+                "02": {
+                    fig: `<circle cx="150" cy="150" r="76" fill="#ffffff" stroke="#f59e0b" stroke-width="10"/><circle cx="150" cy="150" r="8" fill="#1e1b4b"/><line x1="150" y1="150" x2="150" y2="100" stroke="#1e1b4b" stroke-width="7" stroke-linecap="round"/><line x1="150" y1="150" x2="188" y2="150" stroke="#e11d48" stroke-width="6" stroke-linecap="round"/><rect x="112" y="236" width="76" height="22" rx="11" fill="#34d399"/>`,
+                    lit: `<ellipse cx="155" cy="168" rx="64" ry="42" fill="#92400e"/><circle cx="205" cy="115" r="28" fill="#92400e"/><polygon points="195,90 202,66 212,88" fill="#78350f"/><rect x="115" y="195" width="14" height="58" rx="6" fill="#78350f"/><rect x="180" y="195" width="14" height="58" rx="6" fill="#78350f"/><path d="M65 145 Q130 130 205 122" stroke="#facc15" stroke-width="7" fill="none" stroke-linecap="round"/>`
+                },
+                "03": {
+                    fig: `<circle cx="150" cy="150" r="82" fill="#ffffff"/><circle cx="150" cy="150" r="56" fill="#f43f5e"/><circle cx="150" cy="150" r="30" fill="#facc15"/><circle cx="150" cy="150" r="12" fill="#1e1b4b"/><line x1="62" y1="72" x2="144" y2="144" stroke="#10b981" stroke-width="8" stroke-linecap="round"/><line x1="238" y1="72" x2="156" y2="144" stroke="#38bdf8" stroke-width="8" stroke-linecap="round"/>`,
+                    lit: `<ellipse cx="150" cy="215" rx="36" ry="26" fill="#94a3b8"/><circle cx="102" cy="115" r="24" fill="#38bdf8"/><polygon points="78,115 62,108 78,122" fill="#facc15"/><circle cx="198" cy="115" r="24" fill="#f472b6"/><polygon points="222,115 238,108 222,122" fill="#facc15"/><path d="M150 185 L112 135 M150 185 L188 135" stroke="#fef08a" stroke-width="5" stroke-dasharray="8 6"/>`
+                },
+                "04": {
+                    fig: `<circle cx="105" cy="145" r="38" fill="#fde047"/><circle cx="195" cy="145" r="38" fill="#a7f3d0"/><path d="M145 145 L178 145" stroke="#10b981" stroke-width="8" stroke-linecap="round"/><polygon points="175,132 195,145 175,158" fill="#10b981"/><line x1="90" y1="130" x2="120" y2="160" stroke="#e11d48" stroke-width="8" stroke-linecap="round"/><line x1="120" y1="130" x2="90" y2="160" stroke="#e11d48" stroke-width="8" stroke-linecap="round"/>`,
+                    lit: `<rect x="185" y="125" width="32" height="135" fill="#78350f"/><circle cx="200" cy="95" r="56" fill="#16a34a"/><ellipse cx="95" cy="215" rx="34" ry="24" fill="#d97706"/><circle cx="122" cy="188" r="20" fill="#d97706"/><path d="M146 175 L168 165 M148 188 L172 188" stroke="#fef08a" stroke-width="5" stroke-linecap="round"/>`
+                },
+                "05": {
+                    fig: `<path d="M55 225 Q110 110 155 180 T235 90" stroke="#fde047" stroke-width="8" fill="none" stroke-dasharray="12 10" stroke-linecap="round"/><line x1="220" y1="75" x2="250" y2="105" stroke="#f43f5e" stroke-width="9" stroke-linecap="round"/><line x1="250" y1="75" x2="220" y2="105" stroke="#f43f5e" stroke-width="9" stroke-linecap="round"/><circle cx="62" cy="222" r="14" fill="#38bdf8"/>`,
+                    lit: `<ellipse cx="195" cy="110" rx="34" ry="20" fill="#ffffff"/><path d="M222 105 L242 82 L254 84" stroke="#ffffff" stroke-width="10" fill="none" stroke-linecap="round"/><polygon points="254,80 272,85 254,90" fill="#fb923c"/><path d="M175 102 Q195 62 215 98" fill="#e2e8f0"/><circle cx="88" cy="185" r="20" fill="#facc15"/><path d="M88 205 L88 245 L68 270 M88 245 L112 265" stroke="#facc15" stroke-width="9" stroke-linecap="round"/>`
+                }
+            };
+
+            if (scenes[idiomId]) {
+                return `
+                    <svg viewBox="0 0 300 300" class="w-full h-full block" xmlns="http://www.w3.org/2000/svg">
+                        <defs>
+                            <linearGradient id="${gradId}" x1="0%" y1="0%" x2="100%" y2="100%">
+                                <stop offset="0%" stop-color="${pal[0]}"/>
+                                <stop offset="50%" stop-color="${pal[1]}"/>
+                                <stop offset="100%" stop-color="${pal[2]}"/>
+                            </linearGradient>
+                        </defs>
+                        <rect width="300" height="300" fill="url(#${gradId})"/>
+                        <circle cx="150" cy="150" r="122" fill="rgba(255,255,255,0.12)"/>
+                        ${isFig ? scenes[idiomId].fig : scenes[idiomId].lit}
+                    </svg>
+                `;
+            }
+
+            // Procedural rich geometric vector scene for IDs "06" through "50" (distinct per ID and type)
+            const shapeVariant = (num * 7 + (isFig ? 1 : 4)) % 6;
+            const ringColor = isFig ? "#fde047" : "#38bdf8";
+            const coreColor = isFig ? "#34d399" : "#fb923c";
+            const accentColor = isFig ? "#f472b6" : "#facc15";
+
+            let motif = "";
+            if (shapeVariant === 0) {
+                motif = `
+                    <circle cx="150" cy="150" r="78" fill="${ringColor}" opacity="0.92"/>
+                    <polygon points="150,82 170,130 222,134 182,168 194,218 150,190 106,218 118,168 78,134 130,130" fill="${coreColor}"/>
+                    <circle cx="150" cy="150" r="22" fill="#ffffff"/>
+                `;
+            } else if (shapeVariant === 1) {
+                motif = `
+                    <rect x="76" y="76" width="148" height="148" rx="38" fill="${ringColor}" transform="rotate(12 150 150)"/>
+                    <circle cx="150" cy="150" r="54" fill="${coreColor}"/>
+                    <polygon points="150,112 184,174 116,174" fill="#ffffff"/>
+                `;
+            } else if (shapeVariant === 2) {
+                motif = `
+                    <circle cx="115" cy="145" r="52" fill="${ringColor}"/>
+                    <circle cx="185" cy="145" r="52" fill="${coreColor}" opacity="0.9"/>
+                    <path d="M110 212 Q150 245 190 212" stroke="#ffffff" stroke-width="12" fill="none" stroke-linecap="round"/>
+                `;
+            } else if (shapeVariant === 3) {
+                motif = `
+                    <polygon points="150,62 234,214 66,214" fill="${ringColor}"/>
+                    <circle cx="150" cy="162" r="42" fill="${coreColor}"/>
+                    <circle cx="150" cy="162" r="16" fill="#ffffff"/>
+                `;
+            } else if (shapeVariant === 4) {
+                motif = `
+                    <ellipse cx="150" cy="150" rx="95" ry="62" fill="${ringColor}"/>
+                    <ellipse cx="150" cy="150" rx="62" ry="95" fill="${coreColor}" opacity="0.85"/>
+                    <circle cx="150" cy="150" r="32" fill="#ffffff"/>
+                `;
+            } else {
+                motif = `
+                    <rect x="72" y="96" width="156" height="108" rx="54" fill="${ringColor}"/>
+                    <circle cx="116" cy="150" r="34" fill="${coreColor}"/>
+                    <circle cx="184" cy="150" r="34" fill="#ffffff"/>
+                `;
+            }
+
+            // Add unique orbital dots derived from idiom ID so every single card is visually distinct
+            const dotAngle = (num * 37) % 360;
+            const dotX = Math.round(150 + 104 * Math.cos((dotAngle * Math.PI) / 180));
+            const dotY = Math.round(150 + 104 * Math.sin((dotAngle * Math.PI) / 180));
+
+            return `
+                <svg viewBox="0 0 300 300" class="w-full h-full block" xmlns="http://www.w3.org/2000/svg">
+                    <defs>
+                        <linearGradient id="${gradId}" x1="0%" y1="0%" x2="100%" y2="100%">
+                            <stop offset="0%" stop-color="${pal[0]}"/>
+                            <stop offset="50%" stop-color="${pal[1]}"/>
+                            <stop offset="100%" stop-color="${pal[2]}"/>
+                        </linearGradient>
+                        <radialGradient id="${radialId}" cx="50%" cy="50%" r="50%">
+                            <stop offset="0%" stop-color="rgba(255,255,255,0.28)"/>
+                            <stop offset="100%" stop-color="rgba(255,255,255,0)"/>
+                        </radialGradient>
+                    </defs>
+                    <rect width="300" height="300" fill="url(#${gradId})"/>
+                    <circle cx="150" cy="150" r="135" fill="url(#${radialId})"/>
+                    ${motif}
+                    <circle cx="${dotX}" cy="${dotY}" r="14" fill="${accentColor}" stroke="#ffffff" stroke-width="4"/>
+                </svg>
+            `;
+        }
+
+        // =========================================================================
+        // 10-ROUND NON-REPEATING SESSION ENGINE (localStorage)
+        // =========================================================================
+        const STORAGE_KEY = 'idiom_mastermind_played_v50';
+
+        let currentRoundList = [];
+        let currentQuestionIdx = 0;
+        let roundScore = 0;
+        let questionLocked = false;
+        let imageLoadGeneration = [0, 0];
+
+        function getPlayedIds() {
             try {
-                const storedPlayed = localStorage.getItem(STORAGE_PLAYED_KEY);
-                playedIdiomIds = storedPlayed ? JSON.parse(storedPlayed) : [];
-                if (!Array.isArray(playedIdiomIds)) playedIdiomIds = [];
+                const raw = localStorage.getItem(STORAGE_KEY);
+                const parsed = raw ? JSON.parse(raw) : [];
+                return Array.isArray(parsed) ? parsed.filter(id => typeof id === 'string') : [];
             } catch (e) {
-                playedIdiomIds = [];
+                return [];
             }
         }
 
-        function savePlayedProgress() {
+        function setPlayedIds(ids) {
             try {
-                localStorage.setItem(STORAGE_PLAYED_KEY, JSON.stringify(playedIdiomIds));
-            } catch (e) {}
+                localStorage.setItem(STORAGE_KEY, JSON.stringify(ids));
+            } catch (e) {
+                // Gracefully ignore private mode storage limits
+            }
         }
 
-        loadPlayedProgress();
+        function shuffleArray(array) {
+            const arr = [...array];
+            for (let i = arr.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [arr[i], arr[j]] = [arr[j], arr[i]];
+            }
+            return arr;
+        }
 
-        // Web Audio API Synthesizer
-        const AudioCtx = window.AudioContext || window.webkitAudioContext;
+        function drawFiveUnplayedIdioms() {
+            const playedIds = getPlayedIds();
+            const unplayed = IDIOMS_50.filter(item => !playedIds.includes(item.id));
+            let selected = [];
+
+            if (unplayed.length >= 5) {
+                selected = shuffleArray(unplayed).slice(0, 5);
+                setPlayedIds([...playedIds, ...selected.map(i => i.id)]);
+            } else if (unplayed.length === 0) {
+                // All 50 idioms played -> clear localStorage and start fresh 50-idiom cycle
+                selected = shuffleArray(IDIOMS_50).slice(0, 5);
+                setPlayedIds(selected.map(i => i.id));
+            } else {
+                // Fewer than 5 remain: take remaining, reset pool, fill rest without duplicates
+                const needed = 5 - unplayed.length;
+                const unplayedIds = unplayed.map(i => i.id);
+                const freshPool = IDIOMS_50.filter(item => !unplayedIds.includes(item.id));
+                const extra = shuffleArray(freshPool).slice(0, needed);
+                selected = shuffleArray([...unplayed, ...extra]);
+                setPlayedIds(extra.map(i => i.id));
+            }
+
+            return selected;
+        }
+
+        // =========================================================================
+        // WEB AUDIO API SOUND EFFECTS (Zero external audio URLs)
+        // =========================================================================
+        const AudioContextClass = window.AudioContext || window.webkitAudioContext;
         let audioCtx = null;
 
-        function initAudio() {
-            if (!audioCtx) audioCtx = new AudioCtx();
-            if (audioCtx.state === 'suspended') audioCtx.resume();
+        function ensureAudioContext() {
+            if (!audioCtx && AudioContextClass) {
+                audioCtx = new AudioContextClass();
+            }
+            if (audioCtx && audioCtx.state === 'suspended') {
+                audioCtx.resume().catch(() => {});
+            }
         }
 
-        function playSound(type) {
+        function playTone(freq, type, startTime, duration, volume = 0.14) {
+            if (!audioCtx) return;
+            const osc = audioCtx.createOscillator();
+            const gain = audioCtx.createGain();
+            osc.type = type;
+            osc.frequency.setValueAtTime(freq, startTime);
+            gain.gain.setValueAtTime(0.001, startTime);
+            gain.gain.linearRampToValueAtTime(volume, startTime + 0.015);
+            gain.gain.exponentialRampToValueAtTime(0.001, startTime + duration);
+            osc.connect(gain);
+            gain.connect(audioCtx.destination);
+            osc.start(startTime);
+            osc.stop(startTime + duration + 0.02);
+        }
+
+        function playSoundEffect(kind) {
             try {
-                initAudio();
+                ensureAudioContext();
                 if (!audioCtx) return;
                 const now = audioCtx.currentTime;
 
-                if (type === 'correct') {
-                    const osc = audioCtx.createOscillator();
-                    const gain = audioCtx.createGain();
-                    osc.connect(gain); gain.connect(audioCtx.destination);
-                    osc.type = 'sine';
-                    osc.frequency.setValueAtTime(523.25, now);
-                    osc.frequency.setValueAtTime(659.25, now + 0.08);
-                    osc.frequency.setValueAtTime(783.99, now + 0.16);
-                    osc.frequency.setValueAtTime(1046.50, now + 0.24);
-                    gain.gain.setValueAtTime(0.15, now);
-                    gain.gain.exponentialRampToValueAtTime(0.001, now + 0.5);
-                    osc.start(now); osc.stop(now + 0.5);
-                } else if (type === 'incorrect') {
-                    const osc = audioCtx.createOscillator();
-                    const gain = audioCtx.createGain();
-                    osc.connect(gain); gain.connect(audioCtx.destination);
-                    osc.type = 'sawtooth';
-                    osc.frequency.setValueAtTime(180, now);
-                    osc.frequency.exponentialRampToValueAtTime(75, now + 0.3);
-                    gain.gain.setValueAtTime(0.2, now);
-                    gain.gain.exponentialRampToValueAtTime(0.001, now + 0.35);
-                    osc.start(now); osc.stop(now + 0.35);
-                } else if (type === 'click') {
-                    const osc = audioCtx.createOscillator();
-                    const gain = audioCtx.createGain();
-                    osc.connect(gain); gain.connect(audioCtx.destination);
-                    osc.type = 'sine';
-                    osc.frequency.setValueAtTime(420, now);
-                    gain.gain.setValueAtTime(0.05, now);
-                    gain.gain.exponentialRampToValueAtTime(0.001, now + 0.05);
-                    osc.start(now); osc.stop(now + 0.05);
-                } else if (type === 'victory') {
-                    const notes = [523.25, 659.25, 783.99, 1046.50, 880, 1046.50];
-                    notes.forEach((freq, idx) => {
-                        const noteOsc = audioCtx.createOscillator();
-                        const noteGain = audioCtx.createGain();
-                        noteOsc.connect(noteGain); noteGain.connect(audioCtx.destination);
-                        noteOsc.type = 'triangle';
-                        noteOsc.frequency.setValueAtTime(freq, now + idx * 0.12);
-                        noteGain.gain.setValueAtTime(0.15, now + idx * 0.12);
-                        noteGain.gain.exponentialRampToValueAtTime(0.001, now + idx * 0.12 + 0.25);
-                        noteOsc.start(now + idx * 0.12); noteOsc.stop(now + idx * 0.12 + 0.25);
-                    });
+                if (kind === 'click') {
+                    playTone(540, 'sine', now, 0.06, 0.07);
+                } else if (kind === 'correct') {
+                    // Bright rising chime
+                    playTone(523.25, 'sine', now, 0.2, 0.15);          // C5
+                    playTone(659.25, 'sine', now + 0.08, 0.2, 0.15);   // E5
+                    playTone(783.99, 'sine', now + 0.16, 0.24, 0.15);  // G5
+                    playTone(1046.50, 'triangle', now + 0.24, 0.4, 0.16); // C6
+                } else if (kind === 'incorrect') {
+                    // Gentle soft tone
+                    playTone(246.94, 'sine', now, 0.18, 0.12);         // B3
+                    playTone(196.00, 'sine', now + 0.14, 0.26, 0.12);  // G3
+                } else if (kind === 'stamp') {
+                    const notes = [523.25, 659.25, 783.99, 880.00];
+                    notes.forEach((f, i) => playTone(f, 'triangle', now + i * 0.11, 0.28, 0.15));
+                } else if (kind === 'prize') {
+                    // Celebratory fanfare
+                    const fanfare = [
+                        { f: 523.25, t: 0.00, d: 0.16 },
+                        { f: 659.25, t: 0.10, d: 0.16 },
+                        { f: 783.99, t: 0.20, d: 0.16 },
+                        { f: 1046.50, t: 0.30, d: 0.32 },
+                        { f: 783.99, t: 0.48, d: 0.15 },
+                        { f: 1046.50, t: 0.62, d: 0.48 }
+                    ];
+                    fanfare.forEach(n => playTone(n.f, 'triangle', now + n.t, n.d, 0.17));
                 }
-            } catch (e) {}
-        }
-
-        // Web Speech API
-        function speakIdiom(text) {
-            if ('speechSynthesis' in window) {
-                window.speechSynthesis.cancel();
-                const utterance = new SpeechSynthesisUtterance(text);
-                utterance.lang = 'en-US';
-                utterance.rate = 0.9;
-                window.speechSynthesis.speak(utterance);
+            } catch (e) {
+                // Ignore audio restrictions
             }
-        }
-
-        function shuffleArray(arr) {
-            const copy = [...arr];
-            for (let i = copy.length - 1; i > 0; i--) {
-                const j = Math.floor(Math.random() * (i + 1));
-                [copy[i], copy[j]] = [copy[j], copy[i]];
-            }
-            return copy;
         }
 
         // =========================================================================
-        // DOM ELEMENTS
+        // WEB SPEECH API PRONUNCIATION
+        // =========================================================================
+        let preferredEnglishVoice = null;
+
+        function initVoices() {
+            if (!('speechSynthesis' in window)) return;
+            const voices = window.speechSynthesis.getVoices();
+            if (!voices || voices.length === 0) return;
+
+            preferredEnglishVoice =
+                voices.find(v => v.lang === 'en-US' && (v.name.includes('Google') || v.name.includes('Samantha') || v.name.includes('Natural'))) ||
+                voices.find(v => v.lang === 'en-GB' && (v.name.includes('Google') || v.name.includes('Daniel'))) ||
+                voices.find(v => v.lang.startsWith('en-')) ||
+                null;
+        }
+
+        if ('speechSynthesis' in window) {
+            initVoices();
+            window.speechSynthesis.onvoiceschanged = initVoices;
+        }
+
+        function speakEnglish(text) {
+            try {
+                if (!('speechSynthesis' in window)) return;
+                window.speechSynthesis.cancel();
+                const utter = new SpeechSynthesisUtterance(text);
+                utter.lang = preferredEnglishVoice ? preferredEnglishVoice.lang : 'en-US';
+                if (preferredEnglishVoice) utter.voice = preferredEnglishVoice;
+                utter.rate = 0.88;
+                utter.pitch = 1.04;
+                window.speechSynthesis.speak(utter);
+            } catch (e) {
+                // Ignore speech synthesis restrictions
+            }
+        }
+
+        // =========================================================================
+        // ROOT-DIRECTORY IMAGE LOADER WITH 7-STAGE AUTOMATIC FALLBACK
+        // =========================================================================
+        function loadOptionImage(slotIndex, idiomId, type) {
+            const imgEl = document.getElementById(`img-${slotIndex}`);
+            const shimmerEl = document.getElementById(`shimmer-${slotIndex}`);
+            const fallbackEl = document.getElementById(`fallback-${slotIndex}`);
+
+            imageLoadGeneration[slotIndex] += 1;
+            const gen = imageLoadGeneration[slotIndex];
+
+            // Exact 7-stage fallback chain specified
+            const fallbackPaths = [
+                `${idiomId}_${type}.png`,
+                `images/${idiomId}_${type}.png`,
+                `Images/${idiomId}_${type}.png`,
+                `${idiomId}_${type}.jpg`,
+                `images/${idiomId}_${type}.jpg`,
+                `Images/${idiomId}_${type}.jpg`
+            ];
+
+            let attempt = 0;
+
+            shimmerEl.classList.remove('hidden');
+            imgEl.classList.add('hidden');
+            fallbackEl.classList.add('hidden');
+            fallbackEl.innerHTML = buildCustomVectorSVG(idiomId, type);
+
+            function tryNextSource() {
+                if (imageLoadGeneration[slotIndex] !== gen) return;
+
+                if (attempt < fallbackPaths.length) {
+                    imgEl.src = fallbackPaths[attempt++];
+                } else {
+                    // Stage 7: Bespoke text-free vector SVG illustration
+                    shimmerEl.classList.add('hidden');
+                    imgEl.classList.add('hidden');
+                    fallbackEl.classList.remove('hidden');
+                }
+            }
+
+            imgEl.onload = () => {
+                if (imageLoadGeneration[slotIndex] !== gen) return;
+                shimmerEl.classList.add('hidden');
+                fallbackEl.classList.add('hidden');
+                imgEl.classList.remove('hidden');
+            };
+
+            imgEl.onerror = () => {
+                if (imageLoadGeneration[slotIndex] !== gen) return;
+                tryNextSource();
+            };
+
+            tryNextSource();
+        }
+
+        // =========================================================================
+        // UI NAVIGATION & GAMEPLAY FLOW
         // =========================================================================
         const homeScreen = document.getElementById('home-screen');
         const gameScreen = document.getElementById('game-screen');
-        const endScreen = document.getElementById('end-screen');
-        const modalExplanation = document.getElementById('modal-explanation');
-        const modalContent = document.getElementById('modal-content');
+        const resultScreen = document.getElementById('result-screen');
 
-        const btnStartGame = document.getElementById('btn-start-game');
-        const btnReturnHome = document.getElementById('btn-return-home');
-        const btnEndHome = document.getElementById('btn-end-home');
-        const btnNextQuestion = document.getElementById('btn-next-question');
-        const btnNextText = document.getElementById('btn-next-text');
-        const btnRestart = document.getElementById('btn-restart');
-        const btnAudio = document.getElementById('btn-audio');
-        const modalBtnAudio = document.getElementById('modal-btn-audio');
-        const btnHint = document.getElementById('btn-hint');
-        const hintBox = document.getElementById('hint-box');
+        const questionCounter = document.getElementById('question-counter');
+        const promptIdiom = document.getElementById('prompt-idiom');
+        const promptIpa = document.getElementById('prompt-ipa');
 
-        const currentQuestionNum = document.getElementById('current-question-num');
-        const hudScoreDisplay = document.getElementById('hud-score-display');
-        const progressBarInner = document.getElementById('progress-bar-inner');
+        const optionBtns = [
+            document.getElementById('option-btn-0'),
+            document.getElementById('option-btn-1')
+        ];
 
-        const idiomTitle = document.getElementById('idiom-title');
-        const idiomPhonetic = document.getElementById('idiom-phonetic');
-        const hintText = document.getElementById('hint-text');
-        const categoryBadge = document.getElementById('category-badge');
+        const explanationModal = document.getElementById('explanation-modal');
+        const explanationModalBox = document.getElementById('explanation-modal-box');
 
-        const optionCards = document.querySelectorAll('.option-card');
+        function showScreen(screenEl) {
+            [homeScreen, gameScreen, resultScreen].forEach(s => {
+                s.classList.add('hidden');
+                s.classList.remove('flex');
+            });
+            screenEl.classList.remove('hidden');
+            screenEl.classList.add('flex');
+        }
 
-        // Navigation Listeners
-        btnStartGame.addEventListener('click', () => { playSound('click'); startRound(); });
-        btnReturnHome.addEventListener('click', () => { playSound('click'); showHomeScreen(); });
-        btnEndHome.addEventListener('click', () => { playSound('click'); showHomeScreen(); });
-        btnRestart.addEventListener('click', () => { playSound('click'); startRound(); });
-
-        btnAudio.addEventListener('click', () => {
-            playSound('click');
-            const item = currentRoundIdioms[currentQuestionIndex];
-            if (item) speakIdiom(item.idiom);
+        // Home & Navigation Event Listeners
+        document.getElementById('btn-start-game').addEventListener('click', () => {
+            ensureAudioContext();
+            playSoundEffect('click');
+            startNewRound();
         });
-        modalBtnAudio.addEventListener('click', () => {
-            playSound('click');
-            const item = currentRoundIdioms[currentQuestionIndex];
-            if (item) speakIdiom(item.idiom);
-        });
-        btnHint.addEventListener('click', () => { playSound('click'); hintBox.classList.toggle('hidden'); });
 
-        optionCards.forEach(card => {
-            card.addEventListener('click', () => {
-                if (isAnswered) return;
-                const idx = parseInt(card.getAttribute('data-option-index'));
-                handleAnswerSelection(idx);
+        document.getElementById('btn-game-home').addEventListener('click', () => {
+            playSoundEffect('click');
+            if ('speechSynthesis' in window) window.speechSynthesis.cancel();
+            showScreen(homeScreen);
+        });
+
+        document.getElementById('btn-result-home').addEventListener('click', () => {
+            playSoundEffect('click');
+            showScreen(homeScreen);
+        });
+
+        document.getElementById('btn-play-again').addEventListener('click', () => {
+            playSoundEffect('click');
+            startNewRound();
+        });
+
+        // Audio Buttons
+        document.getElementById('btn-listen-idiom').addEventListener('click', () => {
+            playSoundEffect('click');
+            const item = currentRoundList[currentQuestionIdx];
+            if (item) speakEnglish(item.idiom);
+        });
+
+        document.getElementById('modal-btn-listen-idiom').addEventListener('click', () => {
+            playSoundEffect('click');
+            const item = currentRoundList[currentQuestionIdx];
+            if (item) speakEnglish(item.idiom);
+        });
+
+        document.getElementById('modal-btn-listen-example').addEventListener('click', () => {
+            playSoundEffect('click');
+            const item = currentRoundList[currentQuestionIdx];
+            if (item) speakEnglish(item.exampleEn);
+        });
+
+        // Option Card Clicks
+        optionBtns.forEach(btn => {
+            btn.addEventListener('click', () => {
+                if (questionLocked) return;
+                const slotIdx = Number(btn.getAttribute('data-index'));
+                handleCardChoice(slotIdx);
             });
         });
 
-        btnNextQuestion.addEventListener('click', () => { playSound('click'); closeModalAndAdvance(); });
+        document.getElementById('btn-next-idiom').addEventListener('click', () => {
+            playSoundEffect('click');
+            closeExplanationModal();
+        });
 
-        function showHomeScreen() {
-            gameScreen.classList.add('hidden');
-            gameScreen.classList.remove('flex');
-            endScreen.classList.add('hidden');
-            endScreen.classList.remove('flex');
-            homeScreen.classList.remove('hidden');
-            homeScreen.classList.add('flex');
+        function startNewRound() {
+            currentRoundList = drawFiveUnplayedIdioms();
+            currentQuestionIdx = 0;
+            roundScore = 0;
+            showScreen(gameScreen);
+            renderQuestion();
         }
 
-        // =========================================================================
-        // RESILIENT MULTI-STAGE IMAGE LOADER
-        // =========================================================================
-        function loadImageWithResilientFallbacks(imgElem, shimmerElem, fallbackElem, baseName) {
-            const candidates = [
-                `images/${baseName}.png`,
-                `Images/${baseName}.png`,
-                `images/${baseName}.jpg`,
-                `Images/${baseName}.jpg`
-            ];
-            let candidateIndex = 0;
+        function renderQuestion() {
+            questionLocked = false;
+            const item = currentRoundList[currentQuestionIdx];
 
-            function tryNextCandidate() {
-                if (candidateIndex < candidates.length) {
-                    const src = candidates[candidateIndex++];
-                    imgElem.src = src;
-                } else {
-                    // All PNG/JPG variations failed -> Show SVG vector fallback
-                    shimmerElem.classList.add('hidden');
-                    imgElem.classList.add('hidden');
-                    fallbackElem.classList.remove('hidden');
-                    fallbackElem.classList.add('flex');
-                }
-            }
+            questionCounter.textContent = `${currentQuestionIdx + 1} / 5`;
+            promptIdiom.textContent = item.idiom;
+            promptIpa.textContent = item.ipa;
 
-            imgElem.onload = () => {
-                shimmerElem.classList.add('hidden');
-                imgElem.classList.remove('hidden');
-                fallbackElem.classList.add('hidden');
-            };
+            // Pronounce idiom automatically when displayed
+            setTimeout(() => speakEnglish(item.idiom), 220);
 
-            imgElem.onerror = () => {
-                tryNextCandidate();
-            };
+            // Randomize left/right placement of Figurative (correct) and Literal (trap)
+            const choices = shuffleArray([
+                { type: 'figurative', isCorrect: true },
+                { type: 'literal', isCorrect: false }
+            ]);
+            item.activeChoices = choices;
 
-            shimmerElem.classList.remove('hidden');
-            imgElem.classList.add('hidden');
-            fallbackElem.classList.add('hidden');
-            tryNextCandidate();
-        }
-
-        // =========================================================================
-        // ROUND & QUESTION ENGINE (5 IDIOMS / ROUND WITH 20-IDIOM CYCLE)
-        // =========================================================================
-        function startRound() {
-            loadPlayedProgress();
-
-            // Filter unplayed idioms from the database
-            let unplayed = IDIOMS_DATABASE.filter(item => !playedIdiomIds.includes(item.id));
-            
-            // Auto reset pool if fewer than 5 unplayed idioms remain (or all 20 played)
-            if (unplayed.length < 5) {
-                playedIdiomIds = [];
-                savePlayedProgress();
-                unplayed = [...IDIOMS_DATABASE];
-            }
-
-            const shuffledUnplayed = shuffleArray(unplayed);
-            currentRoundIdioms = shuffledUnplayed.slice(0, 5);
-            currentQuestionIndex = 0;
-            correctAnswersCount = 0;
-
-            hudScoreDisplay.textContent = `0/5`;
-
-            homeScreen.classList.add('hidden');
-            homeScreen.classList.remove('flex');
-            endScreen.classList.add('hidden');
-            endScreen.classList.remove('flex');
-            gameScreen.classList.remove('hidden');
-            gameScreen.classList.add('flex');
-
-            loadQuestion(currentQuestionIndex);
-        }
-
-        function loadQuestion(index) {
-            isAnswered = false;
-            hintBox.classList.add('hidden');
-
-            const item = currentRoundIdioms[index];
-
-            // Record idiom as played in localStorage
-            if (!playedIdiomIds.includes(item.id)) {
-                playedIdiomIds.push(item.id);
-                savePlayedProgress();
-            }
-
-            categoryBadge.textContent = item.category;
-            idiomTitle.textContent = item.idiom;
-            idiomPhonetic.textContent = item.ipa;
-            hintText.textContent = item.hint;
-
-            setTimeout(() => { speakIdiom(item.idiom); }, 300);
-
-            currentQuestionNum.textContent = index + 1;
-            progressBarInner.style.width = `${((index + 1) / 5) * 100}%`;
-            hudScoreDisplay.textContent = `${correctAnswersCount}/5`;
-
-            // Randomize Choice Options (Figurative vs Literal)
-            const options = [
-                { type: 'figurative', isCorrect: true, svg: item.figurative.svg, caption: item.figurative.caption, baseName: item.figurative.baseName },
-                { type: 'literal', isCorrect: false, svg: item.literal.svg, caption: item.literal.caption, baseName: item.literal.baseName }
-            ];
-            const shuffledOptions = shuffleArray(options);
-            item.currentShuffledOptions = shuffledOptions;
-
-            shuffledOptions.forEach((opt, i) => {
-                const shimmerElem = document.getElementById(`shimmer-${i}`);
-                const imgElem = document.getElementById(`img-${i}`);
-                const fallbackElem = document.getElementById(`svg-fallback-${i}`);
-                const captionContainer = document.getElementById(`caption-${i}`);
-
-                fallbackElem.innerHTML = opt.svg;
-                captionContainer.textContent = opt.caption;
-
-                optionCards[i].className = "option-card glass-card rounded-3xl border border-white/15 flex flex-col cursor-pointer focus:outline-none relative group overflow-hidden";
-
-                loadImageWithResilientFallbacks(imgElem, shimmerElem, fallbackElem, opt.baseName);
+            choices.forEach((choice, slotIdx) => {
+                const btn = optionBtns[slotIdx];
+                btn.disabled = false;
+                btn.className = 'option-card cream-card rounded-3xl border-4 border-white/95 overflow-hidden cursor-pointer focus:outline-none w-full aspect-square relative group';
+                loadOptionImage(slotIdx, item.id, choice.type);
             });
         }
 
-        function handleAnswerSelection(selectedIndex) {
-            isAnswered = true;
-            const item = currentRoundIdioms[currentQuestionIndex];
-            const selectedOption = item.currentShuffledOptions[selectedIndex];
-            const isCorrect = selectedOption.isCorrect;
+        function handleCardChoice(slotIdx) {
+            questionLocked = true;
+            const item = currentRoundList[currentQuestionIdx];
+            const chosen = item.activeChoices[slotIdx];
+            const isCorrect = chosen.isCorrect;
 
-            const selectedCard = optionCards[selectedIndex];
+            optionBtns.forEach(b => (b.disabled = true));
+
+            const chosenBtn = optionBtns[slotIdx];
             if (isCorrect) {
-                selectedCard.classList.add('border-emerald-400', 'bg-emerald-950/40', 'ring-4', 'ring-emerald-400/50');
-                playSound('correct');
-                triggerConfetti();
-                correctAnswersCount++;
-                hudScoreDisplay.textContent = `${correctAnswersCount}/5`;
+                roundScore += 1;
+                chosenBtn.classList.remove('border-white/95');
+                chosenBtn.classList.add('border-emerald-400', 'ring-4', 'ring-emerald-400/60');
+                playSoundEffect('correct');
+                launchConfetti(65);
             } else {
-                selectedCard.classList.add('border-rose-500', 'bg-rose-950/40', 'ring-4', 'ring-rose-500/50');
-                playSound('incorrect');
+                chosenBtn.classList.remove('border-white/95');
+                chosenBtn.classList.add('border-rose-400', 'ring-4', 'ring-rose-400/60');
+                const correctIdx = slotIdx === 0 ? 1 : 0;
+                optionBtns[correctIdx].classList.remove('border-white/95');
+                optionBtns[correctIdx].classList.add('border-emerald-400');
+                playSoundEffect('incorrect');
             }
 
             setTimeout(() => {
-                showExplanationModal(isCorrect, item);
-            }, 450);
+                openExplanationModal(isCorrect, item);
+            }, 380);
         }
 
-        function showExplanationModal(isCorrect, item) {
-            const feedbackBadge = document.getElementById('feedback-badge');
-            const modalIdiomText = document.getElementById('modal-idiom-text');
-            const modalPhonetic = document.getElementById('modal-phonetic');
-            const modalFigurative = document.getElementById('modal-figurative-meaning');
-            const modalLiteral = document.getElementById('modal-literal-meaning');
-            const modalExampleEn = document.getElementById('modal-example-en');
+        function openExplanationModal(isCorrect, item) {
+            const banner = document.getElementById('modal-status-banner');
+            const statusText = document.getElementById('modal-status-text');
 
             if (isCorrect) {
-                feedbackBadge.className = "px-4 py-1.5 rounded-full text-white font-extrabold text-sm sm:text-base flex items-center gap-2 bg-emerald-500 shadow-md";
-                feedbackBadge.innerHTML = `<i class="fa-solid fa-circle-check"></i> Correct! 🎉`;
+                banner.className = 'px-6 py-4 text-white font-display font-bold text-xl sm:text-2xl flex items-center justify-between bg-gradient-to-r from-emerald-600 to-teal-600';
+                statusText.textContent = '🎉 Correct!';
             } else {
-                feedbackBadge.className = "px-4 py-1.5 rounded-full text-white font-extrabold text-sm sm:text-base flex items-center gap-2 bg-rose-500 shadow-md";
-                feedbackBadge.innerHTML = `<i class="fa-solid fa-circle-xmark"></i> Not Quite! 💡`;
+                banner.className = 'px-6 py-4 text-white font-display font-bold text-xl sm:text-2xl flex items-center justify-between bg-gradient-to-r from-amber-600 to-rose-600';
+                statusText.textContent = '💡 Oops! Look closer!';
             }
 
-            modalIdiomText.textContent = item.idiom;
-            modalPhonetic.textContent = item.ipa;
-            modalFigurative.textContent = item.figurative.explanationZh;
-            modalLiteral.textContent = item.literal.explanationZh;
-            modalExampleEn.textContent = `"${item.exampleEn}"`;
+            document.getElementById('modal-idiom').textContent = item.idiom;
+            document.getElementById('modal-ipa').textContent = item.ipa;
+            document.getElementById('modal-fig-en').textContent = item.figurativeEn;
+            document.getElementById('modal-fig-zh').textContent = item.figurativeZh;
+            document.getElementById('modal-lit-zh').textContent = item.literalZh;
+            document.getElementById('modal-ex-en').textContent = `"${item.exampleEn}"`;
+            document.getElementById('modal-ex-zh').textContent = item.exampleZh;
 
-            if (currentQuestionIndex === 4) {
-                btnNextText.textContent = "See Results 🏆";
-            } else {
-                btnNextText.textContent = "Next Question ➡️";
-            }
+            const nextBtn = document.getElementById('btn-next-idiom');
+            nextBtn.textContent = currentQuestionIdx === 4 ? 'See Results 🏆' : 'Next Idiom ➡️';
 
-            modalExplanation.classList.remove('hidden');
-            setTimeout(() => {
-                modalContent.classList.remove('scale-95', 'opacity-0');
-                modalContent.classList.add('scale-100', 'opacity-100');
-            }, 10);
+            explanationModal.classList.remove('hidden');
+            requestAnimationFrame(() => {
+                explanationModalBox.classList.remove('scale-95', 'opacity-0');
+                explanationModalBox.classList.add('scale-100', 'opacity-100');
+            });
         }
 
-        function closeModalAndAdvance() {
-            modalContent.classList.remove('scale-100', 'opacity-100');
-            modalContent.classList.add('scale-95', 'opacity-0');
+        function closeExplanationModal() {
+            explanationModalBox.classList.remove('scale-100', 'opacity-100');
+            explanationModalBox.classList.add('scale-95', 'opacity-0');
 
             setTimeout(() => {
-                modalExplanation.classList.add('hidden');
-                currentQuestionIndex++;
-                if (currentQuestionIndex < 5) {
-                    loadQuestion(currentQuestionIndex);
+                explanationModal.classList.add('hidden');
+                currentQuestionIdx += 1;
+                if (currentQuestionIdx < 5) {
+                    renderQuestion();
                 } else {
-                    showEndScreen();
+                    renderResultsScreen();
                 }
-            }, 200);
+            }, 180);
         }
 
         // =========================================================================
-        // REWARD & RESULTS SCREEN
+        // RESULTS & REWARDS SCREEN
         // =========================================================================
-        function showEndScreen() {
-            gameScreen.classList.add('hidden');
-            gameScreen.classList.remove('flex');
-            endScreen.classList.remove('hidden');
-            endScreen.classList.add('flex');
+        function renderResultsScreen() {
+            showScreen(resultScreen);
 
-            document.getElementById('final-score-text').textContent = `You scored ${correctAnswersCount} out of 5!`;
-
-            const rewardBox = document.getElementById('reward-status-box');
-            if (correctAnswersCount >= 3) {
-                rewardBox.innerHTML = `<i class="fa-solid fa-award text-yellow-300 mr-2"></i> You won a prize 🎁!`;
-            } else if (correctAnswersCount === 2) {
-                rewardBox.innerHTML = `<i class="fa-solid fa-stamp text-amber-300 mr-2"></i> You got a stamp 💮!`;
-            } else {
-                rewardBox.innerHTML = `<i class="fa-solid fa-bullseye text-purple-300 mr-2"></i> Keep trying! Get 2 correct for a stamp 💮 or 3+ for a prize 🎁!`;
+            // Visual Stars
+            const starsEl = document.getElementById('result-stars');
+            let starsMarkup = '';
+            for (let i = 1; i <= 5; i++) {
+                starsMarkup += i <= roundScore
+                    ? `<span class="drop-shadow">⭐</span>`
+                    : `<span class="opacity-25 grayscale">⭐</span>`;
             }
+            starsEl.innerHTML = starsMarkup;
 
-            const starContainer = document.getElementById('final-star-rating');
-            if (correctAnswersCount >= 4) {
-                starContainer.innerHTML = '<i class="fa-solid fa-star"></i> <i class="fa-solid fa-star"></i> <i class="fa-solid fa-star"></i>';
-                playSound('victory');
-                triggerConfetti();
-            } else if (correctAnswersCount === 3) {
-                starContainer.innerHTML = '<i class="fa-solid fa-star"></i> <i class="fa-solid fa-star"></i> <i class="fa-regular fa-star text-purple-400"></i>';
-                playSound('correct');
-                triggerConfetti();
-            } else if (correctAnswersCount === 2) {
-                starContainer.innerHTML = '<i class="fa-solid fa-star"></i> <i class="fa-regular fa-star text-purple-400"></i> <i class="fa-regular fa-star text-purple-400"></i>';
-                playSound('correct');
-                triggerConfetti();
+            // Round Score
+            document.getElementById('result-score-text').textContent = `Score: ${roundScore} / 5`;
+
+            // Exact Reward Outcome Message
+            const rewardBanner = document.getElementById('result-reward-banner');
+            if (roundScore >= 3) {
+                rewardBanner.className = 'p-5 rounded-2xl border-2 border-amber-400 bg-gradient-to-r from-amber-100 via-yellow-50 to-purple-100 text-indigo-950 text-xl sm:text-2xl font-black shadow-md';
+                rewardBanner.textContent = 'You won a prize 🎁!';
+                playSoundEffect('prize');
+                launchConfetti(150);
+            } else if (roundScore === 2) {
+                rewardBanner.className = 'p-5 rounded-2xl border-2 border-teal-400 bg-gradient-to-r from-teal-50 to-cyan-100 text-teal-950 text-xl sm:text-2xl font-black shadow-md';
+                rewardBanner.textContent = 'You got a stamp 💮!';
+                playSoundEffect('stamp');
+                launchConfetti(55);
             } else {
-                starContainer.innerHTML = '<i class="fa-regular fa-star text-purple-400"></i> <i class="fa-regular fa-star text-purple-400"></i> <i class="fa-regular fa-star text-purple-400"></i>';
-                playSound('incorrect');
+                rewardBanner.className = 'p-5 rounded-2xl border-2 border-purple-200 bg-purple-50 text-indigo-900 text-base sm:text-lg font-extrabold';
+                rewardBanner.textContent = 'Keep trying! Get 2 correct for a stamp 💮 or 3+ for a prize 🎁!';
+                playSoundEffect('incorrect');
             }
         }
 
         // =========================================================================
-        // CANVAS CONFETTI SYSTEM
+        // CANVAS CONFETTI CELEBRATION
         // =========================================================================
         const confettiCanvas = document.getElementById('confetti-canvas');
         const ctx = confettiCanvas.getContext('2d');
-        let particles = [];
-        let animationFrameId = null;
+        let confettiPieces = [];
+        let confettiFrameId = null;
 
-        function resizeCanvas() {
+        function resizeConfetti() {
             confettiCanvas.width = window.innerWidth;
             confettiCanvas.height = window.innerHeight;
         }
-        window.addEventListener('resize', resizeCanvas);
-        resizeCanvas();
+        window.addEventListener('resize', resizeConfetti);
+        resizeConfetti();
 
-        function triggerConfetti() {
-            const colors = ['#f43f5e', '#ec4899', '#a855f7', '#6366f1', '#3b82f6', '#10b981', '#facc15'];
-            for (let i = 0; i < 90; i++) {
-                particles.push({
-                    x: window.innerWidth / 2,
-                    y: window.innerHeight / 2 - 40,
-                    rx: Math.random() * 8 + 4,
-                    ry: Math.random() * 14 + 6,
-                    vx: (Math.random() - 0.5) * 16,
-                    vy: (Math.random() - 0.7) * 16,
-                    color: colors[Math.floor(Math.random() * colors.length)],
+        function launchConfetti(count = 80) {
+            const colors = ['#f43f5e', '#ec4899', '#a855f7', '#6366f1', '#14b8a6', '#facc15', '#fb923c'];
+            for (let i = 0; i < count; i++) {
+                confettiPieces.push({
+                    x: window.innerWidth * (0.2 + Math.random() * 0.6),
+                    y: window.innerHeight * 0.35,
+                    w: Math.random() * 8 + 5,
+                    h: Math.random() * 12 + 6,
+                    vx: (Math.random() - 0.5) * 15,
+                    vy: (Math.random() - 0.8) * 15,
+                    gravity: 0.28,
                     rotation: Math.random() * 360,
-                    rotationSpeed: (Math.random() - 0.5) * 10,
-                    opacity: 1,
-                    gravity: 0.3
+                    vRot: (Math.random() - 0.5) * 12,
+                    color: colors[Math.floor(Math.random() * colors.length)],
+                    alpha: 1
                 });
             }
-            if (!animationFrameId) animateConfetti();
+            if (!confettiFrameId) {
+                animateConfetti();
+            }
         }
 
         function animateConfetti() {
             ctx.clearRect(0, 0, confettiCanvas.width, confettiCanvas.height);
-            particles.forEach((p, idx) => {
+
+            for (let i = confettiPieces.length - 1; i >= 0; i--) {
+                const p = confettiPieces[i];
                 p.x += p.vx;
                 p.y += p.vy;
                 p.vy += p.gravity;
-                p.rotation += p.rotationSpeed;
-                p.opacity -= 0.012;
+                p.rotation += p.vRot;
+                p.alpha -= 0.011;
+
+                if (p.alpha <= 0 || p.y > confettiCanvas.height + 20) {
+                    confettiPieces.splice(i, 1);
+                    continue;
+                }
 
                 ctx.save();
                 ctx.translate(p.x, p.y);
                 ctx.rotate((p.rotation * Math.PI) / 180);
-                ctx.globalAlpha = Math.max(0, p.opacity);
+                ctx.globalAlpha = Math.max(0, p.alpha);
                 ctx.fillStyle = p.color;
-                ctx.fillRect(-p.rx / 2, -p.ry / 2, p.rx, p.ry);
+                ctx.fillRect(-p.w / 2, -p.h / 2, p.w, p.h);
                 ctx.restore();
+            }
 
-                if (p.opacity <= 0 || p.y > confettiCanvas.height) {
-                    particles.splice(idx, 1);
-                }
-            });
-
-            if (particles.length > 0) {
-                animationFrameId = requestAnimationFrame(animateConfetti);
+            if (confettiPieces.length > 0) {
+                confettiFrameId = requestAnimationFrame(animateConfetti);
             } else {
-                animationFrameId = null;
+                confettiFrameId = null;
                 ctx.clearRect(0, 0, confettiCanvas.width, confettiCanvas.height);
             }
         }
-
-        window.addEventListener('click', () => { initAudio(); }, { once: true });
     </script>
 </body>
 </html>
